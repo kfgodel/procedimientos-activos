@@ -1,0 +1,310 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd" xmlns="http://maven.apache.org/POM/4.0.0"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+  <modelVersion>4.0.0</modelVersion>
+    
+  <groupId>ar.com.tenpines</groupId>
+  <artifactId>ateam-html5-poc</artifactId>
+  <version>0.1-SNAPSHOT</version>
+  <name>Html5 POC</name>
+  <description>Prueba de concepto ember + java + html5</description>
+
+    <properties>
+        <project.java.source>1.8</project.java.source>
+        <project.java.target>1.8</project.java.target>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+
+        <version.plugin.compiler>3.1</version.plugin.compiler>
+        <version.plugin.jar>2.4</version.plugin.jar>
+        <version.plugin.source>2.2.1</version.plugin.source>
+        <version.plugin.eclipse>2.9</version.plugin.eclipse>
+        <version.plugin.assembly>2.4</version.plugin.assembly>
+        <version.plugin.failsafe>2.17</version.plugin.failsafe>
+        <version.plugin.surefire>2.17</version.plugin.surefire>
+        <version.plugin.assembly>2.5.3</version.plugin.assembly>
+        <version.plugin.shade>2.3</version.plugin.shade>
+        <version.plugin.dependency>2.10</version.plugin.dependency>
+
+
+        <version.slf4j>1.7.6</version.slf4j>
+        <version.logback>1.1.1</version.logback>
+        <version.junit>4.11</version.junit>
+        <version.testng>6.8.8</version.testng>
+        <version.assertj>1.6.1</version.assertj>
+        <version.mockito>1.9.5</version.mockito>
+        <version.javaspec>2.0</version.javaspec>
+        <version.jetty>9.2.7.v20150116</version.jetty>
+        <version.jersey>2.16</version.jersey>
+
+    </properties>
+
+
+    <build>
+
+        <!-- Include all types of resources into the final build -->
+        <resources>
+            <resource>
+                <directory>src/main/html</directory>
+            </resource>
+            <resource>
+                <directory>src/main/javascript</directory>
+            </resource>
+            <resource>
+                <directory>src/main/resources</directory>
+            </resource>
+        </resources>
+
+
+        <plugins>
+
+            <!-- Genera los binarios -->
+            <plugin>
+                <artifactId>maven-compiler-plugin</artifactId>
+                <version>${version.plugin.compiler}</version>
+                <configuration>
+                    <source>${project.java.source}</source>
+                    <target>${project.java.target}</target>
+                    <debug>true</debug>
+                    <!-- This parameter enables parameter name preservation -->
+                    <compilerArgument>-parameters</compilerArgument>
+                </configuration>
+            </plugin>
+
+            <!-- Descomprime el contenedor ejecutable -->
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-dependency-plugin</artifactId>
+                <version>${version.plugin.dependency}</version>
+                <executions>
+                    <execution>
+                        <id>copy-dependency</id>
+                        <phase>compile</phase>
+                        <goals>
+                            <goal>unpack</goal>
+                        </goals>
+                        <configuration>
+                            <artifactItems>
+                                <artifactItem>
+                                    <groupId>ar.com.kfgodel</groupId>
+                                    <artifactId>executable-container</artifactId>
+                                    <version>0.1</version>
+                                    <type>zip</type>
+                                    <overWrite>true</overWrite>
+                                    <outputDirectory>target/unpacked</outputDirectory>
+                                </artifactItem>
+                            </artifactItems>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
+
+            <!-- Attachea los fuentes como jar -->
+            <plugin>
+                <artifactId>maven-source-plugin</artifactId>
+                <version>${version.plugin.source}</version>
+                <executions>
+                    <execution>
+                        <id>attach-source</id>
+                        <phase>verify</phase>
+                        <goals>
+                            <goal>jar-no-fork</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
+
+            <!-- 1º Los empaqueta en jars -->
+            <plugin>
+                <artifactId>maven-jar-plugin</artifactId>
+                <version>${version.plugin.jar}</version>
+                <configuration>
+                    <!-- Needed to match container expected jar file -->
+                    <finalName>executable-app</finalName>
+                    <archive>
+                        <manifest>
+                            <addClasspath>true</addClasspath>
+                            <mainClass>ar.dgarcia.prototipos.emberpoc.EmberPocMain</mainClass>
+                        </manifest>
+                        <manifestEntries>
+                            <Build-JVM>${java.vm.name} - ${java.vm.vendor}</Build-JVM>
+                            <Build-OS>${os.name} - Version: ${os.version}</Build-OS>
+                            <Application-GroupId>${project.groupId}</Application-GroupId>
+                            <Application-Artifact>${project.artifactId}</Application-Artifact>
+                            <Application-Version>${project.version}</Application-Version>
+                        </manifestEntries>
+                    </archive>
+                </configuration>
+            </plugin>
+
+
+            <!-- 2º Genera un sólo jar con todas las dependencias -->
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-shade-plugin</artifactId>
+                <version>2.3</version>
+                <executions>
+                    <execution>
+                        <phase>package</phase>
+                        <goals>
+                            <goal>shade</goal>
+                        </goals>
+                    </execution>
+                </executions>
+                <configuration>
+                    <filters>
+                        <filter>
+                            <artifact>*:*</artifact>
+                            <excludes>
+                                <exclude>META-INF/*.SF</exclude>
+                                <exclude>META-INF/*.DSA</exclude>
+                                <exclude>META-INF/*.RSA</exclude>
+                            </excludes>
+                        </filter>
+                    </filters>
+                    <transformers>
+                        <transformer implementation="org.apache.maven.plugins.shade.resource.AppendingTransformer">
+                            <resource>META-INF/spring.handlers</resource>
+                        </transformer>
+                        <transformer implementation="org.apache.maven.plugins.shade.resource.AppendingTransformer">
+                            <resource>META-INF/spring.schemas</resource>
+                        </transformer>
+                        <transformer implementation="org.apache.maven.plugins.shade.resource.AppendingTransformer">
+                            <resource>META-INF/spring.tooling</resource>
+                        </transformer>
+                    </transformers>
+                </configuration>
+            </plugin>
+
+            <!-- 3º Empaqueta el resultado final en un zip -->
+            <plugin>
+                <artifactId>maven-assembly-plugin</artifactId>
+                <version>${version.plugin.assembly}</version>
+                <executions>
+                    <execution>
+                        <id>generate-assembly</id>
+                        <phase>package</phase>
+                        <goals>
+                            <goal>single</goal>
+                        </goals>
+                    </execution>
+                </executions>
+                <configuration>
+                    <descriptors>
+                        <descriptor>src/assembly/descriptor.xml</descriptor>
+                    </descriptors>
+                    <finalName>${project.artifactId}</finalName>
+                    <appendAssemblyId>false</appendAssemblyId>
+                    <outputDirectory>target</outputDirectory>
+                </configuration>
+            </plugin>
+            
+        </plugins>
+    </build>
+
+    <repositories>
+        <repository>
+            <releases>
+                <updatePolicy>never</updatePolicy>
+            </releases>
+            <snapshots>
+                <updatePolicy>always</updatePolicy>
+            </snapshots>
+            <id>kfgodel_mosquito</id>
+            <name>Repo Mosquito</name>
+            <url>http://kfgodel.info:8081/nexus/content/groups/public/</url>
+        </repository>
+    </repositories>
+    <pluginRepositories>
+        <pluginRepository>
+            <releases>
+                <updatePolicy>never</updatePolicy>
+            </releases>
+            <snapshots>
+                <updatePolicy>always</updatePolicy>
+            </snapshots>
+            <id>kfgodel_mosquito</id>
+            <name>Repo Mosquito</name>
+            <url>http://kfgodel.info:8081/nexus/content/groups/public/</url>
+        </pluginRepository>
+    </pluginRepositories>
+    
+    <dependencies>
+
+    <!-- Simplified web container -->
+    <dependency>
+        <groupId>ar.com.kfgodel</groupId>
+        <artifactId>web-by-convention</artifactId>
+        <version>0.1-SNAPSHOT</version>
+    </dependency>
+
+    <!-- Communication classes to manage executable host container -->
+    <dependency>
+        <groupId>org.tanukisoftware</groupId>
+        <artifactId>wrapper</artifactId>
+        <version>3.5.25</version>
+        <scope>provided</scope>
+    </dependency>
+
+
+        <!-- Logging -->
+    <dependency>
+        <groupId>org.slf4j</groupId>
+        <artifactId>slf4j-api</artifactId>
+        <version>${version.slf4j}</version>
+    </dependency>
+    <dependency>
+        <groupId>org.slf4j</groupId>
+        <artifactId>jcl-over-slf4j</artifactId>
+        <version>${version.slf4j}</version>
+    </dependency>
+    <dependency>
+        <groupId>org.slf4j</groupId>
+        <artifactId>log4j-over-slf4j</artifactId>
+        <version>${version.slf4j}</version>
+    </dependency>
+    <dependency>
+        <groupId>ch.qos.logback</groupId>
+        <artifactId>logback-core</artifactId>
+        <version>${version.logback}</version>
+    </dependency>
+    <dependency>
+        <groupId>ch.qos.logback</groupId>
+        <artifactId>logback-classic</artifactId>
+        <version>${version.logback}</version>
+    </dependency>
+
+    <!-- Testing -->
+    <dependency>
+        <groupId>junit</groupId>
+        <artifactId>junit</artifactId>
+        <version>${version.junit}</version>
+        <scope>test</scope>
+    </dependency>
+
+    <!-- Nice assertions -->
+    <dependency>
+        <groupId>org.assertj</groupId>
+        <artifactId>assertj-core</artifactId>
+        <version>${version.assertj}</version>
+        <scope>test</scope>
+    </dependency>
+
+    <!-- Spec for testing -->
+    <dependency>
+        <groupId>ar.com.dgarcia</groupId>
+        <artifactId>java-spec</artifactId>
+        <version>${version.javaspec}</version>
+        <scope>test</scope>
+    </dependency>
+
+    <!-- Mock for testing -->
+    <dependency>
+        <groupId>org.mockito</groupId>
+        <artifactId>mockito-all</artifactId>
+        <version>${version.mockito}</version>
+        <scope>test</scope>
+    </dependency>
+
+  </dependencies>
+    
+</project>

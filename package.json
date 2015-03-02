@@ -1,0 +1,13 @@
+{
+  "private": true,
+  "devDependencies": {
+    "bower": "*",
+    "grunt": "*",
+    "grunt-cli": "*",
+    "grunt-contrib-watch": "*",
+    "grunt-ember-templates": "*",
+    "grunt-include-source": "*",
+    "grunt-contrib-copy": "*",
+    "grunt-wiredep": "*"
+  }
+}
