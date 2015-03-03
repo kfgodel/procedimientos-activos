@@ -87,7 +87,7 @@ module.exports = function(grunt) {
     
     // Define runnable tasks
     grunt.registerTask('default', ['emberTemplates']);
-    grunt.registerTask('debug', ['emberTemplates', 'watch']);
+    grunt.registerTask('compile_and_watch', ['emberTemplates', 'watch']);
     grunt.registerTask('update_js_deps', ['wiredep:include_bower_js','includeSource:include_own_js','copy:publish_bower_js']);
     grunt.registerTask('setup_project', ['emberTemplates', 'update_js_deps']);
 
