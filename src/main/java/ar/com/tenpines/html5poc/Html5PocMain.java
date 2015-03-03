@@ -1,4 +1,4 @@
-package ar.dgarcia.prototipos.emberpoc;
+package ar.com.tenpines.html5poc;
 
 import ar.com.kfgodel.webbyconvention.WebServer;
 
@@ -9,7 +9,7 @@ import java.util.Optional;
  *  
  * Created by kfgodel on 19/02/15.
  */
-public class EmberPocMain {
+public class Html5PocMain {
     
     public static void main(String[] args) throws Exception {
         WebServer.create(Optional.of(9090)).startAndJoin();

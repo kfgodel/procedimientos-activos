@@ -1,13 +1,13 @@
 {
   "private": true,
   "devDependencies": {
-    "bower": "*",
-    "grunt": "*",
-    "grunt-cli": "*",
-    "grunt-contrib-watch": "*",
-    "grunt-ember-templates": "*",
-    "grunt-include-source": "*",
-    "grunt-contrib-copy": "*",
-    "grunt-wiredep": "*"
+    "bower": "1.3.12",
+    "grunt": "0.4.5",
+    "grunt-cli": "0.1.13",
+    "grunt-contrib-watch": "0.6.1",
+    "grunt-ember-templates": "0.5.0",
+    "grunt-include-source": "0.5.0",
+    "grunt-contrib-copy": "0.8.0",
+    "grunt-wiredep": "2.0.0"
   }
 }

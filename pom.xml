@@ -123,7 +123,7 @@
                     <archive>
                         <manifest>
                             <addClasspath>true</addClasspath>
-                            <mainClass>ar.dgarcia.prototipos.emberpoc.EmberPocMain</mainClass>
+                            <mainClass>ar.com.tenpines.html5poc.Html5PocMain</mainClass>
                         </manifest>
                         <manifestEntries>
                             <Build-JVM>${java.vm.name} - ${java.vm.vendor}</Build-JVM>
