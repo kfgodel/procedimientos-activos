@@ -1,6 +1,6 @@
 # ateam-html5-poc
 
-Prueba de concepto para crear una aplicación web con un framework JS para frontend y html5 
+Prueba de concepto para crear una aplicación web con un framework JS para frontend y html5
 
 
 ## Setup desarrollo
