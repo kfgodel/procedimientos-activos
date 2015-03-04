@@ -4,5 +4,7 @@ window.App = Ember.Application.create({
  // LOG_TRANSITIONS_INTERNAL: true // Log route hooks and transition
 });
 
-// Use localstorage as datasource
-App.ApplicationAdapter = DS.FixtureAdapter.extend();
+// Rest for the model store
+App.ApplicationAdapter = DS.RESTAdapter.extend({
+  namespace: 'api/v1'
+});
