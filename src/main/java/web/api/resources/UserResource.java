@@ -2,9 +2,11 @@ package web.api.resources;
 
 import com.google.common.collect.Lists;
 import web.api.resources.tos.EmberResponse;
+import web.api.resources.tos.UserEditionTo;
 import web.api.resources.tos.UserTo;
 
-import javax.ws.rs.GET;
+import javax.ws.rs.*;
+import java.util.HashMap;
 
 /**
  * This type is the resource API for users
@@ -17,5 +19,18 @@ public class UserResource {
         return EmberResponse.create("users", Lists.newArrayList(
                 UserTo.create(1L, "Pepito Gonzola", "pepe", "1234"),
                 UserTo.create(2L, "AdminTerminator", "admin", "1234")));
+    }
+
+    @POST
+    public EmberResponse createUser(){
+        return EmberResponse.create("user", new HashMap<>());
+    }
+
+    @PUT
+    @Path("/{userId}")
+    public EmberResponse editUser(UserEditionTo edition, @PathParam("userId") Long userId){
+        UserTo user = edition.getUser();
+        user.setId(userId);
+        return EmberResponse.create("user", user);
     }
 }

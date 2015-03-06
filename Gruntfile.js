@@ -30,9 +30,10 @@ module.exports = function(grunt) {
 
         // Auto-list own JS files in index.html
         indexHtmlTemplateLocation: 'src/main/templates/index.template.html',
+        ownJsFolder: 'src/main/javascript/web',
         includeSource: {
             options: {
-                basePath: 'src/main/javascript/web',
+                basePath: '<%= ownJsFolder %>',
                 baseUrl: ''
             },
             include_own_js: {
@@ -78,6 +79,10 @@ module.exports = function(grunt) {
             emberTemplates: {
                 files: '<%= templateSrcFiles %>',
                 tasks: ['emberTemplates']
+            },
+            own_js: {
+              files: '<%= ownJsFolder %>/**/*.js',
+              tasks: ['update_js_deps']
             }
         }
 
