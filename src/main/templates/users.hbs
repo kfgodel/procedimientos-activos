@@ -1,5 +1,30 @@
-<ul>
-  {{#each user in model}}
-    <li>{{user.id}} | {{user.name}} | {{user.login}} | {{user.password}}</li>
-  {{/each}}
-</ul>
+<table border="1" style="width:300px">
+    <thead>
+    <tr>
+        <th>Id</th>
+        <th>Nombre</th>
+        <th>Login</th>
+        <th>Password</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    {{#each user in model}}
+      <tr>
+          <td>{{user.id}}</td>
+          <td>{{#link-to 'users.edit' user}}{{user.name}}{{/link-to}}</td>
+          <td>{{user.login}}</td>
+          <td>{{user.password}}</td>
+      </tr>
+    {{/each}}
+    </tbody>
+
+    <tfoot>
+    <tr>
+        <td>Total</td>
+        <td></td>
+        <td></td>
+        <td>{{model.length}}</td>
+    </tr>
+    </tfoot>
+</table>
