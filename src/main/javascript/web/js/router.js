@@ -1,7 +1,7 @@
 App.Router.map(function() {
   // Make users the default route
   this.resource('users', { path: '/' }, function(){
-    this.route('edit', { path: "users/:user_id" });
+    this.route('edit', { path: "user/:user_id" });
   });
 });
 

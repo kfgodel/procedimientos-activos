@@ -113,84 +113,104 @@ Ember.TEMPLATES["users"] = Ember.HTMLBars.template((function() {
     cachedFragment: null,
     hasRendered: false,
     build: function build(dom) {
-      var el0 = dom.createElement("table");
-      dom.setAttribute(el0,"border","1");
-      dom.setAttribute(el0,"style","width:300px");
-      var el1 = dom.createTextNode("\n    ");
-      dom.appendChild(el0, el1);
-      var el1 = dom.createElement("thead");
-      var el2 = dom.createTextNode("\n    ");
-      dom.appendChild(el1, el2);
-      var el2 = dom.createElement("tr");
-      var el3 = dom.createTextNode("\n        ");
-      dom.appendChild(el2, el3);
-      var el3 = dom.createElement("th");
-      var el4 = dom.createTextNode("Id");
-      dom.appendChild(el3, el4);
-      dom.appendChild(el2, el3);
-      var el3 = dom.createTextNode("\n        ");
-      dom.appendChild(el2, el3);
-      var el3 = dom.createElement("th");
-      var el4 = dom.createTextNode("Nombre");
-      dom.appendChild(el3, el4);
-      dom.appendChild(el2, el3);
-      var el3 = dom.createTextNode("\n        ");
-      dom.appendChild(el2, el3);
-      var el3 = dom.createElement("th");
-      var el4 = dom.createTextNode("Login");
-      dom.appendChild(el3, el4);
-      dom.appendChild(el2, el3);
-      var el3 = dom.createTextNode("\n        ");
-      dom.appendChild(el2, el3);
-      var el3 = dom.createElement("th");
-      var el4 = dom.createTextNode("Password");
-      dom.appendChild(el3, el4);
-      dom.appendChild(el2, el3);
-      var el3 = dom.createTextNode("\n    ");
-      dom.appendChild(el2, el3);
-      dom.appendChild(el1, el2);
-      var el2 = dom.createTextNode("\n    ");
-      dom.appendChild(el1, el2);
-      dom.appendChild(el0, el1);
-      var el1 = dom.createTextNode("\n\n    ");
-      dom.appendChild(el0, el1);
-      var el1 = dom.createElement("tbody");
-      var el2 = dom.createTextNode("\n");
-      dom.appendChild(el1, el2);
-      var el2 = dom.createTextNode("    ");
-      dom.appendChild(el1, el2);
-      dom.appendChild(el0, el1);
-      var el1 = dom.createTextNode("\n\n    ");
-      dom.appendChild(el0, el1);
-      var el1 = dom.createElement("tfoot");
-      var el2 = dom.createTextNode("\n    ");
-      dom.appendChild(el1, el2);
-      var el2 = dom.createElement("tr");
-      var el3 = dom.createTextNode("\n        ");
-      dom.appendChild(el2, el3);
-      var el3 = dom.createElement("td");
-      var el4 = dom.createTextNode("Total");
-      dom.appendChild(el3, el4);
-      dom.appendChild(el2, el3);
-      var el3 = dom.createTextNode("\n        ");
-      dom.appendChild(el2, el3);
-      var el3 = dom.createElement("td");
-      dom.appendChild(el2, el3);
-      var el3 = dom.createTextNode("\n        ");
-      dom.appendChild(el2, el3);
-      var el3 = dom.createElement("td");
-      dom.appendChild(el2, el3);
-      var el3 = dom.createTextNode("\n        ");
-      dom.appendChild(el2, el3);
-      var el3 = dom.createElement("td");
-      dom.appendChild(el2, el3);
-      var el3 = dom.createTextNode("\n    ");
-      dom.appendChild(el2, el3);
-      dom.appendChild(el1, el2);
-      var el2 = dom.createTextNode("\n    ");
-      dom.appendChild(el1, el2);
+      var el0 = dom.createDocumentFragment();
+      var el1 = dom.createComment(" User list grid ");
       dom.appendChild(el0, el1);
       var el1 = dom.createTextNode("\n");
+      dom.appendChild(el0, el1);
+      var el1 = dom.createElement("div");
+      var el2 = dom.createTextNode("\n");
+      dom.appendChild(el1, el2);
+      var el2 = dom.createElement("table");
+      dom.setAttribute(el2,"border","1");
+      dom.setAttribute(el2,"style","width:300px");
+      var el3 = dom.createTextNode("\n    ");
+      dom.appendChild(el2, el3);
+      var el3 = dom.createElement("thead");
+      var el4 = dom.createTextNode("\n    ");
+      dom.appendChild(el3, el4);
+      var el4 = dom.createElement("tr");
+      var el5 = dom.createTextNode("\n        ");
+      dom.appendChild(el4, el5);
+      var el5 = dom.createElement("th");
+      var el6 = dom.createTextNode("Id");
+      dom.appendChild(el5, el6);
+      dom.appendChild(el4, el5);
+      var el5 = dom.createTextNode("\n        ");
+      dom.appendChild(el4, el5);
+      var el5 = dom.createElement("th");
+      var el6 = dom.createTextNode("Nombre");
+      dom.appendChild(el5, el6);
+      dom.appendChild(el4, el5);
+      var el5 = dom.createTextNode("\n        ");
+      dom.appendChild(el4, el5);
+      var el5 = dom.createElement("th");
+      var el6 = dom.createTextNode("Login");
+      dom.appendChild(el5, el6);
+      dom.appendChild(el4, el5);
+      var el5 = dom.createTextNode("\n        ");
+      dom.appendChild(el4, el5);
+      var el5 = dom.createElement("th");
+      var el6 = dom.createTextNode("Password");
+      dom.appendChild(el5, el6);
+      dom.appendChild(el4, el5);
+      var el5 = dom.createTextNode("\n    ");
+      dom.appendChild(el4, el5);
+      dom.appendChild(el3, el4);
+      var el4 = dom.createTextNode("\n    ");
+      dom.appendChild(el3, el4);
+      dom.appendChild(el2, el3);
+      var el3 = dom.createTextNode("\n\n    ");
+      dom.appendChild(el2, el3);
+      var el3 = dom.createElement("tbody");
+      var el4 = dom.createTextNode("\n");
+      dom.appendChild(el3, el4);
+      var el4 = dom.createTextNode("    ");
+      dom.appendChild(el3, el4);
+      dom.appendChild(el2, el3);
+      var el3 = dom.createTextNode("\n\n    ");
+      dom.appendChild(el2, el3);
+      var el3 = dom.createElement("tfoot");
+      var el4 = dom.createTextNode("\n    ");
+      dom.appendChild(el3, el4);
+      var el4 = dom.createElement("tr");
+      var el5 = dom.createTextNode("\n        ");
+      dom.appendChild(el4, el5);
+      var el5 = dom.createElement("td");
+      var el6 = dom.createTextNode("Total");
+      dom.appendChild(el5, el6);
+      dom.appendChild(el4, el5);
+      var el5 = dom.createTextNode("\n        ");
+      dom.appendChild(el4, el5);
+      var el5 = dom.createElement("td");
+      dom.appendChild(el4, el5);
+      var el5 = dom.createTextNode("\n        ");
+      dom.appendChild(el4, el5);
+      var el5 = dom.createElement("td");
+      dom.appendChild(el4, el5);
+      var el5 = dom.createTextNode("\n        ");
+      dom.appendChild(el4, el5);
+      var el5 = dom.createElement("td");
+      dom.appendChild(el4, el5);
+      var el5 = dom.createTextNode("\n    ");
+      dom.appendChild(el4, el5);
+      dom.appendChild(el3, el4);
+      var el4 = dom.createTextNode("\n    ");
+      dom.appendChild(el3, el4);
+      dom.appendChild(el2, el3);
+      var el3 = dom.createTextNode("\n");
+      dom.appendChild(el2, el3);
+      dom.appendChild(el1, el2);
+      var el2 = dom.createTextNode("\n");
+      dom.appendChild(el1, el2);
+      dom.appendChild(el0, el1);
+      var el1 = dom.createTextNode("\n\n");
+      dom.appendChild(el0, el1);
+      var el1 = dom.createComment(" User edit form ");
+      dom.appendChild(el0, el1);
+      var el1 = dom.createTextNode("\n");
+      dom.appendChild(el0, el1);
+      var el1 = dom.createTextNode("");
       dom.appendChild(el0, el1);
       return el0;
     },
@@ -214,10 +234,131 @@ Ember.TEMPLATES["users"] = Ember.HTMLBars.template((function() {
       } else {
         fragment = this.build(dom);
       }
-      var morph0 = dom.createMorphAt(dom.childAt(fragment, [3]),0,1);
-      var morph1 = dom.createMorphAt(dom.childAt(fragment, [5, 1, 7]),-1,-1);
+      if (this.cachedFragment) { dom.repairClonedNode(fragment,[4]); }
+      var element1 = dom.childAt(fragment, [2, 1]);
+      var morph0 = dom.createMorphAt(dom.childAt(element1, [3]),0,1);
+      var morph1 = dom.createMorphAt(dom.childAt(element1, [5, 1, 7]),-1,-1);
+      var morph2 = dom.createMorphAt(fragment,5,6,contextualElement);
       block(env, morph0, context, "each", [get(env, context, "model")], {"keyword": "user"}, child0, null);
       content(env, morph1, context, "model.length");
+      content(env, morph2, context, "outlet");
+      return fragment;
+    }
+  };
+}()));
+
+Ember.TEMPLATES["users/edit"] = Ember.HTMLBars.template((function() {
+  return {
+    isHTMLBars: true,
+    blockParams: 0,
+    cachedFragment: null,
+    hasRendered: false,
+    build: function build(dom) {
+      var el0 = dom.createElement("div");
+      var el1 = dom.createTextNode("\n    ");
+      dom.appendChild(el0, el1);
+      var el1 = dom.createElement("div");
+      var el2 = dom.createTextNode("\n        ");
+      dom.appendChild(el1, el2);
+      var el2 = dom.createElement("span");
+      var el3 = dom.createTextNode("Id:");
+      dom.appendChild(el2, el3);
+      dom.appendChild(el1, el2);
+      var el2 = dom.createTextNode("\n        ");
+      dom.appendChild(el1, el2);
+      var el2 = dom.createElement("span");
+      dom.appendChild(el1, el2);
+      var el2 = dom.createTextNode("\n    ");
+      dom.appendChild(el1, el2);
+      dom.appendChild(el0, el1);
+      var el1 = dom.createTextNode("\n    ");
+      dom.appendChild(el0, el1);
+      var el1 = dom.createElement("div");
+      var el2 = dom.createTextNode("\n        ");
+      dom.appendChild(el1, el2);
+      var el2 = dom.createElement("span");
+      var el3 = dom.createTextNode("Nombre:");
+      dom.appendChild(el2, el3);
+      dom.appendChild(el1, el2);
+      var el2 = dom.createTextNode("\n        ");
+      dom.appendChild(el1, el2);
+      var el2 = dom.createTextNode("\n    ");
+      dom.appendChild(el1, el2);
+      dom.appendChild(el0, el1);
+      var el1 = dom.createTextNode("\n    ");
+      dom.appendChild(el0, el1);
+      var el1 = dom.createElement("div");
+      var el2 = dom.createTextNode("\n        ");
+      dom.appendChild(el1, el2);
+      var el2 = dom.createElement("span");
+      var el3 = dom.createTextNode("Login:");
+      dom.appendChild(el2, el3);
+      dom.appendChild(el1, el2);
+      var el2 = dom.createTextNode("\n      ");
+      dom.appendChild(el1, el2);
+      var el2 = dom.createTextNode("\n    ");
+      dom.appendChild(el1, el2);
+      dom.appendChild(el0, el1);
+      var el1 = dom.createTextNode("\n    ");
+      dom.appendChild(el0, el1);
+      var el1 = dom.createElement("div");
+      var el2 = dom.createTextNode("\n        ");
+      dom.appendChild(el1, el2);
+      var el2 = dom.createElement("span");
+      var el3 = dom.createTextNode("Password:");
+      dom.appendChild(el2, el3);
+      dom.appendChild(el1, el2);
+      var el2 = dom.createTextNode("\n      ");
+      dom.appendChild(el1, el2);
+      var el2 = dom.createTextNode("\n    ");
+      dom.appendChild(el1, el2);
+      dom.appendChild(el0, el1);
+      var el1 = dom.createTextNode("\n    ");
+      dom.appendChild(el0, el1);
+      var el1 = dom.createElement("div");
+      var el2 = dom.createTextNode("\n        ");
+      dom.appendChild(el1, el2);
+      var el2 = dom.createElement("button");
+      var el3 = dom.createTextNode("\n            Guardar\n        ");
+      dom.appendChild(el2, el3);
+      dom.appendChild(el1, el2);
+      var el2 = dom.createTextNode("\n    ");
+      dom.appendChild(el1, el2);
+      dom.appendChild(el0, el1);
+      var el1 = dom.createTextNode("\n");
+      dom.appendChild(el0, el1);
+      return el0;
+    },
+    render: function render(context, env, contextualElement) {
+      var dom = env.dom;
+      var hooks = env.hooks, content = hooks.content, get = hooks.get, inline = hooks.inline, element = hooks.element;
+      dom.detectNamespace(contextualElement);
+      var fragment;
+      if (env.useFragmentCache && dom.canClone) {
+        if (this.cachedFragment === null) {
+          fragment = this.build(dom);
+          if (this.hasRendered) {
+            this.cachedFragment = fragment;
+          } else {
+            this.hasRendered = true;
+          }
+        }
+        if (this.cachedFragment) {
+          fragment = dom.cloneNode(this.cachedFragment, true);
+        }
+      } else {
+        fragment = this.build(dom);
+      }
+      var element0 = dom.childAt(fragment, [9, 1]);
+      var morph0 = dom.createMorphAt(dom.childAt(fragment, [1, 3]),-1,-1);
+      var morph1 = dom.createMorphAt(dom.childAt(fragment, [3]),2,3);
+      var morph2 = dom.createMorphAt(dom.childAt(fragment, [5]),2,3);
+      var morph3 = dom.createMorphAt(dom.childAt(fragment, [7]),2,3);
+      content(env, morph0, context, "model.id");
+      inline(env, morph1, context, "input", [], {"value": get(env, context, "model.name")});
+      inline(env, morph2, context, "input", [], {"value": get(env, context, "model.login")});
+      inline(env, morph3, context, "input", [], {"value": get(env, context, "model.password")});
+      element(env, element0, context, "action", ["save"], {});
       return fragment;
     }
   };
