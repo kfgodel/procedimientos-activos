@@ -381,6 +381,12 @@ Ember.TEMPLATES["users/edit"] = Ember.HTMLBars.template((function() {
       var el3 = dom.createTextNode("\n            Guardar\n        ");
       dom.appendChild(el2, el3);
       dom.appendChild(el1, el2);
+      var el2 = dom.createTextNode("\n        ");
+      dom.appendChild(el1, el2);
+      var el2 = dom.createElement("button");
+      var el3 = dom.createTextNode("\n            Borrar\n        ");
+      dom.appendChild(el2, el3);
+      dom.appendChild(el1, el2);
       var el2 = dom.createTextNode("\n    ");
       dom.appendChild(el1, el2);
       dom.appendChild(el0, el1);
@@ -408,7 +414,9 @@ Ember.TEMPLATES["users/edit"] = Ember.HTMLBars.template((function() {
       } else {
         fragment = this.build(dom);
       }
-      var element0 = dom.childAt(fragment, [9, 1]);
+      var element0 = dom.childAt(fragment, [9]);
+      var element1 = dom.childAt(element0, [1]);
+      var element2 = dom.childAt(element0, [3]);
       var morph0 = dom.createMorphAt(dom.childAt(fragment, [1, 3]),-1,-1);
       var morph1 = dom.createMorphAt(dom.childAt(fragment, [3]),2,3);
       var morph2 = dom.createMorphAt(dom.childAt(fragment, [5]),2,3);
@@ -417,7 +425,8 @@ Ember.TEMPLATES["users/edit"] = Ember.HTMLBars.template((function() {
       inline(env, morph1, context, "input", [], {"value": get(env, context, "model.name")});
       inline(env, morph2, context, "input", [], {"value": get(env, context, "model.login")});
       inline(env, morph3, context, "input", [], {"value": get(env, context, "model.password")});
-      element(env, element0, context, "action", ["save"], {});
+      element(env, element1, context, "action", ["save"], {});
+      element(env, element2, context, "action", ["delete"], {});
       return fragment;
     }
   };

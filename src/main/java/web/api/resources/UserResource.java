@@ -6,6 +6,7 @@ import web.api.resources.tos.UserEditionTo;
 import web.api.resources.tos.UserTo;
 
 import javax.ws.rs.*;
+import java.util.HashMap;
 import java.util.List;
 
 /**
@@ -41,9 +42,23 @@ public class UserResource {
             if(user.getId().equals(userId)){
                 newUserState.setId(userId);
                 users.set(i, newUserState);
+                break;
             }
         }
 
         return EmberResponse.create("user", newUserState);
+    }
+
+    @DELETE
+    @Path("/{userId}")
+    public EmberResponse deleteUser(@PathParam("userId") Long userId){
+        for (int i = 0; i < users.size(); i++) {
+            UserTo user = users.get(i);
+            if(user.getId().equals(userId)){
+                users.remove(i);
+                break;
+            }
+        }
+        return EmberResponse.create("user", new HashMap<>());
     }
 }
