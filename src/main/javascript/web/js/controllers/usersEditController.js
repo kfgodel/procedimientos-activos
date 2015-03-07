@@ -3,7 +3,7 @@ App.UsersEditController = Ember.ObjectController.extend({
     save: function() {
       this.get('model').save();
     },
-    delete: function(){
+    remove: function(){
       var model = this.get('model');
       model.deleteRecord();
       model.save();

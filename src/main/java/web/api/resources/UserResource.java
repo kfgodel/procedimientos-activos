@@ -32,6 +32,19 @@ public class UserResource {
         return EmberResponse.create("user", newUser);
     }
 
+    @GET
+    @Path("/{userId}")
+    public EmberResponse getSingleUser(@PathParam("userId") Long userId){
+        for (int i = 0; i < users.size(); i++) {
+            UserTo user = users.get(i);
+            if(user.getId().equals(userId)){
+                return EmberResponse.create("user", user);
+            }
+        }
+        throw new WebApplicationException("user not found", 404);
+    }
+
+
     @PUT
     @Path("/{userId}")
     public EmberResponse editUser(UserEditionTo edition, @PathParam("userId") Long userId){

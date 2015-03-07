@@ -473,7 +473,7 @@ Ember.TEMPLATES["users/edit"] = Ember.HTMLBars.template((function() {
       inline(env, morph2, context, "input", [], {"value": get(env, context, "model.login")});
       inline(env, morph3, context, "input", [], {"value": get(env, context, "model.password")});
       element(env, element1, context, "action", ["save"], {});
-      element(env, element2, context, "action", ["delete"], {});
+      element(env, element2, context, "action", ["remove"], {});
       return fragment;
     }
   };
