@@ -3,6 +3,7 @@ App.Router.map(function() {
   this.resource('users', { path: '/' }, function(){
     this.route('edit', { path: "user/:user_id" });
   });
+  this.route('otherPaths', { path: '/*missingPath' });
 });
 
 App.UsersRoute = Ember.Route.extend({
