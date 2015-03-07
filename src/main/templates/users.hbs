@@ -1,5 +1,5 @@
 <!-- User list grid -->
-<div>
+<span>
     <div>
         <button {{action "create"}}>
             Crear
@@ -18,7 +18,7 @@
       <tbody>
       {{#each user in model }}
         <tr>
-            <td>{{user.id}}</td>
+            <td>{{#link-to 'users.edit' user}}{{user.id}}{{/link-to}}</td>
             <td>{{#link-to 'users.edit' user}}{{user.name}}{{/link-to}}</td>
             <td>{{user.login}}</td>
             <td>{{user.password}}</td>
@@ -35,7 +35,9 @@
       </tr>
       </tfoot>
   </table>
-</div>
+</span>
 
 <!-- User edit form -->
+<span>
 {{outlet}}
+</span>

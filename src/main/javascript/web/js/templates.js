@@ -36,6 +36,47 @@ Ember.TEMPLATES["users"] = Ember.HTMLBars.template((function() {
           }
           if (this.cachedFragment) { dom.repairClonedNode(fragment,[0,1]); }
           var morph0 = dom.createMorphAt(fragment,0,1,contextualElement);
+          content(env, morph0, context, "user.id");
+          return fragment;
+        }
+      };
+    }());
+    var child1 = (function() {
+      return {
+        isHTMLBars: true,
+        blockParams: 0,
+        cachedFragment: null,
+        hasRendered: false,
+        build: function build(dom) {
+          var el0 = dom.createDocumentFragment();
+          var el1 = dom.createTextNode("");
+          dom.appendChild(el0, el1);
+          var el1 = dom.createTextNode("");
+          dom.appendChild(el0, el1);
+          return el0;
+        },
+        render: function render(context, env, contextualElement) {
+          var dom = env.dom;
+          var hooks = env.hooks, content = hooks.content;
+          dom.detectNamespace(contextualElement);
+          var fragment;
+          if (env.useFragmentCache && dom.canClone) {
+            if (this.cachedFragment === null) {
+              fragment = this.build(dom);
+              if (this.hasRendered) {
+                this.cachedFragment = fragment;
+              } else {
+                this.hasRendered = true;
+              }
+            }
+            if (this.cachedFragment) {
+              fragment = dom.cloneNode(this.cachedFragment, true);
+            }
+          } else {
+            fragment = this.build(dom);
+          }
+          if (this.cachedFragment) { dom.repairClonedNode(fragment,[0,1]); }
+          var morph0 = dom.createMorphAt(fragment,0,1,contextualElement);
           content(env, morph0, context, "user.name");
           return fragment;
         }
@@ -76,7 +117,7 @@ Ember.TEMPLATES["users"] = Ember.HTMLBars.template((function() {
       },
       render: function render(context, env, contextualElement) {
         var dom = env.dom;
-        var hooks = env.hooks, content = hooks.content, get = hooks.get, block = hooks.block;
+        var hooks = env.hooks, get = hooks.get, block = hooks.block, content = hooks.content;
         dom.detectNamespace(contextualElement);
         var fragment;
         if (env.useFragmentCache && dom.canClone) {
@@ -99,8 +140,8 @@ Ember.TEMPLATES["users"] = Ember.HTMLBars.template((function() {
         var morph1 = dom.createMorphAt(dom.childAt(element0, [3]),-1,-1);
         var morph2 = dom.createMorphAt(dom.childAt(element0, [5]),-1,-1);
         var morph3 = dom.createMorphAt(dom.childAt(element0, [7]),-1,-1);
-        content(env, morph0, context, "user.id");
-        block(env, morph1, context, "link-to", ["users.edit", get(env, context, "user")], {}, child0, null);
+        block(env, morph0, context, "link-to", ["users.edit", get(env, context, "user")], {}, child0, null);
+        block(env, morph1, context, "link-to", ["users.edit", get(env, context, "user")], {}, child1, null);
         content(env, morph2, context, "user.login");
         content(env, morph3, context, "user.password");
         return fragment;
@@ -118,7 +159,7 @@ Ember.TEMPLATES["users"] = Ember.HTMLBars.template((function() {
       dom.appendChild(el0, el1);
       var el1 = dom.createTextNode("\n");
       dom.appendChild(el0, el1);
-      var el1 = dom.createElement("div");
+      var el1 = dom.createElement("span");
       var el2 = dom.createTextNode("\n    ");
       dom.appendChild(el1, el2);
       var el2 = dom.createElement("div");
@@ -222,7 +263,11 @@ Ember.TEMPLATES["users"] = Ember.HTMLBars.template((function() {
       dom.appendChild(el0, el1);
       var el1 = dom.createTextNode("\n");
       dom.appendChild(el0, el1);
-      var el1 = dom.createTextNode("");
+      var el1 = dom.createElement("span");
+      var el2 = dom.createTextNode("\n");
+      dom.appendChild(el1, el2);
+      var el2 = dom.createTextNode("\n");
+      dom.appendChild(el1, el2);
       dom.appendChild(el0, el1);
       return el0;
     },
@@ -246,13 +291,12 @@ Ember.TEMPLATES["users"] = Ember.HTMLBars.template((function() {
       } else {
         fragment = this.build(dom);
       }
-      if (this.cachedFragment) { dom.repairClonedNode(fragment,[4]); }
       var element1 = dom.childAt(fragment, [2]);
       var element2 = dom.childAt(element1, [1, 1]);
       var element3 = dom.childAt(element1, [3]);
       var morph0 = dom.createMorphAt(dom.childAt(element3, [3]),0,1);
       var morph1 = dom.createMorphAt(dom.childAt(element3, [5, 1, 7]),-1,-1);
-      var morph2 = dom.createMorphAt(fragment,5,6,contextualElement);
+      var morph2 = dom.createMorphAt(dom.childAt(fragment, [6]),0,1);
       element(env, element2, context, "action", ["create"], {});
       block(env, morph0, context, "each", [get(env, context, "model")], {"keyword": "user"}, child0, null);
       content(env, morph1, context, "model.length");

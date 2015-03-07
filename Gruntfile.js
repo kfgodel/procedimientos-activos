@@ -81,7 +81,7 @@ module.exports = function(grunt) {
                 tasks: ['emberTemplates']
             },
             own_js: {
-              files: '<%= ownJsFolder %>/**/*.js',
+              files: '<%= ownJsFolder %>/js/**/*.js',
               tasks: ['update_js_deps']
             }
         }
