@@ -513,6 +513,40 @@ Ember.TEMPLATES["users/edit"] = Ember.HTMLBars.template((function() {
   };
 }()));
 
+Ember.TEMPLATES["users/error"] = Ember.HTMLBars.template((function() {
+  return {
+    isHTMLBars: true,
+    blockParams: 0,
+    cachedFragment: null,
+    hasRendered: false,
+    build: function build(dom) {
+      var el0 = dom.createTextNode("Error loading!");
+      return el0;
+    },
+    render: function render(context, env, contextualElement) {
+      var dom = env.dom;
+      dom.detectNamespace(contextualElement);
+      var fragment;
+      if (env.useFragmentCache && dom.canClone) {
+        if (this.cachedFragment === null) {
+          fragment = this.build(dom);
+          if (this.hasRendered) {
+            this.cachedFragment = fragment;
+          } else {
+            this.hasRendered = true;
+          }
+        }
+        if (this.cachedFragment) {
+          fragment = dom.cloneNode(this.cachedFragment, true);
+        }
+      } else {
+        fragment = this.build(dom);
+      }
+      return fragment;
+    }
+  };
+}()));
+
 Ember.TEMPLATES["users/loading"] = Ember.HTMLBars.template((function() {
   return {
     isHTMLBars: true,
