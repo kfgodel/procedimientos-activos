@@ -1,20 +1,10 @@
 <div>
-    <div>
-        <span>Id:</span>
-        <span>{{model.id}}</span>
-    </div>
-    <div>
-        <span>Nombre:</span>
-        {{input value=model.name}}
-    </div>
-    <div>
-        <span>Login:</span>
-      {{input value=model.login}}
-    </div>
-    <div>
-        <span>Password:</span>
-      {{input value=model.password}}
-    </div>
+
+    {{labeled-label label='Id:' value=model.id}}
+    {{labeled-input label='Nombre:' value=model.name}}
+    {{labeled-input label='Login:' value=model.login}}
+    {{labeled-input label='Password:' value=model.password}}
+
     <div>
         <button {{action "save"}}>
             Guardar
