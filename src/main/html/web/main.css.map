@@ -1,0 +1,10 @@
+{
+	"version": 3,
+	"file": "main.css",
+	"sources": [
+		"../../../../screen.scss"
+	],
+	"sourcesContent": [],
+	"mappings": "AAAA;EACI,AAAO;;AAGX;EACI,AAAO;EACP,AAAQ;EACZ,AAAO;IACC,AAAO;IACP,AAAO;;AAKf,AAAY;EACJ,AAAY",
+	"names": []
+}

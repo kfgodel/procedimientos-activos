@@ -125,6 +125,71 @@ Ember.TEMPLATES["loading"] = Ember.HTMLBars.template((function() {
   };
 }()));
 
+Ember.TEMPLATES["login"] = Ember.HTMLBars.template((function() {
+  return {
+    isHTMLBars: true,
+    blockParams: 0,
+    cachedFragment: null,
+    hasRendered: false,
+    build: function build(dom) {
+      var el0 = dom.createElement("section");
+      var el1 = dom.createTextNode("\n\n  ");
+      dom.appendChild(el0, el1);
+      var el1 = dom.createTextNode("\n  ");
+      dom.appendChild(el0, el1);
+      var el1 = dom.createTextNode("\n\n    ");
+      dom.appendChild(el0, el1);
+      var el1 = dom.createElement("p");
+      var el2 = dom.createTextNode("\n    ");
+      dom.appendChild(el1, el2);
+      var el2 = dom.createElement("div");
+      var el3 = dom.createTextNode("\n        ");
+      dom.appendChild(el2, el3);
+      var el3 = dom.createElement("button");
+      var el4 = dom.createTextNode("\n            Entrar\n        ");
+      dom.appendChild(el3, el4);
+      dom.appendChild(el2, el3);
+      var el3 = dom.createTextNode("\n    ");
+      dom.appendChild(el2, el3);
+      dom.appendChild(el1, el2);
+      var el2 = dom.createTextNode("\n    ");
+      dom.appendChild(el1, el2);
+      dom.appendChild(el0, el1);
+      var el1 = dom.createTextNode("\n");
+      dom.appendChild(el0, el1);
+      return el0;
+    },
+    render: function render(context, env, contextualElement) {
+      var dom = env.dom;
+      var hooks = env.hooks, get = hooks.get, inline = hooks.inline, element = hooks.element;
+      dom.detectNamespace(contextualElement);
+      var fragment;
+      if (env.useFragmentCache && dom.canClone) {
+        if (this.cachedFragment === null) {
+          fragment = this.build(dom);
+          if (this.hasRendered) {
+            this.cachedFragment = fragment;
+          } else {
+            this.hasRendered = true;
+          }
+        }
+        if (this.cachedFragment) {
+          fragment = dom.cloneNode(this.cachedFragment, true);
+        }
+      } else {
+        fragment = this.build(dom);
+      }
+      var element0 = dom.childAt(fragment, [3, 1, 1]);
+      var morph0 = dom.createMorphAt(fragment,0,1);
+      var morph1 = dom.createMorphAt(fragment,1,2);
+      inline(env, morph0, context, "labeled-input", [], {"label": "Login:", "value": get(env, context, "model.login")});
+      inline(env, morph1, context, "labeled-input", [], {"label": "Password:", "value": get(env, context, "model.password")});
+      element(env, element0, context, "action", ["logIn"], {});
+      return fragment;
+    }
+  };
+}()));
+
 Ember.TEMPLATES["otherPaths"] = Ember.HTMLBars.template((function() {
   return {
     isHTMLBars: true,
@@ -643,48 +708,6 @@ Ember.TEMPLATES["users/error"] = Ember.HTMLBars.template((function() {
       } else {
         fragment = this.build(dom);
       }
-      return fragment;
-    }
-  };
-}()));
-
-Ember.TEMPLATES["users/index"] = Ember.HTMLBars.template((function() {
-  return {
-    isHTMLBars: true,
-    blockParams: 0,
-    cachedFragment: null,
-    hasRendered: false,
-    build: function build(dom) {
-      var el0 = dom.createElement("div");
-      dom.setAttribute(el0,"id","mainsection");
-      var el1 = dom.createTextNode("\n");
-      dom.appendChild(el0, el1);
-      var el1 = dom.createTextNode("\n");
-      dom.appendChild(el0, el1);
-      return el0;
-    },
-    render: function render(context, env, contextualElement) {
-      var dom = env.dom;
-      var hooks = env.hooks, content = hooks.content;
-      dom.detectNamespace(contextualElement);
-      var fragment;
-      if (env.useFragmentCache && dom.canClone) {
-        if (this.cachedFragment === null) {
-          fragment = this.build(dom);
-          if (this.hasRendered) {
-            this.cachedFragment = fragment;
-          } else {
-            this.hasRendered = true;
-          }
-        }
-        if (this.cachedFragment) {
-          fragment = dom.cloneNode(this.cachedFragment, true);
-        }
-      } else {
-        fragment = this.build(dom);
-      }
-      var morph0 = dom.createMorphAt(fragment,0,1);
-      content(env, morph0, context, "outlet");
       return fragment;
     }
   };

@@ -1,4 +1,5 @@
 App.Router.map(function() {
+  this.route('login');
   this.resource('users', function(){
     this.route('edit', { path: "edit/:user_id" });
   });
@@ -7,8 +8,7 @@ App.Router.map(function() {
 
 App.IndexRoute = Ember.Route.extend({
   beforeModel: function() {
-    // by default move to users route
-    this.transitionTo('users');
+    this.transitionTo('login');
   }
 });
 
