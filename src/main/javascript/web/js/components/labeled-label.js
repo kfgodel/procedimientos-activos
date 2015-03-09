@@ -1,4 +1,4 @@
-App.LabeledInputComponent = Ember.Component.extend({
+App.LabeledLabelComponent = Ember.Component.extend({
     tagName: 'p',
     classNames: ['value-input']
 });

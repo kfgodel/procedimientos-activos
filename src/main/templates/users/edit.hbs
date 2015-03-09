@@ -1,16 +1,18 @@
-<div>
+<section class="abm-edit">
 
     {{labeled-label label='Id:' value=model.id}}
     {{labeled-input label='Nombre:' value=model.name}}
     {{labeled-input label='Login:' value=model.login}}
     {{labeled-input label='Password:' value=model.password}}
 
-    <div>
-        <button {{action "save"}}>
-            Guardar
-        </button>
-        <button {{action "remove"}}>
-            Borrar
-        </button>
-    </div>
-</div>
+    <p>
+        <div>
+            <button {{action "save"}}>
+                Guardar
+            </button>
+            <button {{action "remove"}}>
+                Borrar
+            </button>
+        </div>
+    </p>
+</section>

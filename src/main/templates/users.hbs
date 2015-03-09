@@ -1,47 +1,49 @@
 <!-- User list grid -->
-<span>
-    <div>
-        <button {{action "create"}}>
-            Crear
-        </button>
-    </div>
-  <table border="1" style="width:300px">
-      <thead>
-      <tr>
-          <th>Id</th>
-          <th>Nombre</th>
-          <th>Login</th>
-          <th>Password</th>
-      </tr>
-      </thead>
+<div class="abm">
 
-      <tbody>
-      {{#each user in model }}
-        <tr>
-            <td>{{#link-to 'users.edit' user}}{{user.id}}{{/link-to}}</td>
-            <td>{{#link-to 'users.edit' user}}{{user.name}}{{/link-to}}</td>
-            <td>{{user.login}}</td>
-            <td>{{user.password}}</td>
-        </tr>
-      {{else}}
-          <tr>
-              <td colspan="4">No users found</td>
-          </tr>
-      {{/each}}
-      </tbody>
+    <section class="abm-grid">
+        <div>
+            <button {{action "create"}}>
+                Crear
+            </button>
+        </div>
+        <table border="1" style="width:300px">
+            <thead>
+                <tr>
+                    
+                    <th>Id</th>
+                    <th>Nombre</th>
+                    <th>Login</th>
+                    <th>Password</th>
+                </tr>
+            </thead>
 
-      <tfoot>
-      <tr>
-          <td>Total</td>
-          <td></td>
-          <td></td>
-          <td>{{model.length}}</td>
-      </tr>
-      </tfoot>
-  </table>
-</span>
+            <tbody>
+                {{#each user in model }}
+                <tr>
+                    <td>{{#link-to 'users.edit' user}}{{user.id}}{{/link-to}}</td>
+                    <td>{{#link-to 'users.edit' user}}{{user.name}}{{/link-to}}</td>
+                    <td>{{user.login}}</td>
+                    <td>{{user.password}}</td>
+                </tr>
+                {{else}}
+                <tr>
+                    <td colspan="4">No users found</td>
+                </tr>
+                {{/each}}
+            </tbody>
 
-<!-- User edit form -->
-<span>
-{{outlet}}
-</span>
+            <tfoot>
+                <tr>
+                    <td>Total</td>
+                    <td></td>
+                    <td></td>
+                    <td>{{model.length}}</td>
+                </tr>
+            </tfoot>
+        </table>
+    </section>
+
+    <!-- User edit form -->
+    {{outlet}}
+</div>
