@@ -1,0 +1,18 @@
+body {
+    width: 100%;
+}
+
+.abm {
+    width: 600px;
+    margin: 0 auto;
+    > section {
+        float: left;
+        width: 50%;
+    }
+}
+
+.abm-edit {
+    > p {
+        text-align: right;
+    }
+}
