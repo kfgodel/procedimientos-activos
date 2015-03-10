@@ -8,7 +8,7 @@ App.Router.map(function() {
 
 App.IndexRoute = Ember.Route.extend({
   beforeModel: function() {
-    this.transitionTo('login');
+    this.transitionTo('users');
   }
 });
 
@@ -19,6 +19,13 @@ App.LoginRoute = Ember.Route.extend({
 });
 
 App.UsersRoute = Ember.Route.extend({
+  beforeModel: function(transition) {
+    var loginController = this.controllerFor('login');
+    if (!loginController.get('authenticated')) {
+      loginController.set('previousTransition', transition);
+      this.transitionTo('login');
+    }
+  },
   model: function(){
     return this.store.find('user');
   }
