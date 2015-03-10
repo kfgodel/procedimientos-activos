@@ -12,6 +12,12 @@ App.IndexRoute = Ember.Route.extend({
   }
 });
 
+App.LoginRoute = Ember.Route.extend({
+  model: function(){
+    return {login:'',password:''};
+  }
+});
+
 App.UsersRoute = Ember.Route.extend({
   model: function(){
     return this.store.find('user');

@@ -6,6 +6,7 @@ import web.api.resources.tos.UserEditionTo;
 import web.api.resources.tos.UserTo;
 
 import javax.ws.rs.*;
+import javax.ws.rs.core.MediaType;
 import java.util.HashMap;
 import java.util.List;
 
@@ -73,5 +74,17 @@ public class UserResource {
             }
         }
         return EmberResponse.create("user", new HashMap<>());
+    }
+
+    @POST
+    @Path("/login")
+    @Produces(MediaType.APPLICATION_JSON)
+    public EmberResponse login(@FormParam("login") String login, @FormParam("password") String pass){
+        for (UserTo user : users) {
+            if(user.getLogin().equals(login) && user.getPassword().equals(pass)){
+                return EmberResponse.create("user", user);
+            }
+        }
+        throw new WebApplicationException("Invalid credentials", 401);
     }
 }
