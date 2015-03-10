@@ -2,7 +2,8 @@ App.LoginController = Ember.Controller.extend({
   actions: {
     logIn: function() {
       var self = this;
-      Ember.$.post("/api/v1/users/login", this.get('model'),'json').then(
+      var namespace = this.store.adapterFor('application').namespace;
+      Ember.$.post(namespace + "/users/login", this.get('model'),'json').then(
         function(response) {
           self.set('authenticated', response.user);
 
