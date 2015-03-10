@@ -34,7 +34,7 @@ module.exports = function(grunt) {
       sassDstFile: 'src/main/html/web/main.css',
       sass: {
         options: {
-          sourceMap: true
+          sourceMap: false
         },
         dist: {
           files: {

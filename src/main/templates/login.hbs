@@ -1,5 +1,8 @@
 <section>
 
+  {{#if rejected}}
+      Invalid <b>credentials</b>!
+  {{/if}}
   {{labeled-input label='Login:' value=model.login}}
   {{labeled-input label='Password:' value=model.password}}
 
