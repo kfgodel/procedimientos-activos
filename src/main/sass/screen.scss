@@ -1,3 +1,11 @@
+input {
+    width: 150px;
+    margin: 0;
+    padding: 2px;
+    border: 1px solid black;
+    box-sizing: border-box;
+}
+
 body {
     width: 100%;
 }
@@ -11,8 +19,21 @@ body {
     }
 }
 
-.abm-edit {
-    > p {
-        text-align: right;
+p.property-input {
+    text-align: right;
+    .value {
+        width: 150px;
+        box-sizing: border-box;
+        padding: 2px;
     }
+}
+
+
+#login-section {
+    width: 400px;
+    margin: 0 auto;
+}
+
+.error-message {
+    color: red;
 }

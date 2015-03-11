@@ -1,16 +1,15 @@
-<section>
+<section id="login-section">
+    {{labeled-input label='Login:' value=model.login}}
+    {{labeled-input label='Password:' value=model.password}}
 
-  {{#if rejected}}
-      Invalid <b>credentials</b>!
-  {{/if}}
-  {{labeled-input label='Login:' value=model.login}}
-  {{labeled-input label='Password:' value=model.password}}
-
-    <p>
-    <div>
+    <p class="property-input">
+        {{#if rejected}}
+        <div class="error-message">
+            Invalid <b>credentials</b>!
+        </div>
+        {{/if}}
         <button {{action "logIn"}}>
             Entrar
         </button>
-    </div>
     </p>
 </section>
