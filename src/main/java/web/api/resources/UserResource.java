@@ -2,11 +2,11 @@ package web.api.resources;
 
 import com.google.common.collect.Lists;
 import web.api.resources.tos.EmberResponse;
+import web.api.resources.tos.UserCredentialsTo;
 import web.api.resources.tos.UserEditionTo;
 import web.api.resources.tos.UserTo;
 
 import javax.ws.rs.*;
-import javax.ws.rs.core.MediaType;
 import java.util.HashMap;
 import java.util.List;
 
@@ -78,10 +78,9 @@ public class UserResource {
 
     @POST
     @Path("/login")
-    @Produces(MediaType.APPLICATION_JSON)
-    public EmberResponse login(@FormParam("login") String login, @FormParam("password") String pass){
+    public EmberResponse login(UserCredentialsTo credentials){
         for (UserTo user : users) {
-            if(user.getLogin().equals(login) && user.getPassword().equals(pass)){
+            if(user.getLogin().equals(credentials.getLogin()) && user.getPassword().equals(credentials.getPassword())){
                 return EmberResponse.create("user", user);
             }
         }
