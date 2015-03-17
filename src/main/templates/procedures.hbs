@@ -17,7 +17,11 @@
           <tbody>
           {{#each procedure in model }}
               <tr>
-                  <td>{{procedure.name}}<br>{{procedure.description}}</td>
+                  <td>
+                      {{#link-to 'procedures.view' procedure}}{{procedure.name}}{{/link-to}}
+                    <br>
+                    {{procedure.description}}
+                  </td>
               </tr>
           {{else}}
               <tr>

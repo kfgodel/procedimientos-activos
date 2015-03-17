@@ -7,7 +7,7 @@ App.Router.map(function() {
   });
 
   this.resource('procedures', function () {
-    
+    this.route('view', {path: "view/:procedure_id"});
   });
 
   this.route('wrongPaths', { path: '/*wrongPath' });
@@ -52,13 +52,6 @@ App.UsersEditRoute = Ember.Route.extend({
 });
 
 App.ProceduresRoute = Ember.Route.extend({
-  beforeModel: function(transition) {
-    var loginController = this.controllerFor('login');
-    if (!loginController.get('authenticated')) {
-      loginController.set('previousTransition', transition);
-      this.transitionTo('login');
-    }
-  },
   model: function(){
     return this.store.find('procedure');
   }
