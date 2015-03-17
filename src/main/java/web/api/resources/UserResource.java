@@ -28,7 +28,7 @@ public class UserResource {
 
     @POST
     public EmberResponse createUser(){
-        UserTo newUser = UserTo.create((long) nextId++, "", "", "");
+        UserTo newUser = UserTo.create((long) nextId++, "Sin nombre " + nextId, "", "");
         users.add(newUser);
         return EmberResponse.create("user", newUser);
     }
