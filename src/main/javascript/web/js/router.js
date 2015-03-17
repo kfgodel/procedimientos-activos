@@ -58,5 +58,8 @@ App.ProceduresRoute = Ember.Route.extend({
       loginController.set('previousTransition', transition);
       this.transitionTo('login');
     }
+  },
+  model: function(){
+    return this.store.find('procedure');
   }
 });

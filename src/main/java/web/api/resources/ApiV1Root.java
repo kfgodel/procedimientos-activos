@@ -15,4 +15,9 @@ public class ApiV1Root {
     public UserResource users(){
         return new UserResource();
     }
+
+    @Path("/procedures")
+    public ProcedureResource procedures(){
+        return new ProcedureResource();
+    }
 }

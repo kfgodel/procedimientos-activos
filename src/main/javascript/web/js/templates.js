@@ -308,6 +308,106 @@ Ember.TEMPLATES["procedures"] = Ember.HTMLBars.template((function() {
       }
     };
   }());
+  var child2 = (function() {
+    return {
+      isHTMLBars: true,
+      blockParams: 0,
+      cachedFragment: null,
+      hasRendered: false,
+      build: function build(dom) {
+        var el0 = dom.createDocumentFragment();
+        var el1 = dom.createTextNode("              ");
+        dom.appendChild(el0, el1);
+        var el1 = dom.createElement("tr");
+        var el2 = dom.createTextNode("\n                  ");
+        dom.appendChild(el1, el2);
+        var el2 = dom.createElement("td");
+        var el3 = dom.createElement("br");
+        dom.appendChild(el2, el3);
+        dom.appendChild(el1, el2);
+        var el2 = dom.createTextNode("\n              ");
+        dom.appendChild(el1, el2);
+        dom.appendChild(el0, el1);
+        var el1 = dom.createTextNode("\n");
+        dom.appendChild(el0, el1);
+        return el0;
+      },
+      render: function render(context, env, contextualElement) {
+        var dom = env.dom;
+        var hooks = env.hooks, content = hooks.content;
+        dom.detectNamespace(contextualElement);
+        var fragment;
+        if (env.useFragmentCache && dom.canClone) {
+          if (this.cachedFragment === null) {
+            fragment = this.build(dom);
+            if (this.hasRendered) {
+              this.cachedFragment = fragment;
+            } else {
+              this.hasRendered = true;
+            }
+          }
+          if (this.cachedFragment) {
+            fragment = dom.cloneNode(this.cachedFragment, true);
+          }
+        } else {
+          fragment = this.build(dom);
+        }
+        var element0 = dom.childAt(fragment, [1, 1]);
+        var morph0 = dom.createMorphAt(element0,-1,0);
+        var morph1 = dom.createMorphAt(element0,0,-1);
+        content(env, morph0, context, "procedure.name");
+        content(env, morph1, context, "procedure.description");
+        return fragment;
+      }
+    };
+  }());
+  var child3 = (function() {
+    return {
+      isHTMLBars: true,
+      blockParams: 0,
+      cachedFragment: null,
+      hasRendered: false,
+      build: function build(dom) {
+        var el0 = dom.createDocumentFragment();
+        var el1 = dom.createTextNode("              ");
+        dom.appendChild(el0, el1);
+        var el1 = dom.createElement("tr");
+        var el2 = dom.createTextNode("\n                  ");
+        dom.appendChild(el1, el2);
+        var el2 = dom.createElement("td");
+        var el3 = dom.createTextNode("No procedures yet");
+        dom.appendChild(el2, el3);
+        dom.appendChild(el1, el2);
+        var el2 = dom.createTextNode("\n              ");
+        dom.appendChild(el1, el2);
+        dom.appendChild(el0, el1);
+        var el1 = dom.createTextNode("\n");
+        dom.appendChild(el0, el1);
+        return el0;
+      },
+      render: function render(context, env, contextualElement) {
+        var dom = env.dom;
+        dom.detectNamespace(contextualElement);
+        var fragment;
+        if (env.useFragmentCache && dom.canClone) {
+          if (this.cachedFragment === null) {
+            fragment = this.build(dom);
+            if (this.hasRendered) {
+              this.cachedFragment = fragment;
+            } else {
+              this.hasRendered = true;
+            }
+          }
+          if (this.cachedFragment) {
+            fragment = dom.cloneNode(this.cachedFragment, true);
+          }
+        } else {
+          fragment = this.build(dom);
+        }
+        return fragment;
+      }
+    };
+  }());
   return {
     isHTMLBars: true,
     blockParams: 0,
@@ -372,55 +472,9 @@ Ember.TEMPLATES["procedures"] = Ember.HTMLBars.template((function() {
       var el4 = dom.createTextNode("\n          ");
       dom.appendChild(el3, el4);
       var el4 = dom.createElement("tbody");
-      var el5 = dom.createTextNode("\n          ");
+      var el5 = dom.createTextNode("\n");
       dom.appendChild(el4, el5);
-      var el5 = dom.createElement("tr");
-      var el6 = dom.createTextNode("\n              ");
-      dom.appendChild(el5, el6);
-      var el6 = dom.createElement("td");
-      var el7 = dom.createTextNode("Proceso 1");
-      dom.appendChild(el6, el7);
-      dom.appendChild(el5, el6);
-      var el6 = dom.createTextNode("\n          ");
-      dom.appendChild(el5, el6);
-      dom.appendChild(el4, el5);
-      var el5 = dom.createTextNode("\n          ");
-      dom.appendChild(el4, el5);
-      var el5 = dom.createElement("tr");
-      var el6 = dom.createTextNode("\n              ");
-      dom.appendChild(el5, el6);
-      var el6 = dom.createElement("td");
-      var el7 = dom.createTextNode("Proceso 2");
-      dom.appendChild(el6, el7);
-      dom.appendChild(el5, el6);
-      var el6 = dom.createTextNode("\n          ");
-      dom.appendChild(el5, el6);
-      dom.appendChild(el4, el5);
-      var el5 = dom.createTextNode("\n          ");
-      dom.appendChild(el4, el5);
-      var el5 = dom.createElement("tr");
-      var el6 = dom.createTextNode("\n              ");
-      dom.appendChild(el5, el6);
-      var el6 = dom.createElement("td");
-      var el7 = dom.createTextNode("Proceso 3");
-      dom.appendChild(el6, el7);
-      dom.appendChild(el5, el6);
-      var el6 = dom.createTextNode("\n          ");
-      dom.appendChild(el5, el6);
-      dom.appendChild(el4, el5);
-      var el5 = dom.createTextNode("\n          ");
-      dom.appendChild(el4, el5);
-      var el5 = dom.createElement("tr");
-      var el6 = dom.createTextNode("\n              ");
-      dom.appendChild(el5, el6);
-      var el6 = dom.createElement("td");
-      var el7 = dom.createTextNode("Proceso 4");
-      dom.appendChild(el6, el7);
-      dom.appendChild(el5, el6);
-      var el6 = dom.createTextNode("\n          ");
-      dom.appendChild(el5, el6);
-      dom.appendChild(el4, el5);
-      var el5 = dom.createTextNode("\n          ");
+      var el5 = dom.createTextNode("          ");
       dom.appendChild(el4, el5);
       dom.appendChild(el3, el4);
       var el4 = dom.createTextNode("\n      ");
@@ -443,7 +497,7 @@ Ember.TEMPLATES["procedures"] = Ember.HTMLBars.template((function() {
     },
     render: function render(context, env, contextualElement) {
       var dom = env.dom;
-      var hooks = env.hooks, block = hooks.block;
+      var hooks = env.hooks, block = hooks.block, get = hooks.get;
       dom.detectNamespace(contextualElement);
       var fragment;
       if (env.useFragmentCache && dom.canClone) {
@@ -461,11 +515,13 @@ Ember.TEMPLATES["procedures"] = Ember.HTMLBars.template((function() {
       } else {
         fragment = this.build(dom);
       }
-      var element0 = dom.childAt(fragment, [0, 1, 1, 1]);
-      var morph0 = dom.createMorphAt(dom.childAt(element0, [3]),-1,-1);
-      var morph1 = dom.createMorphAt(dom.childAt(element0, [7]),-1,-1);
+      var element1 = dom.childAt(fragment, [0, 1, 1, 1]);
+      var morph0 = dom.createMorphAt(dom.childAt(element1, [3]),-1,-1);
+      var morph1 = dom.createMorphAt(dom.childAt(element1, [7]),-1,-1);
+      var morph2 = dom.createMorphAt(dom.childAt(fragment, [2, 1, 1, 1]),0,1);
       block(env, morph0, context, "link-to", ["procedures"], {}, child0, null);
       block(env, morph1, context, "link-to", ["users"], {}, child1, null);
+      block(env, morph2, context, "each", [get(env, context, "model")], {"keyword": "procedure"}, child2, child3);
       return fragment;
     }
   };

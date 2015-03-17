@@ -15,18 +15,15 @@
     <section style="float: left">
       <table border="1">
           <tbody>
-          <tr>
-              <td>Proceso 1</td>
-          </tr>
-          <tr>
-              <td>Proceso 2</td>
-          </tr>
-          <tr>
-              <td>Proceso 3</td>
-          </tr>
-          <tr>
-              <td>Proceso 4</td>
-          </tr>
+          {{#each procedure in model }}
+              <tr>
+                  <td>{{procedure.name}}<br>{{procedure.description}}</td>
+              </tr>
+          {{else}}
+              <tr>
+                  <td>No procedures yet</td>
+              </tr>
+          {{/each}}
           </tbody>
       </table>
     </section>
