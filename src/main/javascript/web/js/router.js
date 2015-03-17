@@ -1,9 +1,12 @@
 App.Router.map(function() {
+
   this.route('login');
+
   this.resource('users', function(){
     this.route('edit', { path: "edit/:user_id" });
   });
-  this.route('otherPaths', { path: '/*missingPath' });
+
+  this.route('wrongPaths', { path: '/*wrongPath' });
 });
 
 App.IndexRoute = Ember.Route.extend({
