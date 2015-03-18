@@ -5,6 +5,7 @@ import web.api.resources.tos.EmberResponse;
 import web.api.resources.tos.ProcedureTo;
 
 import javax.ws.rs.GET;
+import javax.ws.rs.POST;
 import java.util.List;
 
 /**
@@ -12,6 +13,9 @@ import java.util.List;
  * Created by kfgodel on 17/03/15.
  */
 public class ProcedureResource {
+
+
+    private int nextId = 5;
 
     private List<ProcedureTo> procedures = Lists.newArrayList(
             ProcedureTo.create(1L, "Proceso 1", "Descripcion 1"),
@@ -24,4 +28,12 @@ public class ProcedureResource {
     public EmberResponse getAllProceduresUsers(){
         return EmberResponse.create("procedures", procedures);
     }
+
+    @POST
+    public EmberResponse createUser(){
+        ProcedureTo procedure = ProcedureTo.create((long) nextId++, "Procedimiento " + nextId, "Sin descripcion");
+        procedures.add(procedure);
+        return EmberResponse.create("procedure", procedure);
+    }
+
 }

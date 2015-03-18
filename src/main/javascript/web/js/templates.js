@@ -520,6 +520,30 @@ Ember.TEMPLATES["procedures"] = Ember.HTMLBars.template((function() {
       dom.setAttribute(el3,"border","1");
       var el4 = dom.createTextNode("\n          ");
       dom.appendChild(el3, el4);
+      var el4 = dom.createElement("thead");
+      var el5 = dom.createTextNode("\n            ");
+      dom.appendChild(el4, el5);
+      var el5 = dom.createElement("tr");
+      var el6 = dom.createTextNode("\n                ");
+      dom.appendChild(el5, el6);
+      var el6 = dom.createElement("td");
+      var el7 = dom.createTextNode("\n                    ");
+      dom.appendChild(el6, el7);
+      var el7 = dom.createElement("button");
+      var el8 = dom.createTextNode("\n                        Crear nuevo\n                    ");
+      dom.appendChild(el7, el8);
+      dom.appendChild(el6, el7);
+      var el7 = dom.createTextNode("\n                ");
+      dom.appendChild(el6, el7);
+      dom.appendChild(el5, el6);
+      var el6 = dom.createTextNode("\n            ");
+      dom.appendChild(el5, el6);
+      dom.appendChild(el4, el5);
+      var el5 = dom.createTextNode("\n          ");
+      dom.appendChild(el4, el5);
+      dom.appendChild(el3, el4);
+      var el4 = dom.createTextNode("\n          ");
+      dom.appendChild(el3, el4);
       var el4 = dom.createElement("tbody");
       var el5 = dom.createTextNode("\n");
       dom.appendChild(el4, el5);
@@ -541,7 +565,7 @@ Ember.TEMPLATES["procedures"] = Ember.HTMLBars.template((function() {
     },
     render: function render(context, env, contextualElement) {
       var dom = env.dom;
-      var hooks = env.hooks, block = hooks.block, get = hooks.get, content = hooks.content;
+      var hooks = env.hooks, block = hooks.block, element = hooks.element, get = hooks.get, content = hooks.content;
       dom.detectNamespace(contextualElement);
       var fragment;
       if (env.useFragmentCache && dom.canClone) {
@@ -561,12 +585,15 @@ Ember.TEMPLATES["procedures"] = Ember.HTMLBars.template((function() {
       }
       var element1 = dom.childAt(fragment, [0, 1, 1, 1]);
       var element2 = dom.childAt(fragment, [2]);
+      var element3 = dom.childAt(element2, [1, 1]);
+      var element4 = dom.childAt(element3, [1, 1, 1, 1]);
       var morph0 = dom.createMorphAt(dom.childAt(element1, [3]),-1,-1);
       var morph1 = dom.createMorphAt(dom.childAt(element1, [7]),-1,-1);
-      var morph2 = dom.createMorphAt(dom.childAt(element2, [1, 1, 1]),0,1);
+      var morph2 = dom.createMorphAt(dom.childAt(element3, [3]),0,1);
       var morph3 = dom.createMorphAt(element2,2,3);
       block(env, morph0, context, "link-to", ["procedures"], {}, child0, null);
       block(env, morph1, context, "link-to", ["users"], {}, child1, null);
+      element(env, element4, context, "action", ["createProcedure"], {});
       block(env, morph2, context, "each", [get(env, context, "model")], {"keyword": "procedure"}, child2, child3);
       content(env, morph3, context, "outlet");
       return fragment;
