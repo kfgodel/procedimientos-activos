@@ -8,6 +8,7 @@ App.Router.map(function() {
 
   this.resource('procedures', function () {
     this.route('view', {path: "view/:procedure_id"});
+    this.route('edit', {path: "edit/:procedure_id"});
   });
 
   this.route('wrongPaths', { path: '/*wrongPath' });
