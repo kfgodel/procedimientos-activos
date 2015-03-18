@@ -1,10 +1,11 @@
 package web.api.resources;
 
 import com.google.common.collect.Lists;
-import web.api.resources.tos.*;
+import web.api.resources.tos.EmberResponse;
+import web.api.resources.tos.ProcedureEditionTo;
+import web.api.resources.tos.ProcedureTo;
 
 import javax.ws.rs.*;
-import java.util.HashMap;
 import java.util.List;
 
 /**
@@ -14,9 +15,9 @@ import java.util.List;
 public class ProcedureResource {
 
 
-    private int nextId = 5;
+    private static int nextId = 5;
 
-    private List<ProcedureTo> procedures = Lists.newArrayList(
+    private static List<ProcedureTo> procedures = Lists.newArrayList(
             ProcedureTo.create(1L, "Proceso 1", "Descripcion 1"),
             ProcedureTo.create(2L, "Proceso 2", "Descripcion 2"),
             ProcedureTo.create(3L,"Proceso 3", "Descripcion 3"),
@@ -68,14 +69,15 @@ public class ProcedureResource {
     @DELETE
     @Path("/{procedureId}")
     public EmberResponse deleteUser(@PathParam("procedureId") Long procedureId){
+        ProcedureTo removedProcedure = null;
         for (int i = 0; i < procedures.size(); i++) {
             ProcedureTo procedure = procedures.get(i);
             if(procedure.getId().equals(procedureId)){
-                procedures.remove(i);
+                removedProcedure = procedures.remove(i);
                 break;
             }
         }
-        return EmberResponse.create("procedure", new HashMap<>());
+        return EmberResponse.create("procedure", removedProcedure);
     }
 
 }

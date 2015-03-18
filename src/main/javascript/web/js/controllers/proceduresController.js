@@ -3,6 +3,7 @@ App.ProceduresController = Ember.ArrayController.extend({
     createProcedure: function() {
       var newRecord = this.store.createRecord('procedure', {});
       newRecord.save();
+      this.transitionToRoute('procedures.edit', newRecord)
     }
   }
 });
