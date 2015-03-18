@@ -715,39 +715,6 @@ Ember.TEMPLATES["procedures/edit"] = Ember.HTMLBars.template((function() {
 }()));
 
 Ember.TEMPLATES["procedures/view"] = Ember.HTMLBars.template((function() {
-  var child0 = (function() {
-    return {
-      isHTMLBars: true,
-      blockParams: 0,
-      cachedFragment: null,
-      hasRendered: false,
-      build: function build(dom) {
-        var el0 = dom.createTextNode("Editar");
-        return el0;
-      },
-      render: function render(context, env, contextualElement) {
-        var dom = env.dom;
-        dom.detectNamespace(contextualElement);
-        var fragment;
-        if (env.useFragmentCache && dom.canClone) {
-          if (this.cachedFragment === null) {
-            fragment = this.build(dom);
-            if (this.hasRendered) {
-              this.cachedFragment = fragment;
-            } else {
-              this.hasRendered = true;
-            }
-          }
-          if (this.cachedFragment) {
-            fragment = dom.cloneNode(this.cachedFragment, true);
-          }
-        } else {
-          fragment = this.build(dom);
-        }
-        return fragment;
-      }
-    };
-  }());
   return {
     isHTMLBars: true,
     blockParams: 0,
@@ -760,6 +727,18 @@ Ember.TEMPLATES["procedures/view"] = Ember.HTMLBars.template((function() {
       var el2 = dom.createTextNode("\n    ");
       dom.appendChild(el1, el2);
       var el2 = dom.createTextNode(" - ");
+      dom.appendChild(el1, el2);
+      var el2 = dom.createElement("button");
+      var el3 = dom.createTextNode("Editar");
+      dom.appendChild(el2, el3);
+      dom.appendChild(el1, el2);
+      var el2 = dom.createTextNode(" - ");
+      dom.appendChild(el1, el2);
+      var el2 = dom.createElement("button");
+      var el3 = dom.createTextNode("Borrar");
+      dom.appendChild(el2, el3);
+      dom.appendChild(el1, el2);
+      var el2 = dom.createTextNode("\n    ");
       dom.appendChild(el1, el2);
       var el2 = dom.createElement("br");
       dom.appendChild(el1, el2);
@@ -774,7 +753,7 @@ Ember.TEMPLATES["procedures/view"] = Ember.HTMLBars.template((function() {
     },
     render: function render(context, env, contextualElement) {
       var dom = env.dom;
-      var hooks = env.hooks, content = hooks.content, get = hooks.get, block = hooks.block;
+      var hooks = env.hooks, content = hooks.content, get = hooks.get, element = hooks.element;
       dom.detectNamespace(contextualElement);
       var fragment;
       if (env.useFragmentCache && dom.canClone) {
@@ -793,12 +772,14 @@ Ember.TEMPLATES["procedures/view"] = Ember.HTMLBars.template((function() {
         fragment = this.build(dom);
       }
       var element0 = dom.childAt(fragment, [0]);
+      var element1 = dom.childAt(element0, [2]);
+      var element2 = dom.childAt(element0, [4]);
       var morph0 = dom.createMorphAt(element0,0,1);
-      var morph1 = dom.createMorphAt(element0,1,2);
-      var morph2 = dom.createMorphAt(element0,3,4);
+      var morph1 = dom.createMorphAt(element0,7,8);
       content(env, morph0, context, "name");
-      block(env, morph1, context, "link-to", ["procedures.edit", get(env, context, "model")], {}, child0, null);
-      content(env, morph2, context, "description");
+      element(env, element1, context, "action", ["editProcedure", get(env, context, "model")], {});
+      element(env, element2, context, "action", ["deleteProcedure", get(env, context, "model")], {});
+      content(env, morph1, context, "description");
       return fragment;
     }
   };
