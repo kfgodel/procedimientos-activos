@@ -10,9 +10,23 @@ import javax.ws.rs.Path;
  */
 @Path("/api/v1")
 public class ApiV1Root {
-    
+
+    private UserResource users;
+    private ProcedureResource procedures;
+
     @Path("/users")
     public UserResource users(){
-        return new UserResource();
+        if (users == null) {
+            users = new UserResource();
+        }
+        return users;
+    }
+
+    @Path("/procedures")
+    public ProcedureResource procedures(){
+        if (procedures == null) {
+            procedures = new ProcedureResource();
+        }
+        return procedures;
     }
 }

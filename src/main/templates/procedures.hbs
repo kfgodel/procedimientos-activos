@@ -1,0 +1,45 @@
+<div>
+    <table border="1">
+        <thead>
+        <tr>
+            <th>Inicio</th>
+            <th>{{#link-to 'procedures'}}Procesos{{/link-to}}</th>
+            <th>Labores</th>
+            <th>{{#link-to 'users'}}Usuarios{{/link-to}}</th>
+        </tr>
+        </thead>
+    </table>
+</div>
+
+<div>
+    <section style="float: left">
+      <table border="1">
+          <thead>
+            <tr>
+                <td>
+                    <button {{action "createProcedure"}}>
+                        Crear nuevo
+                    </button>
+                </td>
+            </tr>
+          </thead>
+          <tbody>
+          {{#each procedure in model }}
+              <tr>
+                  <td>
+                      {{#link-to 'procedures.view' procedure}}{{procedure.name}}{{/link-to}}
+                    <br>
+                    {{procedure.description}}
+                  </td>
+              </tr>
+          {{else}}
+              <tr>
+                  <td>No procedures yet</td>
+              </tr>
+          {{/each}}
+          </tbody>
+      </table>
+    </section>
+
+    {{outlet}}
+</div>

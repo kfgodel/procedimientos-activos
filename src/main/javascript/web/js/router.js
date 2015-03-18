@@ -6,12 +6,17 @@ App.Router.map(function() {
     this.route('edit', { path: "edit/:user_id" });
   });
 
+  this.resource('procedures', function () {
+    this.route('view', {path: "view/:procedure_id"});
+    this.route('edit', {path: "edit/:procedure_id"});
+  });
+
   this.route('wrongPaths', { path: '/*wrongPath' });
 });
 
 App.IndexRoute = Ember.Route.extend({
   beforeModel: function() {
-    this.transitionTo('users');
+    this.transitionTo('procedures');
   }
 });
 
@@ -35,7 +40,20 @@ App.UsersRoute = Ember.Route.extend({
 });
 
 App.UsersEditRoute = Ember.Route.extend({
+  beforeModel: function(transition) {
+    var loginController = this.controllerFor('login');
+    if (!loginController.get('authenticated')) {
+      loginController.set('previousTransition', transition);
+      this.transitionTo('login');
+    }
+  },
   model: function(params){
     return this.store.findById('user', params.user_id);
+  }
+});
+
+App.ProceduresRoute = Ember.Route.extend({
+  model: function(){
+    return this.store.find('procedure');
   }
 });

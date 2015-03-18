@@ -7,7 +7,6 @@ import web.api.resources.tos.UserEditionTo;
 import web.api.resources.tos.UserTo;
 
 import javax.ws.rs.*;
-import java.util.HashMap;
 import java.util.List;
 
 /**
@@ -66,14 +65,15 @@ public class UserResource {
     @DELETE
     @Path("/{userId}")
     public EmberResponse deleteUser(@PathParam("userId") Long userId){
+        UserTo removedUser = null;
         for (int i = 0; i < users.size(); i++) {
             UserTo user = users.get(i);
             if(user.getId().equals(userId)){
-                users.remove(i);
+                removedUser = users.remove(i);
                 break;
             }
         }
-        return EmberResponse.create("user", new HashMap<>());
+        return EmberResponse.create("user", removedUser);
     }
 
     @POST
