@@ -1,5 +1,6 @@
 package web.api.resources;
 
+import ar.com.tenpines.html5poc.Application;
 import com.google.common.collect.Lists;
 import web.api.resources.tos.EmberResponse;
 import web.api.resources.tos.UserCredentialsTo;
@@ -14,6 +15,8 @@ import java.util.List;
  * Created by kfgodel on 03/03/15.
  */
 public class UserResource {
+
+    private Application application;
 
     private static int nextId = 3;
     private static List<UserTo> users = Lists.newArrayList(
@@ -86,4 +89,11 @@ public class UserResource {
         }
         throw new WebApplicationException("Invalid credentials", 401);
     }
+
+    public static UserResource create(Application application) {
+        UserResource resource = new UserResource();
+        resource.application = application;
+        return resource;
+    }
+
 }

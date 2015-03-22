@@ -1,5 +1,6 @@
 package web.api.resources;
 
+import ar.com.tenpines.html5poc.Application;
 import com.google.common.collect.Lists;
 import web.api.resources.tos.EmberResponse;
 import web.api.resources.tos.ProcedureEditionTo;
@@ -14,6 +15,7 @@ import java.util.List;
  */
 public class ProcedureResource {
 
+    private Application application;
 
     private static int nextId = 5;
 
@@ -78,6 +80,12 @@ public class ProcedureResource {
             }
         }
         return EmberResponse.create("procedure", removedProcedure);
+    }
+
+    public static ProcedureResource create(Application application) {
+        ProcedureResource resource = new ProcedureResource();
+        resource.application = application;
+        return resource;
     }
 
 }

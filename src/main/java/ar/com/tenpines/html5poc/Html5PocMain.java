@@ -1,8 +1,5 @@
 package ar.com.tenpines.html5poc;
 
-import ar.com.kfgodel.webbyconvention.DefaultConfiguration;
-import ar.com.kfgodel.webbyconvention.WebServer;
-
 /**
  * Este tipo es el punto de entrada de la aplicación
  *  
@@ -10,9 +7,8 @@ import ar.com.kfgodel.webbyconvention.WebServer;
  */
 public class Html5PocMain {
     
-    public static void main(String[] args) throws Exception {
-        WebServer.createFor(DefaultConfiguration.create().listeningHttpOn(9090))
-                .startAndJoin();
+    public static void main(String[] args) {
+        Application.create().start();
     }
 
 }
