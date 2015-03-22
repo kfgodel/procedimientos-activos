@@ -59,7 +59,7 @@ public class Application {
 
     private HibernateOrm createPersistenceLayer() {
         DbCoordinates dbCoordinates = ImmutableCoordinates.create(HSQLDialect.class, "jdbc:hsqldb:mem:testdb", "sa", "");
-        HibernateOrm hibernateOrm = HibernateFacade.create(SmallAppPreConfig.create(dbCoordinates, "ar.com.tenpines.prohibernate.entities"));
+        HibernateOrm hibernateOrm = HibernateFacade.create(SmallAppPreConfig.create(dbCoordinates, "ar.com.tenpines.html5poc.persistent"));
         return hibernateOrm;
     }
 
