@@ -246,6 +246,19 @@
         <scope>provided</scope>
     </dependency>
 
+    <!-- Programmatic hibernate -->
+    <dependency>
+        <groupId>ar.com.tenpines</groupId>
+        <artifactId>ateam-hibernate</artifactId>
+        <version>0.1-SNAPSHOT</version>
+    </dependency>
+
+    <!-- In file database -->
+    <dependency>
+        <groupId>org.hsqldb</groupId>
+        <artifactId>hsqldb</artifactId>
+        <version>2.3.2</version>
+    </dependency>
 
         <!-- Logging -->
     <dependency>
