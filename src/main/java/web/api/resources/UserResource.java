@@ -5,7 +5,6 @@ import ar.com.tenpines.html5poc.persistent.Usuario;
 import com.google.common.collect.Lists;
 import web.api.resources.tos.EmberResponse;
 import web.api.resources.tos.UserCredentialsTo;
-import web.api.resources.tos.UserEditionTo;
 import web.api.resources.tos.UserTo;
 
 import javax.ws.rs.*;
@@ -26,7 +25,7 @@ public class UserResource {
             UserTo.create(2L, "AdminTerminator", "admin", "1234"));
 
     @GET
-    public EmberResponse getAllUsers(){
+    public List<UserTo> getAllUsers(){
         List<Usuario> usuarios = application.getHibernate().doWithSession((context) ->
                         context.getSession().createCriteria(Usuario.class).list()
         );
@@ -37,7 +36,7 @@ public class UserResource {
             userTos.add(userTo);
         }
 
-        return EmberResponse.create("users", userTos);
+        return userTos;
     }
 
     private UserTo createTo(Usuario usuario) {
@@ -45,20 +44,20 @@ public class UserResource {
     }
 
     @POST
-    public EmberResponse createUser(){
+    public UserTo createUser(){
         Usuario nuevoUsuario = Usuario.create("Sin nombre", "", "");
 
         application.getHibernate().doInTransaction((context)-> context.getSession().save(nuevoUsuario));
 
-        return EmberResponse.create("user", createTo(nuevoUsuario));
+        return createTo(nuevoUsuario);
     }
 
     @GET
     @Path("/{userId}")
-    public EmberResponse getSingleUser(@PathParam("userId") Long userId){
+    public UserTo getSingleUser(@PathParam("userId") Long userId){
         Usuario usuario = application.getHibernate().doWithSession(context -> (Usuario)context.getSession().get(Usuario.class, userId));
         if(usuario != null){
-            return EmberResponse.create("user", createTo(usuario));
+            return createTo(usuario);
         }
         throw new WebApplicationException("user not found", 404);
     }
@@ -66,9 +65,7 @@ public class UserResource {
 
     @PUT
     @Path("/{userId}")
-    public EmberResponse editUser(UserEditionTo edition, @PathParam("userId") Long userId){
-        UserTo newUserState = edition.getUser();
-
+    public UserTo editUser(UserTo newUserState, @PathParam("userId") Long userId){
         Usuario usuario = application.getHibernate().doInTransaction(context -> {
             Usuario usuarioEditado = (Usuario) context.getSession().get(Usuario.class, userId);
             if (usuarioEditado == null) {
@@ -82,19 +79,19 @@ public class UserResource {
         });
 
 
-        return EmberResponse.create("user", createTo(usuario));
+        return createTo(usuario);
     }
 
     @DELETE
     @Path("/{userId}")
-    public EmberResponse deleteUser(@PathParam("userId") Long userId){
+    public UserTo deleteUser(@PathParam("userId") Long userId){
         Usuario usuarioBorrado = application.getHibernate().doInTransaction((context)-> {
             Usuario usuario = (Usuario) context.getSession().get(Usuario.class, userId);
             context.getSession().delete(usuario);
             return usuario;
         });
 
-        return EmberResponse.create("user", createTo(usuarioBorrado));
+        return createTo(usuarioBorrado);
     }
 
     @POST
