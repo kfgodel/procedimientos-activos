@@ -42,4 +42,13 @@ public class Usuario extends PersistibleSupport {
     public void setPassword(String password) {
         this.password = password;
     }
+
+    public static Usuario create(String name, String login, String password) {
+        Usuario usuario = new Usuario();
+        usuario.setName(name);
+        usuario.setLogin(login);
+        usuario.setPassword(password);
+        return usuario;
+    }
+
 }

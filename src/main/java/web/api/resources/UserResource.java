@@ -1,6 +1,7 @@
 package web.api.resources;
 
 import ar.com.tenpines.html5poc.Application;
+import ar.com.tenpines.html5poc.persistent.Usuario;
 import com.google.common.collect.Lists;
 import web.api.resources.tos.EmberResponse;
 import web.api.resources.tos.UserCredentialsTo;
@@ -8,6 +9,7 @@ import web.api.resources.tos.UserEditionTo;
 import web.api.resources.tos.UserTo;
 
 import javax.ws.rs.*;
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -25,24 +27,38 @@ public class UserResource {
 
     @GET
     public EmberResponse getAllUsers(){
-        return EmberResponse.create("users", users);
+        List<Usuario> usuarios = application.getHibernate().doWithSession((context) ->
+                        context.getSession().createCriteria(Usuario.class).list()
+        );
+
+        List<UserTo> userTos = new ArrayList<>(usuarios.size());
+        for (Usuario usuario : usuarios) {
+            UserTo userTo = createTo(usuario);
+            userTos.add(userTo);
+        }
+
+        return EmberResponse.create("users", userTos);
+    }
+
+    private UserTo createTo(Usuario usuario) {
+        return UserTo.create(usuario.getId(), usuario.getName(), usuario.getLogin(), usuario.getPassword());
     }
 
     @POST
     public EmberResponse createUser(){
-        UserTo newUser = UserTo.create((long) nextId++, "Sin nombre " + nextId, "", "");
-        users.add(newUser);
-        return EmberResponse.create("user", newUser);
+        Usuario nuevoUsuario = Usuario.create("Sin nombre", "", "");
+
+        application.getHibernate().doInTransaction((context)-> context.getSession().save(nuevoUsuario));
+
+        return EmberResponse.create("user", createTo(nuevoUsuario));
     }
 
     @GET
     @Path("/{userId}")
     public EmberResponse getSingleUser(@PathParam("userId") Long userId){
-        for (int i = 0; i < users.size(); i++) {
-            UserTo user = users.get(i);
-            if(user.getId().equals(userId)){
-                return EmberResponse.create("user", user);
-            }
+        Usuario usuario = application.getHibernate().doWithSession(context -> (Usuario)context.getSession().get(Usuario.class, userId));
+        if(usuario != null){
+            return EmberResponse.create("user", createTo(usuario));
         }
         throw new WebApplicationException("user not found", 404);
     }
@@ -53,39 +69,39 @@ public class UserResource {
     public EmberResponse editUser(UserEditionTo edition, @PathParam("userId") Long userId){
         UserTo newUserState = edition.getUser();
 
-        for (int i = 0; i < users.size(); i++) {
-            UserTo user = users.get(i);
-            if(user.getId().equals(userId)){
-                newUserState.setId(userId);
-                users.set(i, newUserState);
-                break;
+        Usuario usuario = application.getHibernate().doInTransaction(context -> {
+            Usuario usuarioEditado = (Usuario) context.getSession().get(Usuario.class, userId);
+            if (usuarioEditado == null) {
+                throw new WebApplicationException("user not found", 404);
             }
-        }
+            usuarioEditado.setPassword(newUserState.getPassword());
+            usuarioEditado.setLogin(newUserState.getLogin());
+            usuarioEditado.setName(newUserState.getName());
+            context.getSession().saveOrUpdate(usuarioEditado);
+            return usuarioEditado;
+        });
 
-        return EmberResponse.create("user", newUserState);
+
+        return EmberResponse.create("user", createTo(usuario));
     }
 
     @DELETE
     @Path("/{userId}")
     public EmberResponse deleteUser(@PathParam("userId") Long userId){
-        UserTo removedUser = null;
-        for (int i = 0; i < users.size(); i++) {
-            UserTo user = users.get(i);
-            if(user.getId().equals(userId)){
-                removedUser = users.remove(i);
-                break;
-            }
-        }
-        return EmberResponse.create("user", removedUser);
+        Usuario usuarioBorrado = application.getHibernate().doInTransaction((context)-> {
+            Usuario usuario = (Usuario) context.getSession().get(Usuario.class, userId);
+            context.getSession().delete(usuario);
+            return usuario;
+        });
+
+        return EmberResponse.create("user", createTo(usuarioBorrado));
     }
 
     @POST
     @Path("/login")
     public EmberResponse login(UserCredentialsTo credentials){
-        for (UserTo user : users) {
-            if(user.getLogin().equals(credentials.getLogin()) && user.getPassword().equals(credentials.getPassword())){
-                return EmberResponse.create("user", user);
-            }
+        if(credentials.getLogin().equals("pepe") && credentials.getPassword().equals("1234")){
+            return EmberResponse.create("user", UserTo.create(0L,"admin","pepe","1234"));
         }
         throw new WebApplicationException("Invalid credentials", 401);
     }

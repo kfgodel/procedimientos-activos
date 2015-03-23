@@ -24,6 +24,14 @@ public class Application {
     private WebServer webServer;
     private HibernateOrm hibernate;
 
+    public WebServer getWebServer() {
+        return webServer;
+    }
+
+    public HibernateOrm getHibernate() {
+        return hibernate;
+    }
+
     public static Application create() {
         Application application = new Application();
         return application;
