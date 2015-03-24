@@ -66,7 +66,8 @@ public class Application {
     }
 
     private HibernateOrm createPersistenceLayer() {
-        DbCoordinates dbCoordinates = ImmutableCoordinates.create(HSQLDialect.class, "jdbc:hsqldb:mem:testdb", "sa", "");
+        String closeAfterLastConnection = "shutdown=true";
+        DbCoordinates dbCoordinates = ImmutableCoordinates.create(HSQLDialect.class, "jdbc:hsqldb:file:db/hsql;" + closeAfterLastConnection, "sa", "");
         HibernateOrm hibernateOrm = HibernateFacade.create(SmallAppPreConfig.create(dbCoordinates, "ar.com.tenpines.html5poc.persistent"));
         return hibernateOrm;
     }
