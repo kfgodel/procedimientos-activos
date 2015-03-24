@@ -2,7 +2,6 @@ package web.api.resources;
 
 import ar.com.tenpines.html5poc.Application;
 import ar.com.tenpines.html5poc.persistent.Usuario;
-import com.google.common.collect.Lists;
 import web.api.resources.tos.UserCredentialsTo;
 import web.api.resources.tos.UserTo;
 
@@ -17,11 +16,6 @@ import java.util.List;
 public class UserResource {
 
     private Application application;
-
-    private static int nextId = 3;
-    private static List<UserTo> users = Lists.newArrayList(
-            UserTo.create(1L, "Pepito Gonzola", "pepe", "1234"),
-            UserTo.create(2L, "AdminTerminator", "admin", "1234"));
 
     @GET
     public List<UserTo> getAllUsers(){
@@ -70,15 +64,19 @@ public class UserResource {
             if (usuarioEditado == null) {
                 throw new WebApplicationException("user not found", 404);
             }
-            usuarioEditado.setPassword(newUserState.getPassword());
-            usuarioEditado.setLogin(newUserState.getLogin());
-            usuarioEditado.setName(newUserState.getName());
+            updateFromTo(newUserState, usuarioEditado);
             context.getSession().saveOrUpdate(usuarioEditado);
             return usuarioEditado;
         });
 
 
         return createTo(usuario);
+    }
+
+    private void updateFromTo(UserTo newUserState, Usuario usuarioEditado) {
+        usuarioEditado.setPassword(newUserState.getPassword());
+        usuarioEditado.setLogin(newUserState.getLogin());
+        usuarioEditado.setName(newUserState.getName());
     }
 
     @DELETE
