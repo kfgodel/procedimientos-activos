@@ -2,8 +2,6 @@ package web.api.resources;
 
 import ar.com.tenpines.html5poc.Application;
 import com.google.common.collect.Lists;
-import web.api.resources.tos.EmberResponse;
-import web.api.resources.tos.ProcedureEditionTo;
 import web.api.resources.tos.ProcedureTo;
 
 import javax.ws.rs.*;
@@ -27,24 +25,24 @@ public class ProcedureResource {
     );
 
     @GET
-    public EmberResponse getAllProceduresUsers(){
-        return EmberResponse.create("procedures", procedures);
+    public List<ProcedureTo> getAllProceduresUsers(){
+        return procedures;
     }
 
     @POST
-    public EmberResponse createUser(){
+    public ProcedureTo createUser(){
         ProcedureTo procedure = ProcedureTo.create((long) nextId++, "Procedimiento " + nextId, "Sin descripcion");
         procedures.add(procedure);
-        return EmberResponse.create("procedure", procedure);
+        return procedure;
     }
 
     @GET
     @Path("/{procedureId}")
-    public EmberResponse getSingleProcedure(@PathParam("procedureId") Long procedureId){
+    public ProcedureTo getSingleProcedure(@PathParam("procedureId") Long procedureId){
         for (int i = 0; i < procedures.size(); i++) {
             ProcedureTo user = procedures.get(i);
             if(user.getId().equals(procedureId)){
-                return EmberResponse.create("procedure", user);
+                return user;
             }
         }
         throw new WebApplicationException("procedure not found", 404);
@@ -53,9 +51,7 @@ public class ProcedureResource {
 
     @PUT
     @Path("/{procedureId}")
-    public EmberResponse editUser(ProcedureEditionTo edition, @PathParam("procedureId") Long procedureId){
-        ProcedureTo editedProcedure = edition.getProcedure();
-
+    public ProcedureTo editUser(ProcedureTo editedProcedure, @PathParam("procedureId") Long procedureId){
         for (int i = 0; i < procedures.size(); i++) {
             ProcedureTo user = procedures.get(i);
             if(user.getId().equals(procedureId)){
@@ -65,12 +61,12 @@ public class ProcedureResource {
             }
         }
 
-        return EmberResponse.create("procedure", editedProcedure);
+        return editedProcedure;
     }
 
     @DELETE
     @Path("/{procedureId}")
-    public EmberResponse deleteUser(@PathParam("procedureId") Long procedureId){
+    public ProcedureTo deleteUser(@PathParam("procedureId") Long procedureId){
         ProcedureTo removedProcedure = null;
         for (int i = 0; i < procedures.size(); i++) {
             ProcedureTo procedure = procedures.get(i);
@@ -79,7 +75,7 @@ public class ProcedureResource {
                 break;
             }
         }
-        return EmberResponse.create("procedure", removedProcedure);
+        return removedProcedure;
     }
 
     public static ProcedureResource create(Application application) {

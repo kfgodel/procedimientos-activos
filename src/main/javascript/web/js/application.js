@@ -24,7 +24,7 @@ App.ApplicationSerializer = DS.RESTSerializer.extend({
   },
   serializeIntoHash: function(hash, type, snapshot, options) {
     var serialized = this.serialize(snapshot, options);
-    serialized["id"] = snapshot.get("id");
+    serialized["id"] = snapshot.id;
     Ember.$.extend(hash, serialized);
   }
 });

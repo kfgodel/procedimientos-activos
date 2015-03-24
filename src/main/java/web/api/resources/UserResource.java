@@ -3,7 +3,6 @@ package web.api.resources;
 import ar.com.tenpines.html5poc.Application;
 import ar.com.tenpines.html5poc.persistent.Usuario;
 import com.google.common.collect.Lists;
-import web.api.resources.tos.EmberResponse;
 import web.api.resources.tos.UserCredentialsTo;
 import web.api.resources.tos.UserTo;
 
@@ -96,9 +95,9 @@ public class UserResource {
 
     @POST
     @Path("/login")
-    public EmberResponse login(UserCredentialsTo credentials){
+    public UserTo login(UserCredentialsTo credentials){
         if(credentials.getLogin().equals("pepe") && credentials.getPassword().equals("1234")){
-            return EmberResponse.create("user", UserTo.create(0L,"admin","pepe","1234"));
+            return UserTo.create(0L,"admin","pepe","1234");
         }
         throw new WebApplicationException("Invalid credentials", 401);
     }

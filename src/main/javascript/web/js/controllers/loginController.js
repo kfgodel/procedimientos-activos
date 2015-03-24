@@ -12,7 +12,7 @@ App.LoginController = Ember.Controller.extend({
         dataType:"json"
       }).then(
         function(response) {
-          self.set('authenticated', response.user);
+          self.set('authenticated', response);
 
           // Continue with previous transition if any
           var previousTransition = self.get('previousTransition');
