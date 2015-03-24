@@ -33,9 +33,12 @@
         <version.assertj>1.6.1</version.assertj>
         <version.mockito>1.9.5</version.mockito>
         <version.javaspec>2.0</version.javaspec>
-        <version.jetty>9.2.7.v20150116</version.jetty>
-        <version.jersey>2.16</version.jersey>
 
+        <version.webbyconvention>0.2-SNAPSHOT</version.webbyconvention>
+        <version.wrapper>3.5.25</version.wrapper>
+        <version.ateamhibernate>0.1-SNAPSHOT</version.ateamhibernate>
+        <version.hsqldb>2.3.2</version.hsqldb>
+        <version.execontainer>0.2-SNAPSHOT</version.execontainer>
     </properties>
 
 
@@ -87,7 +90,7 @@
                                 <artifactItem>
                                     <groupId>ar.com.kfgodel</groupId>
                                     <artifactId>executable-container</artifactId>
-                                    <version>0.1</version>
+                                    <version>${version.execontainer}</version>
                                     <type>zip</type>
                                     <overWrite>true</overWrite>
                                     <outputDirectory>target/unpacked</outputDirectory>
@@ -162,6 +165,8 @@
                         </filter>
                     </filters>
                     <transformers>
+                        <transformer implementation="org.apache.maven.plugins.shade.resource.ServicesResourceTransformer"/>
+                        <transformer implementation="org.apache.maven.plugins.shade.resource.ComponentsXmlResourceTransformer"/>
                         <transformer implementation="org.apache.maven.plugins.shade.resource.AppendingTransformer">
                             <resource>META-INF/spring.handlers</resource>
                         </transformer>
@@ -171,7 +176,6 @@
                         <transformer implementation="org.apache.maven.plugins.shade.resource.AppendingTransformer">
                             <resource>META-INF/spring.tooling</resource>
                         </transformer>
-                        <transformer implementation="org.apache.maven.plugins.shade.resource.ServicesResourceTransformer"/>
                     </transformers>
                 </configuration>
             </plugin>
@@ -235,14 +239,14 @@
     <dependency>
         <groupId>ar.com.kfgodel</groupId>
         <artifactId>web-by-convention</artifactId>
-        <version>0.2-SNAPSHOT</version>
+        <version>${version.webbyconvention}</version>
     </dependency>
 
     <!-- Communication classes to manage executable host container -->
     <dependency>
         <groupId>org.tanukisoftware</groupId>
         <artifactId>wrapper</artifactId>
-        <version>3.5.25</version>
+        <version>${version.wrapper}</version>
         <scope>provided</scope>
     </dependency>
 
@@ -250,14 +254,14 @@
     <dependency>
         <groupId>ar.com.tenpines</groupId>
         <artifactId>ateam-hibernate</artifactId>
-        <version>0.1-SNAPSHOT</version>
+        <version>${version.ateamhibernate}</version>
     </dependency>
 
     <!-- In file database -->
     <dependency>
         <groupId>org.hsqldb</groupId>
         <artifactId>hsqldb</artifactId>
-        <version>2.3.2</version>
+        <version>${version.hsqldb}</version>
     </dependency>
 
         <!-- Logging -->
