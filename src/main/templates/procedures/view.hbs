@@ -1,5 +1,5 @@
 <section style="float: left">
     {{name}} - <button {{action "editProcedure" model}}>Editar</button> - <button {{action "deleteProcedure" model}}>Borrar</button>
     <br>
-    {{description}}
+    {{markdown-view value=description}}
 </section>

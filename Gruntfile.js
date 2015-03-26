@@ -81,7 +81,8 @@ module.exports = function(grunt) {
                       src: [
                           'jquery/dist/jquery.js',
                           'ember/ember.debug.js',
-                          'ember-data/ember-data.js'
+                          'ember-data/ember-data.js',
+                          'marked/lib/marked.js'
                       ],
                       dest: 'src/main/javascript/web/bower_components/'
                   }

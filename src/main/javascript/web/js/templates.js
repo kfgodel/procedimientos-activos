@@ -139,6 +139,48 @@ Ember.TEMPLATES["components/labeled-label"] = Ember.HTMLBars.template((function(
   };
 }()));
 
+Ember.TEMPLATES["components/markdown-view"] = Ember.HTMLBars.template((function() {
+  return {
+    isHTMLBars: true,
+    blockParams: 0,
+    cachedFragment: null,
+    hasRendered: false,
+    build: function build(dom) {
+      var el0 = dom.createDocumentFragment();
+      var el1 = dom.createTextNode("");
+      dom.appendChild(el0, el1);
+      var el1 = dom.createTextNode("");
+      dom.appendChild(el0, el1);
+      return el0;
+    },
+    render: function render(context, env, contextualElement) {
+      var dom = env.dom;
+      var hooks = env.hooks, get = hooks.get, inline = hooks.inline;
+      dom.detectNamespace(contextualElement);
+      var fragment;
+      if (env.useFragmentCache && dom.canClone) {
+        if (this.cachedFragment === null) {
+          fragment = this.build(dom);
+          if (this.hasRendered) {
+            this.cachedFragment = fragment;
+          } else {
+            this.hasRendered = true;
+          }
+        }
+        if (this.cachedFragment) {
+          fragment = dom.cloneNode(this.cachedFragment, true);
+        }
+      } else {
+        fragment = this.build(dom);
+      }
+      if (this.cachedFragment) { dom.repairClonedNode(fragment,[0,1]); }
+      var morph0 = dom.createMorphAt(fragment,0,1,contextualElement);
+      inline(env, morph0, context, "markdown2html", [get(env, context, "value")], {});
+      return fragment;
+    }
+  };
+}()));
+
 Ember.TEMPLATES["loading"] = Ember.HTMLBars.template((function() {
   return {
     isHTMLBars: true,
@@ -411,12 +453,6 @@ Ember.TEMPLATES["procedures"] = Ember.HTMLBars.template((function() {
         var el2 = dom.createElement("td");
         var el3 = dom.createTextNode("\n                      ");
         dom.appendChild(el2, el3);
-        var el3 = dom.createTextNode("\n                    ");
-        dom.appendChild(el2, el3);
-        var el3 = dom.createElement("br");
-        dom.appendChild(el2, el3);
-        var el3 = dom.createTextNode("\n                    ");
-        dom.appendChild(el2, el3);
         var el3 = dom.createTextNode("\n                  ");
         dom.appendChild(el2, el3);
         dom.appendChild(el1, el2);
@@ -429,7 +465,7 @@ Ember.TEMPLATES["procedures"] = Ember.HTMLBars.template((function() {
       },
       render: function render(context, env, contextualElement) {
         var dom = env.dom;
-        var hooks = env.hooks, get = hooks.get, block = hooks.block, content = hooks.content;
+        var hooks = env.hooks, get = hooks.get, block = hooks.block;
         dom.detectNamespace(contextualElement);
         var fragment;
         if (env.useFragmentCache && dom.canClone) {
@@ -447,11 +483,8 @@ Ember.TEMPLATES["procedures"] = Ember.HTMLBars.template((function() {
         } else {
           fragment = this.build(dom);
         }
-        var element0 = dom.childAt(fragment, [1, 1]);
-        var morph0 = dom.createMorphAt(element0,0,1);
-        var morph1 = dom.createMorphAt(element0,3,4);
+        var morph0 = dom.createMorphAt(dom.childAt(fragment, [1, 1]),0,1);
         block(env, morph0, context, "link-to", ["procedures.view", get(env, context, "procedure")], {}, child0, null);
-        content(env, morph1, context, "procedure.description");
         return fragment;
       }
     };
@@ -629,17 +662,17 @@ Ember.TEMPLATES["procedures"] = Ember.HTMLBars.template((function() {
       } else {
         fragment = this.build(dom);
       }
-      var element1 = dom.childAt(fragment, [0, 1, 1, 1]);
-      var element2 = dom.childAt(fragment, [2]);
-      var element3 = dom.childAt(element2, [1, 1]);
-      var element4 = dom.childAt(element3, [1, 1, 1, 1]);
-      var morph0 = dom.createMorphAt(dom.childAt(element1, [3]),-1,-1);
-      var morph1 = dom.createMorphAt(dom.childAt(element1, [7]),-1,-1);
-      var morph2 = dom.createMorphAt(dom.childAt(element3, [3]),0,1);
-      var morph3 = dom.createMorphAt(element2,2,3);
+      var element0 = dom.childAt(fragment, [0, 1, 1, 1]);
+      var element1 = dom.childAt(fragment, [2]);
+      var element2 = dom.childAt(element1, [1, 1]);
+      var element3 = dom.childAt(element2, [1, 1, 1, 1]);
+      var morph0 = dom.createMorphAt(dom.childAt(element0, [3]),-1,-1);
+      var morph1 = dom.createMorphAt(dom.childAt(element0, [7]),-1,-1);
+      var morph2 = dom.createMorphAt(dom.childAt(element2, [3]),0,1);
+      var morph3 = dom.createMorphAt(element1,2,3);
       block(env, morph0, context, "link-to", ["procedures"], {}, child0, null);
       block(env, morph1, context, "link-to", ["users"], {}, child1, null);
-      element(env, element4, context, "action", ["createProcedure"], {});
+      element(env, element3, context, "action", ["createProcedure"], {});
       block(env, morph2, context, "each", [get(env, context, "model")], {"keyword": "procedure"}, child2, child3);
       content(env, morph3, context, "outlet");
       return fragment;
@@ -657,6 +690,8 @@ Ember.TEMPLATES["procedures/edit"] = Ember.HTMLBars.template((function() {
       var el0 = dom.createDocumentFragment();
       var el1 = dom.createElement("section");
       dom.setAttribute(el1,"style","float: left");
+      var el2 = dom.createTextNode("\n    ");
+      dom.appendChild(el1, el2);
       var el2 = dom.createTextNode("\n    ");
       dom.appendChild(el1, el2);
       var el2 = dom.createTextNode("\n    ");
@@ -701,12 +736,14 @@ Ember.TEMPLATES["procedures/edit"] = Ember.HTMLBars.template((function() {
         fragment = this.build(dom);
       }
       var element0 = dom.childAt(fragment, [0]);
-      var element1 = dom.childAt(element0, [3]);
-      var element2 = dom.childAt(element0, [5]);
+      var element1 = dom.childAt(element0, [4]);
+      var element2 = dom.childAt(element0, [6]);
       var morph0 = dom.createMorphAt(element0,0,1);
       var morph1 = dom.createMorphAt(element0,1,2);
+      var morph2 = dom.createMorphAt(element0,2,3);
       inline(env, morph0, context, "labeled-input", [], {"label": "Nombre:", "value": get(env, context, "model.name")});
       inline(env, morph1, context, "labeled-area", [], {"label": "Descripción:", "value": get(env, context, "model.description")});
+      inline(env, morph2, context, "markdown-view", [], {"value": get(env, context, "model.description")});
       element(env, element1, context, "action", ["saveProcedure"], {});
       element(env, element2, context, "action", ["deleteProcedure"], {});
       return fragment;
@@ -753,7 +790,7 @@ Ember.TEMPLATES["procedures/view"] = Ember.HTMLBars.template((function() {
     },
     render: function render(context, env, contextualElement) {
       var dom = env.dom;
-      var hooks = env.hooks, content = hooks.content, get = hooks.get, element = hooks.element;
+      var hooks = env.hooks, content = hooks.content, get = hooks.get, element = hooks.element, inline = hooks.inline;
       dom.detectNamespace(contextualElement);
       var fragment;
       if (env.useFragmentCache && dom.canClone) {
@@ -779,7 +816,7 @@ Ember.TEMPLATES["procedures/view"] = Ember.HTMLBars.template((function() {
       content(env, morph0, context, "name");
       element(env, element1, context, "action", ["editProcedure", get(env, context, "model")], {});
       element(env, element2, context, "action", ["deleteProcedure", get(env, context, "model")], {});
-      content(env, morph1, context, "description");
+      inline(env, morph1, context, "markdown-view", [], {"value": get(env, context, "description")});
       return fragment;
     }
   };

@@ -1,6 +1,7 @@
 <section style="float: left">
     {{labeled-input label='Nombre:' value=model.name}}
     {{labeled-area label='Descripción:' value=model.description}}
+    {{markdown-view value=model.description}}
     <button {{action "saveProcedure"}}>
         Guardar
     </button>
