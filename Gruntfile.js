@@ -30,7 +30,7 @@ module.exports = function(grunt) {
       },
 
       // Sass css compilation
-      sassSrcFolder: 'src/main/sass/**/*.scss',
+      sassSrcFolder: 'src/main/sass/main.scss',
       sassDstFile: 'src/main/html/web/main.css',
       sass: {
         options: {
@@ -82,7 +82,8 @@ module.exports = function(grunt) {
                           'jquery/dist/jquery.js',
                           'ember/ember.debug.js',
                           'ember-data/ember-data.js',
-                          'marked/lib/marked.js'
+                          'marked/lib/marked.js',
+                          'normalize.css/normalize.css'
                       ],
                       dest: 'src/main/javascript/web/bower_components/'
                   }
