@@ -55,5 +55,18 @@ App.UsersEditRoute = Ember.Route.extend({
 App.ProceduresRoute = Ember.Route.extend({
   model: function(){
     return this.store.find('procedure');
+  },
+  actions: {
+    logout: function() {
+      Ember.$.post("/j_logout", {}).then(
+        function(response) {
+          self.set('authenticated', null);
+          this.transitionTo('index');
+        },
+        function(response){
+          self.set('rejected', true);
+        }
+      );
+    }
   }
 });
