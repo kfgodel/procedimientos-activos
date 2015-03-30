@@ -7,6 +7,9 @@ window.App = Ember.Application.create({
 // Rest for the model store
 App.ApplicationAdapter = DS.RESTAdapter.extend({
   namespace: 'api/v1',
+  /**
+   * This error handler is used specially for ember-data authentication problems
+   */
   ajaxError: function(jqXHR) {
     var error = this._super(jqXHR);
     if (jqXHR && jqXHR.status === 401) {

@@ -18,6 +18,11 @@ App.Router.map(function() {
 
 App.ApplicationRoute = Ember.Route.extend({
   actions: {
+    /**
+     * This error handler can recover from unauthenticated requests while transitioning to a route.
+     * It tries to authenticate first, and then will retry the transition.
+     * Helpful for non authenticated routes that make authenticated requests
+     */
     error: function(error, transition) {
       if(error.status == 401){
         //It's an authentication problem? Try to authenticate first
@@ -36,7 +41,9 @@ App.ApplicationRoute = Ember.Route.extend({
 });
 
 /**
- * This Mixin adds a pre-transition step to authenticate the user if not authenticated yet
+ * This Mixin adds a pre-transition step to authenticate the user if not authenticated yet.<br>
+ *   This prevents accessing to routes where requests will fail if not authenticated.
+ *   However, this doesn't help recovering the session if lost, once in.
  */
 App.AuthenticatedRoute = Ember.Mixin.create({
   beforeModel: function(transition) {
