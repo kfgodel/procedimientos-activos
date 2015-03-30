@@ -9,7 +9,7 @@ App.LoginController = Ember.Controller.extend({
           j_password: credentials.password })
         .then(
         function(response) {
-          self.set('authenticated', response);
+          self.set('authenticated', true);
 
           // Continue with previous transition if any
           var previousTransition = self.get('previousTransition');
