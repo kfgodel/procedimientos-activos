@@ -228,13 +228,9 @@ Ember.TEMPLATES["login"] = Ember.HTMLBars.template((function() {
         dom.appendChild(el0, el1);
         var el1 = dom.createElement("div");
         dom.setAttribute(el1,"class","error-message");
-        var el2 = dom.createTextNode("\n            Invalid ");
+        var el2 = dom.createTextNode("\n            ");
         dom.appendChild(el1, el2);
-        var el2 = dom.createElement("b");
-        var el3 = dom.createTextNode("credentials");
-        dom.appendChild(el2, el3);
-        dom.appendChild(el1, el2);
-        var el2 = dom.createTextNode("!\n        ");
+        var el2 = dom.createTextNode("\n        ");
         dom.appendChild(el1, el2);
         dom.appendChild(el0, el1);
         var el1 = dom.createTextNode("\n");
@@ -243,6 +239,7 @@ Ember.TEMPLATES["login"] = Ember.HTMLBars.template((function() {
       },
       render: function render(context, env, contextualElement) {
         var dom = env.dom;
+        var hooks = env.hooks, content = hooks.content;
         dom.detectNamespace(contextualElement);
         var fragment;
         if (env.useFragmentCache && dom.canClone) {
@@ -260,6 +257,8 @@ Ember.TEMPLATES["login"] = Ember.HTMLBars.template((function() {
         } else {
           fragment = this.build(dom);
         }
+        var morph0 = dom.createMorphAt(dom.childAt(fragment, [1]),0,1);
+        content(env, morph0, context, "errorMessage");
         return fragment;
       }
     };
@@ -322,7 +321,7 @@ Ember.TEMPLATES["login"] = Ember.HTMLBars.template((function() {
       var morph2 = dom.createMorphAt(element0,0,1);
       inline(env, morph0, context, "labeled-input", [], {"label": "Login:", "value": get(env, context, "model.login")});
       inline(env, morph1, context, "labeled-input", [], {"label": "Password:", "value": get(env, context, "model.password")});
-      block(env, morph2, context, "if", [get(env, context, "rejected")], {}, child0, null);
+      block(env, morph2, context, "if", [get(env, context, "errorMessage")], {}, child0, null);
       element(env, element1, context, "action", ["logIn"], {});
       return fragment;
     }

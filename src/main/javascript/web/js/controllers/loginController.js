@@ -22,7 +22,14 @@ App.LoginController = Ember.Controller.extend({
           }
         },
         function(response){
-          self.set('rejected', true);
+          var statusCode = response.status;
+          var errorMessage;
+          if(statusCode == 401){
+            errorMessage = "Invalid credentials";
+          }else{
+            errorMessage = "Unknown error: " + statusCode + " - " + response.statusText;
+          }
+          self.set("errorMessage", errorMessage);
         }
       );
     }

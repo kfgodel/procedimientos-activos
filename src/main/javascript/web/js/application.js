@@ -6,7 +6,17 @@ window.App = Ember.Application.create({
 
 // Rest for the model store
 App.ApplicationAdapter = DS.RESTAdapter.extend({
-  namespace: 'api/v1'
+  namespace: 'api/v1',
+  ajaxError: function(jqXHR) {
+    var error = this._super(jqXHR);
+    if (jqXHR && jqXHR.status === 401) {
+      console.log("Authentication error");
+    }else{
+      console.log("Rest error: " + jqXHR.status);
+      console.log(jqXHR);
+    }
+    return error;
+  }
 });
 
 // Change default JSON format to avoid root object name

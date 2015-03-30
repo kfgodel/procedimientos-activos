@@ -11,8 +11,43 @@ App.Router.map(function() {
     this.route('edit', {path: "edit/:procedure_id"});
   });
 
+  // Catches all the malformed urls (not matching previous routes)
   this.route('wrongPaths', { path: '/*wrongPath' });
 });
+
+
+App.ApplicationRoute = Ember.Route.extend({
+  actions: {
+    error: function(error, transition) {
+      if(error.status == 401){
+        //It's an authentication problem? Try to authenticate first
+        var loginController = this.controllerFor('login');
+        loginController.set('previousTransition', transition);
+        this.transitionTo('login');
+      }else{
+        // For other error, just log it
+        console.log("Route error, transition:");
+        console.log(error);
+        console.log(transition)
+        return this._super(error, transition);
+      }
+    }
+  }
+});
+
+/**
+ * This Mixin adds a pre-transition step to authenticate the user if not authenticated yet
+ */
+App.AuthenticatedRoute = Ember.Mixin.create({
+  beforeModel: function(transition) {
+    var loginController = this.controllerFor('login');
+    if (!loginController.get('authenticated')) {
+      loginController.set('previousTransition', transition);
+      this.transitionTo('login');
+    }
+  }
+});
+
 
 App.IndexRoute = Ember.Route.extend({
   beforeModel: function() {
@@ -26,47 +61,20 @@ App.LoginRoute = Ember.Route.extend({
   }
 });
 
-App.UsersRoute = Ember.Route.extend({
-  beforeModel: function(transition) {
-    var loginController = this.controllerFor('login');
-    if (!loginController.get('authenticated')) {
-      loginController.set('previousTransition', transition);
-      this.transitionTo('login');
-    }
-  },
+App.UsersRoute = Ember.Route.extend(App.AuthenticatedRoute, {
   model: function(){
     return this.store.find('user');
   }
 });
 
-App.UsersEditRoute = Ember.Route.extend({
-  beforeModel: function(transition) {
-    var loginController = this.controllerFor('login');
-    if (!loginController.get('authenticated')) {
-      loginController.set('previousTransition', transition);
-      this.transitionTo('login');
-    }
-  },
+App.UsersEditRoute = Ember.Route.extend(App.AuthenticatedRoute, {
   model: function(params){
     return this.store.findById('user', params.user_id);
   }
 });
 
-App.ProceduresRoute = Ember.Route.extend({
+App.ProceduresRoute = Ember.Route.extend(App.AuthenticatedRoute, {
   model: function(){
     return this.store.find('procedure');
-  },
-  actions: {
-    logout: function() {
-      Ember.$.post("/j_logout", {}).then(
-        function(response) {
-          self.set('authenticated', null);
-          this.transitionTo('index');
-        },
-        function(response){
-          self.set('rejected', true);
-        }
-      );
-    }
   }
 });
