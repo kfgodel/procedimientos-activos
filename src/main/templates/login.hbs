@@ -3,9 +3,9 @@
     {{labeled-input label='Password:' value=model.password}}
 
     <p class="property-input">
-        {{#if rejected}}
+        {{#if errorMessage}}
         <div class="error-message">
-            Invalid <b>credentials</b>!
+            {{errorMessage}}
         </div>
         {{/if}}
         <button {{action "logIn"}}>

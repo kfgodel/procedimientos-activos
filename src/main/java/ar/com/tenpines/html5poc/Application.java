@@ -3,6 +3,7 @@ package ar.com.tenpines.html5poc;
 import ar.com.kfgodel.webbyconvention.DefaultConfiguration;
 import ar.com.kfgodel.webbyconvention.WebServer;
 import ar.com.kfgodel.webbyconvention.WebServerConfiguration;
+import ar.com.tenpines.html5poc.components.DatabaseAuthenticator;
 import ar.com.tenpines.orm.api.DbCoordinates;
 import ar.com.tenpines.orm.api.HibernateOrm;
 import ar.com.tenpines.orm.impl.HibernateFacade;
@@ -53,16 +54,17 @@ public class Application {
     }
 
     private void initialize() {
+        // Order is important as web server authenticator relies on hibernate
         this.hibernate = createPersistenceLayer();
         this.webServer = createWebServer();
         registerCleanupHook();
     }
 
     private void registerCleanupHook() {
-        Runtime.getRuntime().addShutdownHook( new Thread(()->{
+        Runtime.getRuntime().addShutdownHook(new Thread(() -> {
             LOG.info("Cleaning-up before shutdown");
             this.stop();
-        }, "cleanup-thread" ));
+        }, "cleanup-thread"));
     }
 
     private HibernateOrm createPersistenceLayer() {
@@ -75,9 +77,11 @@ public class Application {
     private WebServer createWebServer() {
         WebServerConfiguration serverConfig = DefaultConfiguration.create()
                 .listeningHttpOn(9090)
-                .withInjections((binder)->{
+                .withInjections((binder) -> {
                     binder.bind(this).to(Application.class);
-                });
+                })
+                .authenticatingWith(DatabaseAuthenticator.create(getHibernate()));
         return WebServer.createFor(serverConfig);
     }
+
 }

@@ -6,7 +6,19 @@ window.App = Ember.Application.create({
 
 // Rest for the model store
 App.ApplicationAdapter = DS.RESTAdapter.extend({
-  namespace: 'api/v1'
+  namespace: 'api/v1',
+  /**
+   * This error handler is used specially for ember-data authentication problems
+   */
+  ajaxError: function(jqXHR) {
+    if (jqXHR && jqXHR.status === 401) {
+      App.Router.router.transitionTo('login'); // Other options is to show an error message
+    }else{
+      console.log("Rest error: " + jqXHR.status);
+      console.log(jqXHR);
+    }
+    return this._super(jqXHR);
+  }
 });
 
 // Change default JSON format to avoid root object name
