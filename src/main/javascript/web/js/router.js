@@ -33,7 +33,7 @@ App.ApplicationRoute = Ember.Route.extend({
         // For other error, just log it
         console.log("Route error, transition:");
         console.log(error);
-        console.log(transition)
+        console.log(transition);
         return this._super(error, transition);
       }
     }

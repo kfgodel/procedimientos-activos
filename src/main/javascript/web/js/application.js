@@ -11,14 +11,13 @@ App.ApplicationAdapter = DS.RESTAdapter.extend({
    * This error handler is used specially for ember-data authentication problems
    */
   ajaxError: function(jqXHR) {
-    var error = this._super(jqXHR);
     if (jqXHR && jqXHR.status === 401) {
-      console.log("Authentication error");
+      App.Router.router.transitionTo('login'); // Other options is to show an error message
     }else{
       console.log("Rest error: " + jqXHR.status);
       console.log(jqXHR);
     }
-    return error;
+    return this._super(jqXHR);
   }
 });
 
