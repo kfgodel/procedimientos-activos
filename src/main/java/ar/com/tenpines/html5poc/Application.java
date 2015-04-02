@@ -3,21 +3,15 @@ package ar.com.tenpines.html5poc;
 import ar.com.kfgodel.webbyconvention.DefaultConfiguration;
 import ar.com.kfgodel.webbyconvention.WebServer;
 import ar.com.kfgodel.webbyconvention.WebServerConfiguration;
-import ar.com.kfgodel.webbyconvention.auth.api.WebCredential;
-import ar.com.tenpines.html5poc.persistent.Usuario;
+import ar.com.tenpines.html5poc.components.DatabaseAuthenticator;
 import ar.com.tenpines.orm.api.DbCoordinates;
 import ar.com.tenpines.orm.api.HibernateOrm;
 import ar.com.tenpines.orm.impl.HibernateFacade;
 import ar.com.tenpines.orm.impl.config.ImmutableCoordinates;
 import ar.com.tenpines.orm.impl.config.SmallAppPreConfig;
-import org.hibernate.Criteria;
-import org.hibernate.criterion.Projections;
-import org.hibernate.criterion.Restrictions;
 import org.hibernate.dialect.HSQLDialect;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-
-import java.util.Optional;
 
 /**
  * This type represents the whole application as a single object.<br>
@@ -30,7 +24,6 @@ public class Application {
 
     private WebServer webServer;
     private HibernateOrm hibernate;
-    private Usuario noUser;
 
     public WebServer getWebServer() {
         return webServer;
@@ -61,6 +54,7 @@ public class Application {
     }
 
     private void initialize() {
+        // Order is important as web server authenticator relies on hibernate
         this.hibernate = createPersistenceLayer();
         this.webServer = createWebServer();
         registerCleanupHook();
@@ -86,42 +80,8 @@ public class Application {
                 .withInjections((binder) -> {
                     binder.bind(this).to(Application.class);
                 })
-                .authenticatingWith(this::authenticateUsers);
+                .authenticatingWith(DatabaseAuthenticator.create(getHibernate()));
         return WebServer.createFor(serverConfig);
     }
 
-    private Optional<Object> authenticateUsers(WebCredential credentials){
-        Usuario foundUser = this.getHibernate().doWithSession((context) -> {
-            // If there are no users allow anyone to authenticate
-            Criteria countCriteria = context.getSession().createCriteria(Usuario.class);
-            countCriteria.setProjection(Projections.rowCount());
-            Number userCount = (Number) countCriteria.uniqueResult();
-            if (userCount.intValue() < 1) {
-                return getProtoUser();
-            }
-
-            Criteria usuarioCriteria = context.getSession().createCriteria(Usuario.class);
-            usuarioCriteria.add(Restrictions.eq(Usuario.login_FIELD, credentials.getUsername()));
-            usuarioCriteria.add(Restrictions.eq(Usuario.password_FIELD, credentials.getPassword()));
-            return (Usuario) usuarioCriteria.uniqueResult();
-        });
-        if(foundUser == null){
-            return Optional.empty();
-        }
-        // Use the id as the web identification
-        return Optional.of(foundUser.getId());
-    }
-
-
-    /**
-     * Returns the user used to create other user when the application has none
-     * @return The fake user
-     */
-    public Usuario getProtoUser(){
-        if (noUser == null) {
-            noUser = Usuario.create("Proto user","","");
-            noUser.setId(-1L);
-        }
-        return noUser;
-    }
 }
