@@ -1,13 +1,16 @@
 package web.api.resources;
 
+import ar.com.kfgodel.nary.api.Nary;
 import ar.com.tenpines.html5poc.Application;
 import ar.com.tenpines.html5poc.persistent.Usuario;
-import web.api.resources.tos.UserCredentialsTo;
+import ar.com.tenpines.orm.api.operations.DeleteById;
+import ar.com.tenpines.orm.api.operations.FindById;
+import ar.com.tenpines.orm.api.operations.GetAll;
 import web.api.resources.tos.UserTo;
 
 import javax.ws.rs.*;
-import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 /**
  * This type is the resource API for users
@@ -19,15 +22,11 @@ public class UserResource {
 
     @GET
     public List<UserTo> getAllUsers(){
-        List<Usuario> usuarios = application.getHibernate().doWithSession((context) ->
-                        context.getSession().createCriteria(Usuario.class).list()
-        );
+        Nary<Usuario> usuarios = application.getHibernate()
+                .doWithSession(context -> context.perform(GetAll.of(Usuario.class)));
 
-        List<UserTo> userTos = new ArrayList<>(usuarios.size());
-        for (Usuario usuario : usuarios) {
-            UserTo userTo = createTo(usuario);
-            userTos.add(userTo);
-        }
+        List<UserTo> userTos = usuarios.map(this::createTo)
+                .collect(Collectors.toList());
 
         return userTos;
     }
@@ -40,7 +39,7 @@ public class UserResource {
     public UserTo createUser(){
         Usuario nuevoUsuario = Usuario.create("Sin nombre", "", "");
 
-        application.getHibernate().doInTransaction((context)-> context.getSession().save(nuevoUsuario));
+        application.getHibernate().doInTransaction((context) -> context.save(nuevoUsuario));
 
         return createTo(nuevoUsuario);
     }
@@ -48,11 +47,9 @@ public class UserResource {
     @GET
     @Path("/{userId}")
     public UserTo getSingleUser(@PathParam("userId") Long userId){
-        Usuario usuario = application.getHibernate().doWithSession(context -> (Usuario)context.getSession().get(Usuario.class, userId));
-        if(usuario != null){
-            return createTo(usuario);
-        }
-        throw new WebApplicationException("user not found", 404);
+        Nary<Usuario> usuario = application.getHibernate().doWithSession(context -> context.perform(FindById.create(Usuario.class, userId)));
+        return usuario.mapOptional(this::createTo)
+                .orElseThrow(()->new WebApplicationException("user not found", 404));
     }
 
 
@@ -60,12 +57,13 @@ public class UserResource {
     @Path("/{userId}")
     public UserTo editUser(UserTo newUserState, @PathParam("userId") Long userId){
         Usuario usuario = application.getHibernate().doInTransaction(context -> {
-            Usuario usuarioEditado = (Usuario) context.getSession().get(Usuario.class, userId);
-            if (usuarioEditado == null) {
+            Nary<Usuario> encontrado = context.perform(FindById.create(Usuario.class, userId));
+            if (!encontrado.isPresent()) {
                 throw new WebApplicationException("user not found", 404);
             }
+            Usuario usuarioEditado = encontrado.get();
             updateFromTo(newUserState, usuarioEditado);
-            context.getSession().saveOrUpdate(usuarioEditado);
+            context.save(usuarioEditado);
             return usuarioEditado;
         });
 
@@ -82,22 +80,12 @@ public class UserResource {
     @DELETE
     @Path("/{userId}")
     public UserTo deleteUser(@PathParam("userId") Long userId){
-        Usuario usuarioBorrado = application.getHibernate().doInTransaction((context)-> {
-            Usuario usuario = (Usuario) context.getSession().get(Usuario.class, userId);
-            context.getSession().delete(usuario);
-            return usuario;
+        application.getHibernate().doInTransaction(context-> {
+            context.perform(DeleteById.create(Usuario.class, userId));
+            return null;
         });
 
-        return createTo(usuarioBorrado);
-    }
-
-    @POST
-    @Path("/login")
-    public UserTo login(UserCredentialsTo credentials){
-        if(credentials.getLogin().equals("pepe") && credentials.getPassword().equals("1234")){
-            return UserTo.create(0L,"admin","pepe","1234");
-        }
-        throw new WebApplicationException("Invalid credentials", 401);
+        return UserTo.create(userId,"","","");
     }
 
     public static UserResource create(Application application) {

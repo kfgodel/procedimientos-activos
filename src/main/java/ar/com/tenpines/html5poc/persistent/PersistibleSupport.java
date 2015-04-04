@@ -1,5 +1,6 @@
 package ar.com.tenpines.html5poc.persistent;
 
+import ar.com.tenpines.orm.api.crud.Identifiable;
 import org.hibernate.annotations.Type;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -13,7 +14,7 @@ import javax.persistence.*;
  * @author D. García
  */
 @MappedSuperclass
-public class PersistibleSupport {
+public class PersistibleSupport implements Identifiable {
     private static final Logger LOG = LoggerFactory.getLogger(PersistibleSupport.class);
 
     public static final String id_FIELD = "id";
