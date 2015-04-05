@@ -1,11 +1,12 @@
 package ar.com.tenpines.html5poc.components;
 
+import ar.com.kfgodel.nary.api.Nary;
+import ar.com.kfgodel.nary.impl.NaryFromNative;
 import ar.com.kfgodel.webbyconvention.auth.api.WebCredential;
 import ar.com.tenpines.html5poc.persistent.Usuario;
+import ar.com.tenpines.html5poc.persistent.filters.UserByCredentials;
+import ar.com.tenpines.html5poc.persistent.filters.UserCount;
 import ar.com.tenpines.orm.api.HibernateOrm;
-import org.hibernate.Criteria;
-import org.hibernate.criterion.Projections;
-import org.hibernate.criterion.Restrictions;
 
 import java.util.Optional;
 import java.util.function.Function;
@@ -22,25 +23,19 @@ public class DatabaseAuthenticator implements Function<WebCredential, Optional<O
 
     @Override
     public Optional<Object> apply(WebCredential credentials) {
-        Usuario foundUser = hibernate.doWithSession((context) -> {
+        Nary<Usuario> foundUser = hibernate.doWithSession((context) -> {
             // If there are no users allow anyone to authenticate
-            Criteria countCriteria = context.getSession().createCriteria(Usuario.class);
-            countCriteria.setProjection(Projections.rowCount());
-            Number userCount = (Number) countCriteria.uniqueResult();
-            if (userCount.intValue() < 1) {
-                return getProtoUser();
+            Nary<Long> userCount = context.perform(UserCount.create());
+            if (userCount.get() < 1) {
+                return NaryFromNative.of(getProtoUser());
             }
-
-            Criteria usuarioCriteria = context.getSession().createCriteria(Usuario.class);
-            usuarioCriteria.add(Restrictions.eq(Usuario.login_FIELD, credentials.getUsername()));
-            usuarioCriteria.add(Restrictions.eq(Usuario.password_FIELD, credentials.getPassword()));
-            return (Usuario) usuarioCriteria.uniqueResult();
+            // If there are users, try to get the one for the credentials
+            return context.perform(UserByCredentials.create(credentials));
         });
-        if(foundUser == null){
-            return Optional.empty();
-        }
+
         // Use the id as the web identification
-        return Optional.of(foundUser.getId());
+        Optional<Object> aLong = foundUser.asNativeOptional().map(Usuario::getId);
+        return aLong;
     }
 
     public static DatabaseAuthenticator create(HibernateOrm hibernate) {
