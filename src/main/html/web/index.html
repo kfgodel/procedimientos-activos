@@ -3,8 +3,8 @@
 <head>
     <meta charset="utf-8">
     <title>Ember.js • TodoMVC</title>
-    <link rel="stylesheet" href="style.css">
     <link rel="stylesheet" href="main.css">
+    <link rel="stylesheet" href="bower_components/normalize.css/normalize.css">
 </head>
 
 <body>
@@ -13,16 +13,22 @@
     <script src="bower_components/jquery/dist/jquery.js"></script>
     <script src="bower_components/ember/ember.debug.js"></script>
     <script src="bower_components/ember-data/ember-data.js"></script>
+    <script src="bower_components/marked/lib/marked.js"></script>
     <!-- endbower -->
 
     <!-- include: "type": "js", "files": "js/**/*.js" -->
-    <script src="js/_libs/localstorage_adapter.js"></script>
+    <script src="js/_helpers/markdown2html.js"></script>
     <script src="js/application.js"></script>
+    <script src="js/components/labeled-area.js"></script>
     <script src="js/components/labeled-input.js"></script>
     <script src="js/components/labeled-label.js"></script>
     <script src="js/controllers/loginController.js"></script>
+    <script src="js/controllers/proceduresController.js"></script>
+    <script src="js/controllers/proceduresEditController.js"></script>
+    <script src="js/controllers/proceduresViewController.js"></script>
     <script src="js/controllers/usersController.js"></script>
     <script src="js/controllers/usersEditController.js"></script>
+    <script src="js/models/procedure.js"></script>
     <script src="js/models/user.js"></script>
     <script src="js/router.js"></script>
     <script src="js/templates.js"></script>

@@ -1,3 +1,49 @@
+Ember.TEMPLATES["components/labeled-area"] = Ember.HTMLBars.template((function() {
+  return {
+    isHTMLBars: true,
+    blockParams: 0,
+    cachedFragment: null,
+    hasRendered: false,
+    build: function build(dom) {
+      var el0 = dom.createDocumentFragment();
+      var el1 = dom.createElement("span");
+      dom.appendChild(el0, el1);
+      var el1 = dom.createTextNode("\n");
+      dom.appendChild(el0, el1);
+      var el1 = dom.createTextNode("");
+      dom.appendChild(el0, el1);
+      return el0;
+    },
+    render: function render(context, env, contextualElement) {
+      var dom = env.dom;
+      var hooks = env.hooks, content = hooks.content, get = hooks.get, inline = hooks.inline;
+      dom.detectNamespace(contextualElement);
+      var fragment;
+      if (env.useFragmentCache && dom.canClone) {
+        if (this.cachedFragment === null) {
+          fragment = this.build(dom);
+          if (this.hasRendered) {
+            this.cachedFragment = fragment;
+          } else {
+            this.hasRendered = true;
+          }
+        }
+        if (this.cachedFragment) {
+          fragment = dom.cloneNode(this.cachedFragment, true);
+        }
+      } else {
+        fragment = this.build(dom);
+      }
+      if (this.cachedFragment) { dom.repairClonedNode(fragment,[2]); }
+      var morph0 = dom.createMorphAt(dom.childAt(fragment, [0]),-1,-1);
+      var morph1 = dom.createMorphAt(fragment,1,2,contextualElement);
+      content(env, morph0, context, "label");
+      inline(env, morph1, context, "textarea", [], {"value": get(env, context, "value")});
+      return fragment;
+    }
+  };
+}()));
+
 Ember.TEMPLATES["components/labeled-input"] = Ember.HTMLBars.template((function() {
   return {
     isHTMLBars: true,
@@ -93,6 +139,48 @@ Ember.TEMPLATES["components/labeled-label"] = Ember.HTMLBars.template((function(
   };
 }()));
 
+Ember.TEMPLATES["components/markdown-view"] = Ember.HTMLBars.template((function() {
+  return {
+    isHTMLBars: true,
+    blockParams: 0,
+    cachedFragment: null,
+    hasRendered: false,
+    build: function build(dom) {
+      var el0 = dom.createDocumentFragment();
+      var el1 = dom.createTextNode("");
+      dom.appendChild(el0, el1);
+      var el1 = dom.createTextNode("");
+      dom.appendChild(el0, el1);
+      return el0;
+    },
+    render: function render(context, env, contextualElement) {
+      var dom = env.dom;
+      var hooks = env.hooks, get = hooks.get, inline = hooks.inline;
+      dom.detectNamespace(contextualElement);
+      var fragment;
+      if (env.useFragmentCache && dom.canClone) {
+        if (this.cachedFragment === null) {
+          fragment = this.build(dom);
+          if (this.hasRendered) {
+            this.cachedFragment = fragment;
+          } else {
+            this.hasRendered = true;
+          }
+        }
+        if (this.cachedFragment) {
+          fragment = dom.cloneNode(this.cachedFragment, true);
+        }
+      } else {
+        fragment = this.build(dom);
+      }
+      if (this.cachedFragment) { dom.repairClonedNode(fragment,[0,1]); }
+      var morph0 = dom.createMorphAt(fragment,0,1,contextualElement);
+      inline(env, morph0, context, "markdown2html", [get(env, context, "value")], {});
+      return fragment;
+    }
+  };
+}()));
+
 Ember.TEMPLATES["loading"] = Ember.HTMLBars.template((function() {
   return {
     isHTMLBars: true,
@@ -140,13 +228,9 @@ Ember.TEMPLATES["login"] = Ember.HTMLBars.template((function() {
         dom.appendChild(el0, el1);
         var el1 = dom.createElement("div");
         dom.setAttribute(el1,"class","error-message");
-        var el2 = dom.createTextNode("\n            Invalid ");
+        var el2 = dom.createTextNode("\n            ");
         dom.appendChild(el1, el2);
-        var el2 = dom.createElement("b");
-        var el3 = dom.createTextNode("credentials");
-        dom.appendChild(el2, el3);
-        dom.appendChild(el1, el2);
-        var el2 = dom.createTextNode("!\n        ");
+        var el2 = dom.createTextNode("\n        ");
         dom.appendChild(el1, el2);
         dom.appendChild(el0, el1);
         var el1 = dom.createTextNode("\n");
@@ -155,6 +239,7 @@ Ember.TEMPLATES["login"] = Ember.HTMLBars.template((function() {
       },
       render: function render(context, env, contextualElement) {
         var dom = env.dom;
+        var hooks = env.hooks, content = hooks.content;
         dom.detectNamespace(contextualElement);
         var fragment;
         if (env.useFragmentCache && dom.canClone) {
@@ -172,6 +257,8 @@ Ember.TEMPLATES["login"] = Ember.HTMLBars.template((function() {
         } else {
           fragment = this.build(dom);
         }
+        var morph0 = dom.createMorphAt(dom.childAt(fragment, [1]),0,1);
+        content(env, morph0, context, "errorMessage");
         return fragment;
       }
     };
@@ -234,14 +321,220 @@ Ember.TEMPLATES["login"] = Ember.HTMLBars.template((function() {
       var morph2 = dom.createMorphAt(element0,0,1);
       inline(env, morph0, context, "labeled-input", [], {"label": "Login:", "value": get(env, context, "model.login")});
       inline(env, morph1, context, "labeled-input", [], {"label": "Password:", "value": get(env, context, "model.password")});
-      block(env, morph2, context, "if", [get(env, context, "rejected")], {}, child0, null);
+      block(env, morph2, context, "if", [get(env, context, "errorMessage")], {}, child0, null);
       element(env, element1, context, "action", ["logIn"], {});
       return fragment;
     }
   };
 }()));
 
-Ember.TEMPLATES["otherPaths"] = Ember.HTMLBars.template((function() {
+Ember.TEMPLATES["procedures"] = Ember.HTMLBars.template((function() {
+  var child0 = (function() {
+    return {
+      isHTMLBars: true,
+      blockParams: 0,
+      cachedFragment: null,
+      hasRendered: false,
+      build: function build(dom) {
+        var el0 = dom.createTextNode("Procesos");
+        return el0;
+      },
+      render: function render(context, env, contextualElement) {
+        var dom = env.dom;
+        dom.detectNamespace(contextualElement);
+        var fragment;
+        if (env.useFragmentCache && dom.canClone) {
+          if (this.cachedFragment === null) {
+            fragment = this.build(dom);
+            if (this.hasRendered) {
+              this.cachedFragment = fragment;
+            } else {
+              this.hasRendered = true;
+            }
+          }
+          if (this.cachedFragment) {
+            fragment = dom.cloneNode(this.cachedFragment, true);
+          }
+        } else {
+          fragment = this.build(dom);
+        }
+        return fragment;
+      }
+    };
+  }());
+  var child1 = (function() {
+    return {
+      isHTMLBars: true,
+      blockParams: 0,
+      cachedFragment: null,
+      hasRendered: false,
+      build: function build(dom) {
+        var el0 = dom.createTextNode("Usuarios");
+        return el0;
+      },
+      render: function render(context, env, contextualElement) {
+        var dom = env.dom;
+        dom.detectNamespace(contextualElement);
+        var fragment;
+        if (env.useFragmentCache && dom.canClone) {
+          if (this.cachedFragment === null) {
+            fragment = this.build(dom);
+            if (this.hasRendered) {
+              this.cachedFragment = fragment;
+            } else {
+              this.hasRendered = true;
+            }
+          }
+          if (this.cachedFragment) {
+            fragment = dom.cloneNode(this.cachedFragment, true);
+          }
+        } else {
+          fragment = this.build(dom);
+        }
+        return fragment;
+      }
+    };
+  }());
+  var child2 = (function() {
+    var child0 = (function() {
+      return {
+        isHTMLBars: true,
+        blockParams: 0,
+        cachedFragment: null,
+        hasRendered: false,
+        build: function build(dom) {
+          var el0 = dom.createDocumentFragment();
+          var el1 = dom.createTextNode("");
+          dom.appendChild(el0, el1);
+          var el1 = dom.createTextNode("");
+          dom.appendChild(el0, el1);
+          return el0;
+        },
+        render: function render(context, env, contextualElement) {
+          var dom = env.dom;
+          var hooks = env.hooks, content = hooks.content;
+          dom.detectNamespace(contextualElement);
+          var fragment;
+          if (env.useFragmentCache && dom.canClone) {
+            if (this.cachedFragment === null) {
+              fragment = this.build(dom);
+              if (this.hasRendered) {
+                this.cachedFragment = fragment;
+              } else {
+                this.hasRendered = true;
+              }
+            }
+            if (this.cachedFragment) {
+              fragment = dom.cloneNode(this.cachedFragment, true);
+            }
+          } else {
+            fragment = this.build(dom);
+          }
+          if (this.cachedFragment) { dom.repairClonedNode(fragment,[0,1]); }
+          var morph0 = dom.createMorphAt(fragment,0,1,contextualElement);
+          content(env, morph0, context, "procedure.name");
+          return fragment;
+        }
+      };
+    }());
+    return {
+      isHTMLBars: true,
+      blockParams: 0,
+      cachedFragment: null,
+      hasRendered: false,
+      build: function build(dom) {
+        var el0 = dom.createDocumentFragment();
+        var el1 = dom.createTextNode("              ");
+        dom.appendChild(el0, el1);
+        var el1 = dom.createElement("tr");
+        var el2 = dom.createTextNode("\n                  ");
+        dom.appendChild(el1, el2);
+        var el2 = dom.createElement("td");
+        var el3 = dom.createTextNode("\n                      ");
+        dom.appendChild(el2, el3);
+        var el3 = dom.createTextNode("\n                  ");
+        dom.appendChild(el2, el3);
+        dom.appendChild(el1, el2);
+        var el2 = dom.createTextNode("\n              ");
+        dom.appendChild(el1, el2);
+        dom.appendChild(el0, el1);
+        var el1 = dom.createTextNode("\n");
+        dom.appendChild(el0, el1);
+        return el0;
+      },
+      render: function render(context, env, contextualElement) {
+        var dom = env.dom;
+        var hooks = env.hooks, get = hooks.get, block = hooks.block;
+        dom.detectNamespace(contextualElement);
+        var fragment;
+        if (env.useFragmentCache && dom.canClone) {
+          if (this.cachedFragment === null) {
+            fragment = this.build(dom);
+            if (this.hasRendered) {
+              this.cachedFragment = fragment;
+            } else {
+              this.hasRendered = true;
+            }
+          }
+          if (this.cachedFragment) {
+            fragment = dom.cloneNode(this.cachedFragment, true);
+          }
+        } else {
+          fragment = this.build(dom);
+        }
+        var morph0 = dom.createMorphAt(dom.childAt(fragment, [1, 1]),0,1);
+        block(env, morph0, context, "link-to", ["procedures.view", get(env, context, "procedure")], {}, child0, null);
+        return fragment;
+      }
+    };
+  }());
+  var child3 = (function() {
+    return {
+      isHTMLBars: true,
+      blockParams: 0,
+      cachedFragment: null,
+      hasRendered: false,
+      build: function build(dom) {
+        var el0 = dom.createDocumentFragment();
+        var el1 = dom.createTextNode("              ");
+        dom.appendChild(el0, el1);
+        var el1 = dom.createElement("tr");
+        var el2 = dom.createTextNode("\n                  ");
+        dom.appendChild(el1, el2);
+        var el2 = dom.createElement("td");
+        var el3 = dom.createTextNode("No procedures yet");
+        dom.appendChild(el2, el3);
+        dom.appendChild(el1, el2);
+        var el2 = dom.createTextNode("\n              ");
+        dom.appendChild(el1, el2);
+        dom.appendChild(el0, el1);
+        var el1 = dom.createTextNode("\n");
+        dom.appendChild(el0, el1);
+        return el0;
+      },
+      render: function render(context, env, contextualElement) {
+        var dom = env.dom;
+        dom.detectNamespace(contextualElement);
+        var fragment;
+        if (env.useFragmentCache && dom.canClone) {
+          if (this.cachedFragment === null) {
+            fragment = this.build(dom);
+            if (this.hasRendered) {
+              this.cachedFragment = fragment;
+            } else {
+              this.hasRendered = true;
+            }
+          }
+          if (this.cachedFragment) {
+            fragment = dom.cloneNode(this.cachedFragment, true);
+          }
+        } else {
+          fragment = this.build(dom);
+        }
+        return fragment;
+      }
+    };
+  }());
   return {
     isHTMLBars: true,
     blockParams: 0,
@@ -249,12 +542,97 @@ Ember.TEMPLATES["otherPaths"] = Ember.HTMLBars.template((function() {
     hasRendered: false,
     build: function build(dom) {
       var el0 = dom.createDocumentFragment();
-      var el1 = dom.createComment(" User list grid ");
+      var el1 = dom.createElement("nav");
+      dom.setAttribute(el1,"class","principal-navigator");
+      var el2 = dom.createTextNode("\n    ");
+      dom.appendChild(el1, el2);
+      var el2 = dom.createElement("ul");
+      dom.setAttribute(el2,"class","navigator-list");
+      var el3 = dom.createTextNode("\n        ");
+      dom.appendChild(el2, el3);
+      var el3 = dom.createElement("li");
+      dom.setAttribute(el3,"class","navigator-item");
+      var el4 = dom.createTextNode("Inicio");
+      dom.appendChild(el3, el4);
+      dom.appendChild(el2, el3);
+      var el3 = dom.createTextNode("\n        ");
+      dom.appendChild(el2, el3);
+      var el3 = dom.createElement("li");
+      dom.setAttribute(el3,"class","navigator-item");
+      dom.appendChild(el2, el3);
+      var el3 = dom.createTextNode("\n        ");
+      dom.appendChild(el2, el3);
+      var el3 = dom.createElement("li");
+      dom.setAttribute(el3,"class","navigator-item");
+      var el4 = dom.createTextNode("Labores");
+      dom.appendChild(el3, el4);
+      dom.appendChild(el2, el3);
+      var el3 = dom.createTextNode("\n        ");
+      dom.appendChild(el2, el3);
+      var el3 = dom.createElement("li");
+      dom.setAttribute(el3,"class","navigator-item");
+      dom.appendChild(el2, el3);
+      var el3 = dom.createTextNode("\n        ");
+      dom.appendChild(el2, el3);
+      var el3 = dom.createElement("button");
+      var el4 = dom.createTextNode("\n            Logout\n        ");
+      dom.appendChild(el3, el4);
+      dom.appendChild(el2, el3);
+      var el3 = dom.createTextNode("\n    ");
+      dom.appendChild(el2, el3);
+      dom.appendChild(el1, el2);
+      var el2 = dom.createTextNode("\n");
+      dom.appendChild(el1, el2);
       dom.appendChild(el0, el1);
-      var el1 = dom.createTextNode("\n");
+      var el1 = dom.createTextNode("\n\n");
       dom.appendChild(el0, el1);
-      var el1 = dom.createElement("span");
-      var el2 = dom.createTextNode("\n  Wrong URL! There's no route: ");
+      var el1 = dom.createElement("div");
+      var el2 = dom.createTextNode("\n    ");
+      dom.appendChild(el1, el2);
+      var el2 = dom.createElement("section");
+      dom.setAttribute(el2,"class","col col-2");
+      var el3 = dom.createTextNode("\n      ");
+      dom.appendChild(el2, el3);
+      var el3 = dom.createElement("table");
+      var el4 = dom.createTextNode("\n          ");
+      dom.appendChild(el3, el4);
+      var el4 = dom.createElement("thead");
+      var el5 = dom.createTextNode("\n            ");
+      dom.appendChild(el4, el5);
+      var el5 = dom.createElement("tr");
+      var el6 = dom.createTextNode("\n                ");
+      dom.appendChild(el5, el6);
+      var el6 = dom.createElement("td");
+      var el7 = dom.createTextNode("\n                    ");
+      dom.appendChild(el6, el7);
+      var el7 = dom.createElement("button");
+      var el8 = dom.createTextNode("\n                        Crear nuevo\n                    ");
+      dom.appendChild(el7, el8);
+      dom.appendChild(el6, el7);
+      var el7 = dom.createTextNode("\n                ");
+      dom.appendChild(el6, el7);
+      dom.appendChild(el5, el6);
+      var el6 = dom.createTextNode("\n            ");
+      dom.appendChild(el5, el6);
+      dom.appendChild(el4, el5);
+      var el5 = dom.createTextNode("\n          ");
+      dom.appendChild(el4, el5);
+      dom.appendChild(el3, el4);
+      var el4 = dom.createTextNode("\n          ");
+      dom.appendChild(el3, el4);
+      var el4 = dom.createElement("tbody");
+      var el5 = dom.createTextNode("\n");
+      dom.appendChild(el4, el5);
+      var el5 = dom.createTextNode("          ");
+      dom.appendChild(el4, el5);
+      dom.appendChild(el3, el4);
+      var el4 = dom.createTextNode("\n      ");
+      dom.appendChild(el3, el4);
+      dom.appendChild(el2, el3);
+      var el3 = dom.createTextNode("\n    ");
+      dom.appendChild(el2, el3);
+      dom.appendChild(el1, el2);
+      var el2 = dom.createTextNode("\n\n    ");
       dom.appendChild(el1, el2);
       var el2 = dom.createTextNode("\n");
       dom.appendChild(el1, el2);
@@ -263,7 +641,7 @@ Ember.TEMPLATES["otherPaths"] = Ember.HTMLBars.template((function() {
     },
     render: function render(context, env, contextualElement) {
       var dom = env.dom;
-      var hooks = env.hooks, content = hooks.content;
+      var hooks = env.hooks, block = hooks.block, element = hooks.element, get = hooks.get, content = hooks.content;
       dom.detectNamespace(contextualElement);
       var fragment;
       if (env.useFragmentCache && dom.canClone) {
@@ -281,8 +659,163 @@ Ember.TEMPLATES["otherPaths"] = Ember.HTMLBars.template((function() {
       } else {
         fragment = this.build(dom);
       }
-      var morph0 = dom.createMorphAt(dom.childAt(fragment, [2]),0,1);
-      content(env, morph0, context, "model.missingPath");
+      var element0 = dom.childAt(fragment, [0, 1]);
+      var element1 = dom.childAt(element0, [9]);
+      var element2 = dom.childAt(fragment, [2]);
+      var element3 = dom.childAt(element2, [1, 1]);
+      var element4 = dom.childAt(element3, [1, 1, 1, 1]);
+      var morph0 = dom.createMorphAt(dom.childAt(element0, [3]),-1,-1);
+      var morph1 = dom.createMorphAt(dom.childAt(element0, [7]),-1,-1);
+      var morph2 = dom.createMorphAt(dom.childAt(element3, [3]),0,1);
+      var morph3 = dom.createMorphAt(element2,2,3);
+      block(env, morph0, context, "link-to", ["procedures"], {}, child0, null);
+      block(env, morph1, context, "link-to", ["users"], {}, child1, null);
+      element(env, element1, context, "action", ["logout"], {});
+      element(env, element4, context, "action", ["createProcedure"], {});
+      block(env, morph2, context, "each", [get(env, context, "model")], {"keyword": "procedure"}, child2, child3);
+      content(env, morph3, context, "outlet");
+      return fragment;
+    }
+  };
+}()));
+
+Ember.TEMPLATES["procedures/edit"] = Ember.HTMLBars.template((function() {
+  return {
+    isHTMLBars: true,
+    blockParams: 0,
+    cachedFragment: null,
+    hasRendered: false,
+    build: function build(dom) {
+      var el0 = dom.createDocumentFragment();
+      var el1 = dom.createElement("section");
+      dom.setAttribute(el1,"style","float: left");
+      var el2 = dom.createTextNode("\n    ");
+      dom.appendChild(el1, el2);
+      var el2 = dom.createTextNode("\n    ");
+      dom.appendChild(el1, el2);
+      var el2 = dom.createTextNode("\n    ");
+      dom.appendChild(el1, el2);
+      var el2 = dom.createTextNode("\n    ");
+      dom.appendChild(el1, el2);
+      var el2 = dom.createElement("button");
+      var el3 = dom.createTextNode("\n        Guardar\n    ");
+      dom.appendChild(el2, el3);
+      dom.appendChild(el1, el2);
+      var el2 = dom.createTextNode("\n    ");
+      dom.appendChild(el1, el2);
+      var el2 = dom.createElement("button");
+      var el3 = dom.createTextNode("\n        Borrar\n    ");
+      dom.appendChild(el2, el3);
+      dom.appendChild(el1, el2);
+      var el2 = dom.createTextNode("\n");
+      dom.appendChild(el1, el2);
+      dom.appendChild(el0, el1);
+      var el1 = dom.createTextNode("\n");
+      dom.appendChild(el0, el1);
+      return el0;
+    },
+    render: function render(context, env, contextualElement) {
+      var dom = env.dom;
+      var hooks = env.hooks, get = hooks.get, inline = hooks.inline, element = hooks.element;
+      dom.detectNamespace(contextualElement);
+      var fragment;
+      if (env.useFragmentCache && dom.canClone) {
+        if (this.cachedFragment === null) {
+          fragment = this.build(dom);
+          if (this.hasRendered) {
+            this.cachedFragment = fragment;
+          } else {
+            this.hasRendered = true;
+          }
+        }
+        if (this.cachedFragment) {
+          fragment = dom.cloneNode(this.cachedFragment, true);
+        }
+      } else {
+        fragment = this.build(dom);
+      }
+      var element0 = dom.childAt(fragment, [0]);
+      var element1 = dom.childAt(element0, [4]);
+      var element2 = dom.childAt(element0, [6]);
+      var morph0 = dom.createMorphAt(element0,0,1);
+      var morph1 = dom.createMorphAt(element0,1,2);
+      var morph2 = dom.createMorphAt(element0,2,3);
+      inline(env, morph0, context, "labeled-input", [], {"label": "Nombre:", "value": get(env, context, "model.name")});
+      inline(env, morph1, context, "labeled-area", [], {"label": "Descripción:", "value": get(env, context, "model.description")});
+      inline(env, morph2, context, "markdown-view", [], {"value": get(env, context, "model.description")});
+      element(env, element1, context, "action", ["saveProcedure"], {});
+      element(env, element2, context, "action", ["deleteProcedure"], {});
+      return fragment;
+    }
+  };
+}()));
+
+Ember.TEMPLATES["procedures/view"] = Ember.HTMLBars.template((function() {
+  return {
+    isHTMLBars: true,
+    blockParams: 0,
+    cachedFragment: null,
+    hasRendered: false,
+    build: function build(dom) {
+      var el0 = dom.createDocumentFragment();
+      var el1 = dom.createElement("section");
+      dom.setAttribute(el1,"style","float: left");
+      var el2 = dom.createTextNode("\n    ");
+      dom.appendChild(el1, el2);
+      var el2 = dom.createTextNode(" - ");
+      dom.appendChild(el1, el2);
+      var el2 = dom.createElement("button");
+      var el3 = dom.createTextNode("Editar");
+      dom.appendChild(el2, el3);
+      dom.appendChild(el1, el2);
+      var el2 = dom.createTextNode(" - ");
+      dom.appendChild(el1, el2);
+      var el2 = dom.createElement("button");
+      var el3 = dom.createTextNode("Borrar");
+      dom.appendChild(el2, el3);
+      dom.appendChild(el1, el2);
+      var el2 = dom.createTextNode("\n    ");
+      dom.appendChild(el1, el2);
+      var el2 = dom.createElement("br");
+      dom.appendChild(el1, el2);
+      var el2 = dom.createTextNode("\n    ");
+      dom.appendChild(el1, el2);
+      var el2 = dom.createTextNode("\n");
+      dom.appendChild(el1, el2);
+      dom.appendChild(el0, el1);
+      var el1 = dom.createTextNode("\n");
+      dom.appendChild(el0, el1);
+      return el0;
+    },
+    render: function render(context, env, contextualElement) {
+      var dom = env.dom;
+      var hooks = env.hooks, content = hooks.content, get = hooks.get, element = hooks.element, inline = hooks.inline;
+      dom.detectNamespace(contextualElement);
+      var fragment;
+      if (env.useFragmentCache && dom.canClone) {
+        if (this.cachedFragment === null) {
+          fragment = this.build(dom);
+          if (this.hasRendered) {
+            this.cachedFragment = fragment;
+          } else {
+            this.hasRendered = true;
+          }
+        }
+        if (this.cachedFragment) {
+          fragment = dom.cloneNode(this.cachedFragment, true);
+        }
+      } else {
+        fragment = this.build(dom);
+      }
+      var element0 = dom.childAt(fragment, [0]);
+      var element1 = dom.childAt(element0, [2]);
+      var element2 = dom.childAt(element0, [4]);
+      var morph0 = dom.createMorphAt(element0,0,1);
+      var morph1 = dom.createMorphAt(element0,7,8);
+      content(env, morph0, context, "name");
+      element(env, element1, context, "action", ["editProcedure", get(env, context, "model")], {});
+      element(env, element2, context, "action", ["deleteProcedure", get(env, context, "model")], {});
+      inline(env, morph1, context, "markdown-view", [], {"value": get(env, context, "description")});
       return fragment;
     }
   };
@@ -794,6 +1327,53 @@ Ember.TEMPLATES["users/loading"] = Ember.HTMLBars.template((function() {
       } else {
         fragment = this.build(dom);
       }
+      return fragment;
+    }
+  };
+}()));
+
+Ember.TEMPLATES["wrongPaths"] = Ember.HTMLBars.template((function() {
+  return {
+    isHTMLBars: true,
+    blockParams: 0,
+    cachedFragment: null,
+    hasRendered: false,
+    build: function build(dom) {
+      var el0 = dom.createDocumentFragment();
+      var el1 = dom.createComment(" User list grid ");
+      dom.appendChild(el0, el1);
+      var el1 = dom.createTextNode("\n");
+      dom.appendChild(el0, el1);
+      var el1 = dom.createElement("span");
+      var el2 = dom.createTextNode("\n  Wrong URL! There's no route: ");
+      dom.appendChild(el1, el2);
+      var el2 = dom.createTextNode("\n");
+      dom.appendChild(el1, el2);
+      dom.appendChild(el0, el1);
+      return el0;
+    },
+    render: function render(context, env, contextualElement) {
+      var dom = env.dom;
+      var hooks = env.hooks, content = hooks.content;
+      dom.detectNamespace(contextualElement);
+      var fragment;
+      if (env.useFragmentCache && dom.canClone) {
+        if (this.cachedFragment === null) {
+          fragment = this.build(dom);
+          if (this.hasRendered) {
+            this.cachedFragment = fragment;
+          } else {
+            this.hasRendered = true;
+          }
+        }
+        if (this.cachedFragment) {
+          fragment = dom.cloneNode(this.cachedFragment, true);
+        }
+      } else {
+        fragment = this.build(dom);
+      }
+      var morph0 = dom.createMorphAt(dom.childAt(fragment, [2]),0,1);
+      content(env, morph0, context, "model.wrongPath");
       return fragment;
     }
   };

@@ -1,14 +1,16 @@
 package web.api.resources;
 
-import com.google.common.collect.Lists;
-import web.api.resources.tos.EmberResponse;
-import web.api.resources.tos.UserCredentialsTo;
-import web.api.resources.tos.UserEditionTo;
+import ar.com.kfgodel.nary.api.Nary;
+import ar.com.tenpines.html5poc.Application;
+import ar.com.tenpines.html5poc.persistent.Usuario;
+import ar.com.tenpines.html5poc.persistent.filters.users.AllUsersOrderedByName;
+import ar.com.tenpines.orm.api.operations.DeleteById;
+import ar.com.tenpines.orm.api.operations.FindById;
 import web.api.resources.tos.UserTo;
 
 import javax.ws.rs.*;
-import java.util.HashMap;
 import java.util.List;
+import java.util.stream.Collectors;
 
 /**
  * This type is the resource API for users
@@ -16,74 +18,80 @@ import java.util.List;
  */
 public class UserResource {
 
-    private static int nextId = 3;
-    private static List<UserTo> users = Lists.newArrayList(
-            UserTo.create(1L, "Pepito Gonzola", "pepe", "1234"),
-            UserTo.create(2L, "AdminTerminator", "admin", "1234"));
+    private Application application;
 
     @GET
-    public EmberResponse getAllUsers(){
-        return EmberResponse.create("users", users);
+    public List<UserTo> getAllUsers(){
+        Nary<Usuario> usuarios = application.getHibernate()
+                .doWithSession(context -> context.perform(AllUsersOrderedByName.create()));
+
+        List<UserTo> userTos = usuarios.map(this::createTo)
+                .collect(Collectors.toList());
+
+        return userTos;
+    }
+
+    private UserTo createTo(Usuario usuario) {
+        return UserTo.create(usuario.getId(), usuario.getName(), usuario.getLogin(), usuario.getPassword());
     }
 
     @POST
-    public EmberResponse createUser(){
-        UserTo newUser = UserTo.create((long) nextId++, "Sin nombre " + nextId, "", "");
-        users.add(newUser);
-        return EmberResponse.create("user", newUser);
+    public UserTo createUser(){
+        Usuario nuevoUsuario = Usuario.create("Sin nombre", "", "");
+
+        application.getHibernate().doInTransaction((context) -> context.save(nuevoUsuario));
+
+        return createTo(nuevoUsuario);
     }
 
     @GET
     @Path("/{userId}")
-    public EmberResponse getSingleUser(@PathParam("userId") Long userId){
-        for (int i = 0; i < users.size(); i++) {
-            UserTo user = users.get(i);
-            if(user.getId().equals(userId)){
-                return EmberResponse.create("user", user);
-            }
-        }
-        throw new WebApplicationException("user not found", 404);
+    public UserTo getSingleUser(@PathParam("userId") Long userId){
+        Nary<Usuario> usuario = application.getHibernate().doWithSession(context -> context.perform(FindById.create(Usuario.class, userId)));
+        return usuario.mapOptional(this::createTo)
+                .orElseThrow(()->new WebApplicationException("user not found", 404));
     }
 
 
     @PUT
     @Path("/{userId}")
-    public EmberResponse editUser(UserEditionTo edition, @PathParam("userId") Long userId){
-        UserTo newUserState = edition.getUser();
-
-        for (int i = 0; i < users.size(); i++) {
-            UserTo user = users.get(i);
-            if(user.getId().equals(userId)){
-                newUserState.setId(userId);
-                users.set(i, newUserState);
-                break;
+    public UserTo editUser(UserTo newUserState, @PathParam("userId") Long userId){
+        Usuario usuario = application.getHibernate().doInTransaction(context -> {
+            Nary<Usuario> encontrado = context.perform(FindById.create(Usuario.class, userId));
+            if (encontrado.isAbsent()) {
+                throw new WebApplicationException("user not found", 404);
             }
-        }
+            Usuario usuarioEditado = encontrado.get();
+            updateFromTo(newUserState, usuarioEditado);
+            context.save(usuarioEditado);
+            return usuarioEditado;
+        });
 
-        return EmberResponse.create("user", newUserState);
+
+        return createTo(usuario);
+    }
+
+    private void updateFromTo(UserTo newUserState, Usuario usuarioEditado) {
+        usuarioEditado.setPassword(newUserState.getPassword());
+        usuarioEditado.setLogin(newUserState.getLogin());
+        usuarioEditado.setName(newUserState.getName());
     }
 
     @DELETE
     @Path("/{userId}")
-    public EmberResponse deleteUser(@PathParam("userId") Long userId){
-        for (int i = 0; i < users.size(); i++) {
-            UserTo user = users.get(i);
-            if(user.getId().equals(userId)){
-                users.remove(i);
-                break;
-            }
-        }
-        return EmberResponse.create("user", new HashMap<>());
+    public UserTo deleteUser(@PathParam("userId") Long userId){
+        application.getHibernate().doInTransaction(context-> {
+            context.perform(DeleteById.create(Usuario.class, userId));
+            return null;
+        });
+
+        return UserTo.create(userId,"","","");
     }
 
-    @POST
-    @Path("/login")
-    public EmberResponse login(UserCredentialsTo credentials){
-        for (UserTo user : users) {
-            if(user.getLogin().equals(credentials.getLogin()) && user.getPassword().equals(credentials.getPassword())){
-                return EmberResponse.create("user", user);
-            }
-        }
-        throw new WebApplicationException("Invalid credentials", 401);
+    public static UserResource create(Application application) {
+        UserResource resource = new UserResource();
+        resource.application = application;
+        return resource;
     }
+
 }

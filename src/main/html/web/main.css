@@ -1,12 +1,11 @@
-input {
-  width: 150px;
-  margin: 0;
-  padding: 2px;
-  border: 1px solid black;
-  box-sizing: border-box; }
+@import url(http://fonts.googleapis.com/css?family=Muli);
+#login-section {
+  width: 400px;
+  margin: 0 auto; }
 
-body {
-  width: 100%; }
+.principal-navigator .navigator-list .navigator-item {
+  display: inline-block;
+  padding: 0 1em; }
 
 .abm {
   width: 600px;
@@ -14,17 +13,3 @@ body {
   .abm > section {
     float: left;
     width: 50%; }
-
-p.property-input {
-  text-align: right; }
-  p.property-input .value {
-    width: 150px;
-    box-sizing: border-box;
-    padding: 2px; }
-
-#login-section {
-  width: 400px;
-  margin: 0 auto; }
-
-.error-message {
-  color: red; }
