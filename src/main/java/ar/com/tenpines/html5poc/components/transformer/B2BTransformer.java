@@ -2,8 +2,9 @@ package ar.com.tenpines.html5poc.components.transformer;
 
 import ar.com.tenpines.html5poc.Application;
 import ar.com.tenpines.html5poc.components.transformer.flavors.Identifiable2NumberConverter;
-import ar.com.tenpines.html5poc.persistent.PersistibleSupport;
-import ar.com.tenpines.orm.api.crud.Identifiable;
+import ar.com.tenpines.html5poc.components.transformer.flavors.Number2PersistentConverter;
+import ar.com.tenpines.orm.api.entities.Identifiable;
+import convention.persistent.PersistentSupport;
 import net.sf.kfgodel.bean2bean.Bean2Bean;
 import net.sf.kfgodel.bean2bean.conversion.DefaultTypeConverter;
 import net.sf.kfgodel.bean2bean.conversion.TypeConverter;
@@ -26,11 +27,13 @@ public class B2BTransformer implements TypeTransformer {
 
     private void initialize(Application application) {
         b2bConverter = DefaultTypeConverter.create();
+        b2bManipulator = Bean2Bean.create(b2bConverter);
+
         // Use niladic constructor to instantiate types
         b2bConverter.setObjectFactory(EmptyConstructorObjectFactory.create());
         // Register specialized converters (order is irrelevant)
         b2bConverter.registerSpecializedConverterFor(Identifiable.class, Long.class, Identifiable2NumberConverter.create());
-        b2bConverter.registerSpecializedConverterFor(Number.class, PersistibleSupport.class, Identifiable2NumberConverter.create());
+        b2bConverter.registerSpecializedConverterFor(Number.class, PersistentSupport.class, Number2PersistentConverter.create(application.getHibernate()));
     }
 
 

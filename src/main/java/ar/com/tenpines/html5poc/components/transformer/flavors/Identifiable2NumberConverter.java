@@ -1,6 +1,6 @@
 package ar.com.tenpines.html5poc.components.transformer.flavors;
 
-import ar.com.tenpines.orm.api.crud.Identifiable;
+import ar.com.tenpines.orm.api.entities.Identifiable;
 import net.sf.kfgodel.bean2bean.conversion.SpecializedTypeConverter;
 import net.sf.kfgodel.bean2bean.exceptions.CannotConvertException;
 
