@@ -6,6 +6,7 @@ import convention.persistent.Usuario;
 import ar.com.tenpines.html5poc.persistent.filters.users.AllUsersOrderedByName;
 import ar.com.tenpines.orm.api.operations.DeleteById;
 import ar.com.tenpines.orm.api.operations.FindById;
+import org.joda.time.DateTime;
 import web.api.resources.tos.UserTo;
 
 import javax.ws.rs.*;
@@ -32,7 +33,16 @@ public class UserResource {
     }
 
     private UserTo createTo(Usuario usuario) {
-        return UserTo.create(usuario.getId(), usuario.getName(), usuario.getLogin(), usuario.getPassword());
+        UserTo userTo = UserTo.create(usuario.getId(), usuario.getName(), usuario.getLogin(), usuario.getPassword());
+        DateTime momentoDeCreacion = usuario.getMomentoDeCreacion();
+        if(momentoDeCreacion != null){
+            userTo.setCreation(momentoDeCreacion.toString());
+        }
+        DateTime momentoDeUltimaModificacion = usuario.getMomentoDeUltimaModificacion();
+        if(momentoDeUltimaModificacion != null){
+            userTo.setModification(momentoDeUltimaModificacion.toString());
+        }
+        return userTo;
     }
 
     @POST

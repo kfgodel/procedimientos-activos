@@ -10,6 +10,8 @@ public class UserTo {
     private String name;
     private String login;
     private String password;
+    private String creation;
+    private String modification;
 
     public Long getId() {
         return id;
@@ -41,6 +43,22 @@ public class UserTo {
 
     public void setPassword(String password) {
         this.password = password;
+    }
+
+    public String getCreation() {
+        return creation;
+    }
+
+    public void setCreation(String creation) {
+        this.creation = creation;
+    }
+
+    public String getModification() {
+        return modification;
+    }
+
+    public void setModification(String modification) {
+        this.modification = modification;
     }
 
     public static UserTo create(Long id, String name, String login, String password) {

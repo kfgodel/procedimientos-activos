@@ -1197,6 +1197,10 @@ Ember.TEMPLATES["users/edit"] = Ember.HTMLBars.template((function() {
       dom.appendChild(el0, el1);
       var el1 = dom.createTextNode("\n    ");
       dom.appendChild(el0, el1);
+      var el1 = dom.createTextNode("\n    ");
+      dom.appendChild(el0, el1);
+      var el1 = dom.createTextNode("\n    ");
+      dom.appendChild(el0, el1);
       var el1 = dom.createTextNode("\n\n    ");
       dom.appendChild(el0, el1);
       var el1 = dom.createElement("p");
@@ -1246,17 +1250,21 @@ Ember.TEMPLATES["users/edit"] = Ember.HTMLBars.template((function() {
       } else {
         fragment = this.build(dom);
       }
-      var element0 = dom.childAt(fragment, [5, 1]);
+      var element0 = dom.childAt(fragment, [7, 1]);
       var element1 = dom.childAt(element0, [1]);
       var element2 = dom.childAt(element0, [3]);
       var morph0 = dom.createMorphAt(fragment,0,1);
       var morph1 = dom.createMorphAt(fragment,1,2);
       var morph2 = dom.createMorphAt(fragment,2,3);
       var morph3 = dom.createMorphAt(fragment,3,4);
+      var morph4 = dom.createMorphAt(fragment,4,5);
+      var morph5 = dom.createMorphAt(fragment,5,6);
       inline(env, morph0, context, "labeled-label", [], {"label": "Id:", "value": get(env, context, "model.id")});
       inline(env, morph1, context, "labeled-input", [], {"label": "Nombre:", "value": get(env, context, "model.name")});
       inline(env, morph2, context, "labeled-input", [], {"label": "Login:", "value": get(env, context, "model.login")});
       inline(env, morph3, context, "labeled-input", [], {"label": "Password:", "value": get(env, context, "model.password")});
+      inline(env, morph4, context, "labeled-label", [], {"label": "Created:", "value": get(env, context, "model.creation")});
+      inline(env, morph5, context, "labeled-label", [], {"label": "Edited:", "value": get(env, context, "model.modification")});
       element(env, element1, context, "action", ["save"], {});
       element(env, element2, context, "action", ["remove"], {});
       return fragment;

@@ -8,11 +8,10 @@ import javax.persistence.Lob;
  * Created by kfgodel on 24/03/15.
  */
 @Entity
-public class Procedure extends PersistibleSupport {
+public class Procedure extends PersistentSupport {
 
     private String name;
     public static final String name_FIELD = "name";
-
 
     @Lob
     private String description;

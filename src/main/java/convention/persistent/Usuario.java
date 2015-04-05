@@ -7,7 +7,7 @@ import javax.persistence.Entity;
  * Created by kfgodel on 22/03/15.
  */
 @Entity
-public class Usuario extends PersistibleSupport {
+public class Usuario extends PersistentSupport {
 
     private String name;
     public static final String name_FIELD = "name";
