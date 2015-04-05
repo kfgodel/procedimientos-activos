@@ -41,6 +41,8 @@
         <version.hsqldb>2.3.2</version.hsqldb>
         <version.execontainer>0.2-SNAPSHOT</version.execontainer>
         <version.querydsl>3.6.2</version.querydsl>
+        <version.bean2bean>1.1.4</version.bean2bean>
+        <version.diamond>1.0.1-SNAPSHOT</version.diamond>
     </properties>
 
 
@@ -256,19 +258,19 @@
     
     <dependencies>
 
-    <!-- Simplified web container -->
-    <dependency>
-        <groupId>ar.com.kfgodel</groupId>
-        <artifactId>web-by-convention</artifactId>
-        <version>${version.webbyconvention}</version>
-    </dependency>
-
     <!-- Communication classes to manage executable host container -->
     <dependency>
         <groupId>org.tanukisoftware</groupId>
         <artifactId>wrapper</artifactId>
         <version>${version.wrapper}</version>
         <scope>provided</scope>
+    </dependency>
+
+        <!-- Simplified web container -->
+    <dependency>
+        <groupId>ar.com.kfgodel</groupId>
+        <artifactId>web-by-convention</artifactId>
+        <version>${version.webbyconvention}</version>
     </dependency>
 
     <!-- Programmatic hibernate -->
@@ -292,14 +294,27 @@
         <version>${version.querydsl}</version>
         <scope>provided</scope>
     </dependency>
-
     <dependency>
         <groupId>com.mysema.querydsl</groupId>
         <artifactId>querydsl-jpa</artifactId>
         <version>${version.querydsl}</version>
     </dependency>
 
-        <!-- Logging -->
+    <!-- Multi-type conversions -->
+    <dependency>
+        <groupId>net.sf.kfgodel</groupId>
+        <artifactId>bean2bean</artifactId>
+        <version>${version.bean2bean}</version>
+    </dependency>
+
+    <!-- Better reflection -->
+    <dependency>
+        <groupId>ar.com.kfgodel</groupId>
+        <artifactId>diamond</artifactId>
+        <version>${version.diamond}</version>
+    </dependency>
+
+    <!-- Logging -->
     <dependency>
         <groupId>org.slf4j</groupId>
         <artifactId>slf4j-api</artifactId>
