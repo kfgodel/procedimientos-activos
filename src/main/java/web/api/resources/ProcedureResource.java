@@ -32,7 +32,7 @@ public class ProcedureResource {
     }
 
     private ProcedureTo createTo(Procedure procedure) {
-        return ProcedureTo.create(procedure.getId(), procedure.getName(), procedure.getDescription());
+        return this.application.getTransformer().transformTo(ProcedureTo.class, procedure);
     }
 
     @POST
@@ -58,22 +58,15 @@ public class ProcedureResource {
     @Path("/{procedureId}")
     public ProcedureTo editUser(ProcedureTo newState, @PathParam("procedureId") Long procedureId){
         Procedure editedProcedure = application.getHibernate().doInTransaction(context -> {
-            Nary<Procedure> found = context.perform(FindById.create(Procedure.class, procedureId));
-            if (found.isAbsent()) {
+            Procedure editedprocedure = this.application.getTransformer().transformTo(Procedure.class, newState);
+            if (editedprocedure == null) {
                 throw new WebApplicationException("procedure not found", 404);
             }
-            Procedure procedure = found.get();
-            updateFromTo(newState, procedure);
-            context.save(procedure);
-            return procedure;
+            context.save(editedprocedure);
+            return editedprocedure;
         });
 
         return createTo(editedProcedure);
-    }
-
-    private void updateFromTo(ProcedureTo newState, Procedure editedProcedure) {
-        editedProcedure.setDescription(newState.getDescription());
-        editedProcedure.setName(newState.getName());
     }
 
     @DELETE

@@ -1,25 +1,30 @@
 package web.api.resources.tos;
 
+import com.tenpines.commons.tos.PersistibleToSupport;
+import convention.persistent.Usuario;
+import net.sf.kfgodel.bean2bean.annotations.CopyFrom;
+import net.sf.kfgodel.bean2bean.annotations.CopyFromAndTo;
+
 /**
  * This type represents a user for the frontend
  * Created by kfgodel on 03/03/15.
  */
-public class UserTo {
-    
-    private Long id;
+public class UserTo extends PersistibleToSupport{
+
+    @CopyFromAndTo(Usuario.name_FIELD)
     private String name;
+
+    @CopyFromAndTo(Usuario.login_FIELD)
     private String login;
+
+    @CopyFromAndTo(Usuario.password_FIELD)
     private String password;
+
+    @CopyFrom(Usuario.momentoDeCreacion_FIELD)
     private String creation;
+
+    @CopyFrom(Usuario.momentoDeUltimaModificacion_FIELD)
     private String modification;
-
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
-    }
 
     public String getName() {
         return name;
@@ -63,7 +68,7 @@ public class UserTo {
 
     public static UserTo create(Long id, String name, String login, String password) {
         UserTo userTo = new UserTo();
-        userTo.id = id;
+        userTo.setId(id);
         userTo.name = name;
         userTo.login = login;
         userTo.password = password;

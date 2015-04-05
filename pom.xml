@@ -43,6 +43,7 @@
         <version.querydsl>3.6.2</version.querydsl>
         <version.bean2bean>1.1.4</version.bean2bean>
         <version.diamond>1.0.1-SNAPSHOT</version.diamond>
+        <version.groovy>2.1.5</version.groovy>
     </properties>
 
 
@@ -305,6 +306,35 @@
         <groupId>net.sf.kfgodel</groupId>
         <artifactId>bean2bean</artifactId>
         <version>${version.bean2bean}</version>
+    </dependency>
+    <!-- Lenguaje de scripting para expresiones de conversiones -->
+    <dependency>
+        <!-- Groovy language -->
+        <groupId>org.codehaus.groovy</groupId>
+        <artifactId>groovy-all</artifactId>
+        <version>${version.groovy}</version>
+        <exclusions>
+            <exclusion>
+                <groupId>org.ow2.asm</groupId>
+                <artifactId>asm-tree</artifactId>
+            </exclusion>
+            <exclusion>
+                <groupId>org.ow2.asm</groupId>
+                <artifactId>asm-commons</artifactId>
+            </exclusion>
+            <exclusion>
+                <groupId>org.ow2.asm</groupId>
+                <artifactId>asm</artifactId>
+            </exclusion>
+            <exclusion>
+                <groupId>org.ow2.asm</groupId>
+                <artifactId>asm-util</artifactId>
+            </exclusion>
+            <exclusion>
+                <groupId>org.ow2.asm</groupId>
+                <artifactId>asm-analysis</artifactId>
+            </exclusion>
+        </exclusions>
     </dependency>
 
     <!-- Better reflection -->

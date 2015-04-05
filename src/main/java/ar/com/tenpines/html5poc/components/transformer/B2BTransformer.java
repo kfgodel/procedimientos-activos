@@ -4,6 +4,8 @@ import ar.com.tenpines.html5poc.Application;
 import ar.com.tenpines.html5poc.components.transformer.flavors.Identifiable2NumberConverter;
 import ar.com.tenpines.html5poc.components.transformer.flavors.Number2PersistentConverter;
 import ar.com.tenpines.orm.api.entities.Identifiable;
+import com.tenpines.commons.tos.EnumTo;
+import com.tenpines.commons.tos.PersistibleTo;
 import com.tenpines.integration.bean2bean.*;
 import convention.persistent.PersistentSupport;
 import net.sf.kfgodel.bean2bean.Bean2Bean;
@@ -46,6 +48,7 @@ public class B2BTransformer implements TypeTransformer {
         // Enums
         b2bConverter.registerSpecializedConverterFor(String.class, Enum.class, String2EnumConverter.create());
         b2bConverter.registerSpecializedConverterFor(Enum.class, String.class, Enum2StringConverter.create());
+        b2bConverter.registerSpecializedConverterFor(EnumTo.class, Enum.class, EnumTo2EnumConverter.create());
 
         // Doubles
         b2bConverter.registerSpecializedConverterFor(String.class, Double.class, DecimalString2DoubleConverter.create());
@@ -61,6 +64,7 @@ public class B2BTransformer implements TypeTransformer {
         // Persistent objects
         b2bConverter.registerSpecializedConverterFor(Identifiable.class, Long.class, Identifiable2NumberConverter.create());
         b2bConverter.registerSpecializedConverterFor(Number.class, PersistentSupport.class, Number2PersistentConverter.create(application.getHibernate()));
+        b2bConverter.registerSpecializedConverterFor(PersistibleTo.class, PersistentSupport.class, PersistibleTo2PersistentConverter.create(b2bManipulator, application.getHibernate()));
 
 
         // Register general converters (order indicates precedence)
@@ -86,4 +90,8 @@ public class B2BTransformer implements TypeTransformer {
     }
 
 
+    @Override
+    public <T> T transformTo(Class<T> expectedClass, Object sourceObject) {
+        return b2bConverter.convertValueToClass(expectedClass, sourceObject);
+    }
 }

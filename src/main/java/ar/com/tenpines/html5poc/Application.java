@@ -26,7 +26,7 @@ public class Application {
 
     private WebServer webServer;
     private HibernateOrm hibernate;
-    private TypeTransformer converter;
+    private TypeTransformer transformer;
 
     public WebServer getWebServer() {
         return webServer;
@@ -36,8 +36,8 @@ public class Application {
         return hibernate;
     }
 
-    public TypeTransformer getConverter() {
-        return converter;
+    public TypeTransformer getTransformer() {
+        return transformer;
     }
 
     public static Application create() {
@@ -64,7 +64,7 @@ public class Application {
         // Order is important as web server authenticator relies on hibernate
         this.hibernate = createPersistenceLayer();
         this.webServer = createWebServer();
-        this.converter = B2BTransformer.create(this);
+        this.transformer = B2BTransformer.create(this);
         registerCleanupHook();
     }
 
