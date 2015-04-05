@@ -3,9 +3,9 @@ package ar.com.tenpines.html5poc.persistent.filters.users;
 import ar.com.kfgodel.nary.api.Nary;
 import ar.com.kfgodel.nary.impl.NaryFromNative;
 import ar.com.kfgodel.webbyconvention.auth.api.WebCredential;
-import ar.com.tenpines.html5poc.persistent.QUsuario;
-import ar.com.tenpines.html5poc.persistent.Usuario;
 import com.mysema.query.jpa.hibernate.HibernateQuery;
+import convention.persistent.QUsuario;
+import convention.persistent.Usuario;
 import org.hibernate.Session;
 
 import java.util.function.Function;

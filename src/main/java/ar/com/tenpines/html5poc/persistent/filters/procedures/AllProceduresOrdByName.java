@@ -2,9 +2,9 @@ package ar.com.tenpines.html5poc.persistent.filters.procedures;
 
 import ar.com.kfgodel.nary.api.Nary;
 import ar.com.kfgodel.nary.impl.NaryFromNative;
-import ar.com.tenpines.html5poc.persistent.Procedure;
-import ar.com.tenpines.html5poc.persistent.QProcedure;
 import com.mysema.query.jpa.hibernate.HibernateQuery;
+import convention.persistent.Procedure;
+import convention.persistent.QProcedure;
 import org.hibernate.Session;
 
 import java.util.List;

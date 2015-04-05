@@ -2,8 +2,8 @@ package ar.com.tenpines.html5poc.persistent.filters.users;
 
 import ar.com.kfgodel.nary.api.Nary;
 import ar.com.kfgodel.nary.impl.NaryFromNative;
-import ar.com.tenpines.html5poc.persistent.QUsuario;
 import com.mysema.query.jpa.hibernate.HibernateQuery;
+import convention.persistent.QUsuario;
 import org.hibernate.Session;
 
 import java.util.function.Function;

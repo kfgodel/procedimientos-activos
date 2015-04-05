@@ -1,4 +1,4 @@
-package ar.com.tenpines.html5poc.persistent;
+package convention.persistent;
 
 import javax.persistence.Entity;
 import javax.persistence.Lob;

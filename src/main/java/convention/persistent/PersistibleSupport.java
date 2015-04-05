@@ -1,7 +1,6 @@
-package ar.com.tenpines.html5poc.persistent;
+package convention.persistent;
 
-import ar.com.tenpines.orm.api.crud.Identifiable;
-import org.hibernate.annotations.Type;
+import ar.com.tenpines.orm.api.entities.Identifiable;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 

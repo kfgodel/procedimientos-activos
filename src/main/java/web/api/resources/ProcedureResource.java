@@ -2,7 +2,7 @@ package web.api.resources;
 
 import ar.com.kfgodel.nary.api.Nary;
 import ar.com.tenpines.html5poc.Application;
-import ar.com.tenpines.html5poc.persistent.Procedure;
+import convention.persistent.Procedure;
 import ar.com.tenpines.html5poc.persistent.filters.procedures.AllProceduresOrdByName;
 import ar.com.tenpines.orm.api.operations.DeleteById;
 import ar.com.tenpines.orm.api.operations.FindById;
