@@ -4,11 +4,16 @@ import ar.com.tenpines.html5poc.Application;
 import ar.com.tenpines.html5poc.components.transformer.flavors.Identifiable2NumberConverter;
 import ar.com.tenpines.html5poc.components.transformer.flavors.Number2PersistentConverter;
 import ar.com.tenpines.orm.api.entities.Identifiable;
+import com.tenpines.integration.bean2bean.*;
 import convention.persistent.PersistentSupport;
 import net.sf.kfgodel.bean2bean.Bean2Bean;
 import net.sf.kfgodel.bean2bean.conversion.DefaultTypeConverter;
 import net.sf.kfgodel.bean2bean.conversion.TypeConverter;
+import net.sf.kfgodel.bean2bean.conversion.converters.*;
 import net.sf.kfgodel.bean2bean.instantiation.EmptyConstructorObjectFactory;
+import org.joda.time.DateTime;
+
+import java.util.Collection;
 
 /**
  * This type implements the converter using bean2bean
@@ -31,9 +36,53 @@ public class B2BTransformer implements TypeTransformer {
 
         // Use niladic constructor to instantiate types
         b2bConverter.setObjectFactory(EmptyConstructorObjectFactory.create());
+
         // Register specialized converters (order is irrelevant)
+
+        // Datetimes
+        b2bConverter.registerSpecializedConverterFor(String.class, DateTime.class, String2DateTimeConverter.create());
+        b2bConverter.registerSpecializedConverterFor(DateTime.class, String.class, DateTime2StringConverter.create());
+
+        // Enums
+        b2bConverter.registerSpecializedConverterFor(String.class, Enum.class, String2EnumConverter.create());
+        b2bConverter.registerSpecializedConverterFor(Enum.class, String.class, Enum2StringConverter.create());
+
+        // Doubles
+        b2bConverter.registerSpecializedConverterFor(String.class, Double.class, DecimalString2DoubleConverter.create());
+        b2bConverter.registerSpecializedConverterFor(Double.class, String.class, Double2DecimalStringConverter.create());
+        b2bConverter.registerSpecializedConverterFor(Double.class, Long.class, Double2LongConverter.create());
+
+        // Numbers
+        b2bConverter.registerSpecializedConverterFor(String.class, Number.class, String2NumberConverter.create());
+
+        //Collections
+        b2bConverter.registerSpecializedConverterFor(Collection.class, Collection.class, Collection2CollectionConverter.create(b2bConverter));
+
+        // Persistent objects
         b2bConverter.registerSpecializedConverterFor(Identifiable.class, Long.class, Identifiable2NumberConverter.create());
         b2bConverter.registerSpecializedConverterFor(Number.class, PersistentSupport.class, Number2PersistentConverter.create(application.getHibernate()));
+
+
+        // Register general converters (order indicates precedence)
+
+        // TO converter
+        b2bConverter.registerGeneralConverter(AnnotatedClassConverter.create(b2bManipulator));
+
+        // Arrays
+        b2bConverter.registerGeneralConverter(ArrayCollectionConverter.create(b2bConverter));
+        b2bConverter.registerGeneralConverter(ArrayArrayConverter.create(b2bConverter));
+
+        // Types that don't need conversion
+        b2bConverter.registerGeneralConverter(PolymorphismConverter.create());
+
+        // General String converter using json
+        b2bConverter.registerGeneralConverter(JsonStringObjectConverter.create());
+
+        // Primitive type converter
+        b2bConverter.registerGeneralConverter(WrappedXWorkConverter.create());
+
+        // Optional converter used by name
+        b2bConverter.registerGeneralConverter(FormatterConverter.create());
     }
 
 
