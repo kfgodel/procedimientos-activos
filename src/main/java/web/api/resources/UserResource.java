@@ -3,7 +3,7 @@ package web.api.resources;
 import ar.com.kfgodel.nary.api.Nary;
 import ar.com.tenpines.html5poc.Application;
 import ar.com.tenpines.html5poc.persistent.Usuario;
-import ar.com.tenpines.html5poc.persistent.filters.AllUsersOrderedByName;
+import ar.com.tenpines.html5poc.persistent.filters.users.AllUsersOrderedByName;
 import ar.com.tenpines.orm.api.operations.DeleteById;
 import ar.com.tenpines.orm.api.operations.FindById;
 import web.api.resources.tos.UserTo;
@@ -58,7 +58,7 @@ public class UserResource {
     public UserTo editUser(UserTo newUserState, @PathParam("userId") Long userId){
         Usuario usuario = application.getHibernate().doInTransaction(context -> {
             Nary<Usuario> encontrado = context.perform(FindById.create(Usuario.class, userId));
-            if (!encontrado.isPresent()) {
+            if (encontrado.isAbsent()) {
                 throw new WebApplicationException("user not found", 404);
             }
             Usuario usuarioEditado = encontrado.get();

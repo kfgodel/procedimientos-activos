@@ -4,8 +4,8 @@ import ar.com.kfgodel.nary.api.Nary;
 import ar.com.kfgodel.nary.impl.NaryFromNative;
 import ar.com.kfgodel.webbyconvention.auth.api.WebCredential;
 import ar.com.tenpines.html5poc.persistent.Usuario;
-import ar.com.tenpines.html5poc.persistent.filters.UserByCredentials;
-import ar.com.tenpines.html5poc.persistent.filters.UserCount;
+import ar.com.tenpines.html5poc.persistent.filters.users.UserByCredentials;
+import ar.com.tenpines.html5poc.persistent.filters.users.UserCount;
 import ar.com.tenpines.orm.api.HibernateOrm;
 
 import java.util.Optional;

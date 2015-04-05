@@ -1,4 +1,4 @@
-package ar.com.tenpines.html5poc.persistent.filters;
+package ar.com.tenpines.html5poc.persistent.filters.users;
 
 import ar.com.kfgodel.nary.api.Nary;
 import ar.com.kfgodel.nary.impl.NaryFromNative;
