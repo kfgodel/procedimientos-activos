@@ -24,6 +24,7 @@
         <version.plugin.assembly>2.5.3</version.plugin.assembly>
         <version.plugin.shade>2.3</version.plugin.shade>
         <version.plugin.dependency>2.10</version.plugin.dependency>
+        <version.plugin.querydsl>1.1.3</version.plugin.querydsl>
 
 
         <version.slf4j>1.7.6</version.slf4j>
@@ -39,6 +40,7 @@
         <version.ateamhibernate>0.1-SNAPSHOT</version.ateamhibernate>
         <version.hsqldb>2.3.2</version.hsqldb>
         <version.execontainer>0.2-SNAPSHOT</version.execontainer>
+        <version.querydsl>3.6.2</version.querydsl>
     </properties>
 
 
@@ -71,6 +73,25 @@
                     <!-- This parameter enables parameter name preservation -->
                     <compilerArgument>-parameters</compilerArgument>
                 </configuration>
+            </plugin>
+
+
+            <!-- Generates Queryable types for querydsl -->
+            <plugin>
+                <groupId>com.mysema.maven</groupId>
+                <artifactId>apt-maven-plugin</artifactId>
+                <version>${version.plugin.querydsl}</version>
+                <executions>
+                    <execution>
+                        <goals>
+                            <goal>process</goal>
+                        </goals>
+                        <configuration>
+                            <outputDirectory>target/generated-sources/java</outputDirectory>
+                            <processor>com.mysema.query.apt.jpa.JPAAnnotationProcessor</processor>
+                        </configuration>
+                    </execution>
+                </executions>
             </plugin>
 
             <!-- Descomprime el contenedor ejecutable -->
@@ -262,6 +283,20 @@
         <groupId>org.hsqldb</groupId>
         <artifactId>hsqldb</artifactId>
         <version>${version.hsqldb}</version>
+    </dependency>
+
+    <!-- programmatic dsl for queries -->
+    <dependency>
+        <groupId>com.mysema.querydsl</groupId>
+        <artifactId>querydsl-apt</artifactId>
+        <version>${version.querydsl}</version>
+        <scope>provided</scope>
+    </dependency>
+
+    <dependency>
+        <groupId>com.mysema.querydsl</groupId>
+        <artifactId>querydsl-jpa</artifactId>
+        <version>${version.querydsl}</version>
     </dependency>
 
         <!-- Logging -->

@@ -3,9 +3,9 @@ package web.api.resources;
 import ar.com.kfgodel.nary.api.Nary;
 import ar.com.tenpines.html5poc.Application;
 import ar.com.tenpines.html5poc.persistent.Usuario;
+import ar.com.tenpines.html5poc.persistent.filters.AllUsersOrderedByName;
 import ar.com.tenpines.orm.api.operations.DeleteById;
 import ar.com.tenpines.orm.api.operations.FindById;
-import ar.com.tenpines.orm.api.operations.GetAll;
 import web.api.resources.tos.UserTo;
 
 import javax.ws.rs.*;
@@ -23,7 +23,7 @@ public class UserResource {
     @GET
     public List<UserTo> getAllUsers(){
         Nary<Usuario> usuarios = application.getHibernate()
-                .doWithSession(context -> context.perform(GetAll.of(Usuario.class)));
+                .doWithSession(context -> context.perform(AllUsersOrderedByName.create()));
 
         List<UserTo> userTos = usuarios.map(this::createTo)
                 .collect(Collectors.toList());
