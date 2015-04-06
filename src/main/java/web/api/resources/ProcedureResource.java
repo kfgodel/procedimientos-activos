@@ -2,10 +2,11 @@ package web.api.resources;
 
 import ar.com.kfgodel.nary.api.Nary;
 import ar.com.tenpines.html5poc.Application;
+import ar.com.tenpines.orm.api.operations.basic.Save;
 import convention.persistent.Procedure;
-import ar.com.tenpines.html5poc.persistent.filters.procedures.AllProceduresOrdByName;
-import ar.com.tenpines.orm.api.operations.DeleteById;
-import ar.com.tenpines.orm.api.operations.FindById;
+import ar.com.tenpines.html5poc.persistent.filters.procedures.FindAllProceduresOrdByName;
+import ar.com.tenpines.orm.api.operations.basic.DeleteById;
+import ar.com.tenpines.orm.api.operations.basic.FindById;
 import web.api.resources.tos.ProcedureTo;
 
 import javax.ws.rs.*;
@@ -22,9 +23,7 @@ public class ProcedureResource {
 
     @GET
     public List<ProcedureTo> getAllProceduresUsers(){
-        Nary<Procedure> procedimientos = application.getHibernate().doWithSession((context) ->
-                        context.perform(AllProceduresOrdByName.create())
-        );
+        Nary<Procedure> procedimientos = application.getHibernate().doWithSession(FindAllProceduresOrdByName.create());
 
         return procedimientos
                 .map(this::createTo)
@@ -32,14 +31,14 @@ public class ProcedureResource {
     }
 
     private ProcedureTo createTo(Procedure procedure) {
-        return ProcedureTo.create(procedure.getId(), procedure.getName(), procedure.getDescription());
+        return this.application.getTransformer().transformTo(ProcedureTo.class, procedure);
     }
 
     @POST
     public ProcedureTo createUser(){
         Procedure newProcedure = Procedure.create("Procedimiento nn", "Sin descripción");
 
-        application.getHibernate().doInTransaction((context) -> context.save(newProcedure));
+        application.getHibernate().doUnderTransaction(Save.create(newProcedure));
 
         return createTo(newProcedure);
     }
@@ -47,7 +46,7 @@ public class ProcedureResource {
     @GET
     @Path("/{procedureId}")
     public ProcedureTo getSingleProcedure(@PathParam("procedureId") Long procedureId){
-        Nary<Procedure> procedure = application.getHibernate().doWithSession(context -> context.perform(FindById.create(Procedure.class, procedureId)));
+        Nary<Procedure> procedure = application.getHibernate().doWithSession(FindById.create(Procedure.class, procedureId));
         return procedure
                 .mapOptional(this::createTo)
                 .orElseThrow(() -> new WebApplicationException("procedure not found", 404));
@@ -57,32 +56,22 @@ public class ProcedureResource {
     @PUT
     @Path("/{procedureId}")
     public ProcedureTo editUser(ProcedureTo newState, @PathParam("procedureId") Long procedureId){
-        Procedure editedProcedure = application.getHibernate().doInTransaction(context -> {
-            Nary<Procedure> found = context.perform(FindById.create(Procedure.class, procedureId));
-            if (found.isAbsent()) {
+        Procedure procedure = application.getHibernate().doUnderTransaction(context -> {
+            Procedure editedProcedure = this.application.getTransformer().transformTo(Procedure.class, newState);
+            if (editedProcedure == null) {
                 throw new WebApplicationException("procedure not found", 404);
             }
-            Procedure procedure = found.get();
-            updateFromTo(newState, procedure);
-            context.save(procedure);
-            return procedure;
+            context.save(editedProcedure);
+            return editedProcedure;
         });
 
-        return createTo(editedProcedure);
-    }
-
-    private void updateFromTo(ProcedureTo newState, Procedure editedProcedure) {
-        editedProcedure.setDescription(newState.getDescription());
-        editedProcedure.setName(newState.getName());
+        return createTo(procedure);
     }
 
     @DELETE
     @Path("/{procedureId}")
     public ProcedureTo deleteUser(@PathParam("procedureId") Long procedureId){
-        application.getHibernate().doInTransaction((context)-> {
-            context.perform(DeleteById.create(Procedure.class, procedureId));
-            return null;
-        });
+        application.getHibernate().doUnderTransaction(DeleteById.create(Procedure.class, procedureId));
 
         return ProcedureTo.create(procedureId, "","");
     }

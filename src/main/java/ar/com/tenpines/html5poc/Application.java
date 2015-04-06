@@ -4,6 +4,8 @@ import ar.com.kfgodel.webbyconvention.DefaultConfiguration;
 import ar.com.kfgodel.webbyconvention.WebServer;
 import ar.com.kfgodel.webbyconvention.WebServerConfiguration;
 import ar.com.tenpines.html5poc.components.DatabaseAuthenticator;
+import ar.com.tenpines.html5poc.components.transformer.B2BTransformer;
+import ar.com.tenpines.html5poc.components.transformer.TypeTransformer;
 import ar.com.tenpines.orm.api.DbCoordinates;
 import ar.com.tenpines.orm.api.HibernateOrm;
 import ar.com.tenpines.orm.impl.HibernateFacade;
@@ -24,6 +26,7 @@ public class Application {
 
     private WebServer webServer;
     private HibernateOrm hibernate;
+    private TypeTransformer transformer;
 
     public WebServer getWebServer() {
         return webServer;
@@ -31,6 +34,10 @@ public class Application {
 
     public HibernateOrm getHibernate() {
         return hibernate;
+    }
+
+    public TypeTransformer getTransformer() {
+        return transformer;
     }
 
     public static Application create() {
@@ -57,6 +64,7 @@ public class Application {
         // Order is important as web server authenticator relies on hibernate
         this.hibernate = createPersistenceLayer();
         this.webServer = createWebServer();
+        this.transformer = B2BTransformer.create(this);
         registerCleanupHook();
     }
 

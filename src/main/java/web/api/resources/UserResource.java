@@ -2,11 +2,11 @@ package web.api.resources;
 
 import ar.com.kfgodel.nary.api.Nary;
 import ar.com.tenpines.html5poc.Application;
+import ar.com.tenpines.html5poc.persistent.filters.users.FindAllUsersOrderedByName;
+import ar.com.tenpines.orm.api.operations.basic.DeleteById;
+import ar.com.tenpines.orm.api.operations.basic.FindById;
+import ar.com.tenpines.orm.api.operations.basic.Save;
 import convention.persistent.Usuario;
-import ar.com.tenpines.html5poc.persistent.filters.users.AllUsersOrderedByName;
-import ar.com.tenpines.orm.api.operations.DeleteById;
-import ar.com.tenpines.orm.api.operations.FindById;
-import org.joda.time.DateTime;
 import web.api.resources.tos.UserTo;
 
 import javax.ws.rs.*;
@@ -23,8 +23,7 @@ public class UserResource {
 
     @GET
     public List<UserTo> getAllUsers(){
-        Nary<Usuario> usuarios = application.getHibernate()
-                .doWithSession(context -> context.perform(AllUsersOrderedByName.create()));
+        Nary<Usuario> usuarios = application.getHibernate().doWithSession(FindAllUsersOrderedByName.create());
 
         List<UserTo> userTos = usuarios.map(this::createTo)
                 .collect(Collectors.toList());
@@ -33,15 +32,7 @@ public class UserResource {
     }
 
     private UserTo createTo(Usuario usuario) {
-        UserTo userTo = UserTo.create(usuario.getId(), usuario.getName(), usuario.getLogin(), usuario.getPassword());
-        DateTime momentoDeCreacion = usuario.getMomentoDeCreacion();
-        if(momentoDeCreacion != null){
-            userTo.setCreation(momentoDeCreacion.toString());
-        }
-        DateTime momentoDeUltimaModificacion = usuario.getMomentoDeUltimaModificacion();
-        if(momentoDeUltimaModificacion != null){
-            userTo.setModification(momentoDeUltimaModificacion.toString());
-        }
+        UserTo userTo = application.getTransformer().transformTo(UserTo.class, usuario);
         return userTo;
     }
 
@@ -49,7 +40,7 @@ public class UserResource {
     public UserTo createUser(){
         Usuario nuevoUsuario = Usuario.create("Sin nombre", "", "");
 
-        application.getHibernate().doInTransaction((context) -> context.save(nuevoUsuario));
+        application.getHibernate().doUnderTransaction(Save.create(nuevoUsuario));
 
         return createTo(nuevoUsuario);
     }
@@ -57,7 +48,7 @@ public class UserResource {
     @GET
     @Path("/{userId}")
     public UserTo getSingleUser(@PathParam("userId") Long userId){
-        Nary<Usuario> usuario = application.getHibernate().doWithSession(context -> context.perform(FindById.create(Usuario.class, userId)));
+        Nary<Usuario> usuario = application.getHibernate().doWithSession(FindById.create(Usuario.class, userId));
         return usuario.mapOptional(this::createTo)
                 .orElseThrow(()->new WebApplicationException("user not found", 404));
     }
@@ -66,34 +57,24 @@ public class UserResource {
     @PUT
     @Path("/{userId}")
     public UserTo editUser(UserTo newUserState, @PathParam("userId") Long userId){
-        Usuario usuario = application.getHibernate().doInTransaction(context -> {
-            Nary<Usuario> encontrado = context.perform(FindById.create(Usuario.class, userId));
-            if (encontrado.isAbsent()) {
+
+        Usuario usuario = application.getHibernate().doUnderTransaction(context -> {
+            Usuario editedUsuario = this.application.getTransformer().transformTo(Usuario.class, newUserState);
+            if (editedUsuario == null) {
                 throw new WebApplicationException("user not found", 404);
             }
-            Usuario usuarioEditado = encontrado.get();
-            updateFromTo(newUserState, usuarioEditado);
-            context.save(usuarioEditado);
-            return usuarioEditado;
+            context.save(editedUsuario);
+            return editedUsuario;
         });
 
 
         return createTo(usuario);
     }
 
-    private void updateFromTo(UserTo newUserState, Usuario usuarioEditado) {
-        usuarioEditado.setPassword(newUserState.getPassword());
-        usuarioEditado.setLogin(newUserState.getLogin());
-        usuarioEditado.setName(newUserState.getName());
-    }
-
     @DELETE
     @Path("/{userId}")
     public UserTo deleteUser(@PathParam("userId") Long userId){
-        application.getHibernate().doInTransaction(context-> {
-            context.perform(DeleteById.create(Usuario.class, userId));
-            return null;
-        });
+        application.getHibernate().doUnderTransaction(DeleteById.create(Usuario.class, userId));
 
         return UserTo.create(userId,"","","");
     }
