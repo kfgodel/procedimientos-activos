@@ -20,14 +20,14 @@ import java.util.List;
  */
 public class ProcedureResource {
 
+    private static final Type LIST_OF_PROCEDURES_TO = new ReferenceOf<List<ProcedureTo>>() {}.getReferencedType();
     private Application application;
 
     @GET
     public List<ProcedureTo> getAllProceduresUsers(){
         Nary<Procedure> procedimientos = application.getHibernate().doWithSession(FindAllProceduresOrdByName.create());
 
-        Type listOfProceduresTo = new ReferenceOf<List<ProcedureTo>>() {}.getReferencedType();
-        List<ProcedureTo> proceduresTo = this.application.getTransformer().transformTo(listOfProceduresTo, procedimientos);
+        List<ProcedureTo> proceduresTo = this.application.getTransformer().transformTo(LIST_OF_PROCEDURES_TO, procedimientos);
 
         return proceduresTo;
     }

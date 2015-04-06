@@ -20,14 +20,15 @@ import java.util.List;
  */
 public class UserResource {
 
+    private static final Type LIST_OF_USER_TOS = new ReferenceOf<List<UserTo>>(){}.getReferencedType();
+
     private Application application;
 
     @GET
     public List<UserTo> getAllUsers(){
         Nary<Usuario> usuarios = application.getHibernate().doWithSession(FindAllUsersOrderedByName.create());
 
-        Type listOfUserTos = new ReferenceOf<List<UserTo>>(){}.getReferencedType();
-        return application.getTransformer().transformTo(listOfUserTos, usuarios);
+        return application.getTransformer().transformTo(LIST_OF_USER_TOS, usuarios);
     }
 
     private UserTo createTo(Usuario usuario) {
