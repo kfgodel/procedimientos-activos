@@ -1,5 +1,6 @@
 package web.api.resources;
 
+import ar.com.kfgodel.diamond.api.types.reference.ReferenceOf;
 import ar.com.kfgodel.nary.api.Nary;
 import ar.com.tenpines.html5poc.Application;
 import ar.com.tenpines.html5poc.persistent.filters.users.FindAllUsersOrderedByName;
@@ -10,8 +11,8 @@ import convention.persistent.Usuario;
 import web.api.resources.tos.UserTo;
 
 import javax.ws.rs.*;
+import java.lang.reflect.Type;
 import java.util.List;
-import java.util.stream.Collectors;
 
 /**
  * This type is the resource API for users
@@ -25,10 +26,8 @@ public class UserResource {
     public List<UserTo> getAllUsers(){
         Nary<Usuario> usuarios = application.getHibernate().doWithSession(FindAllUsersOrderedByName.create());
 
-        List<UserTo> userTos = usuarios.map(this::createTo)
-                .collect(Collectors.toList());
-
-        return userTos;
+        Type listOfUserTos = new ReferenceOf<List<UserTo>>(){}.getReferencedType();
+        return application.getTransformer().transformTo(listOfUserTos, usuarios);
     }
 
     private UserTo createTo(Usuario usuario) {

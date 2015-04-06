@@ -1,5 +1,6 @@
 package ar.com.tenpines.html5poc.components.transformer;
 
+import ar.com.kfgodel.nary.api.Nary;
 import ar.com.tenpines.html5poc.Application;
 import ar.com.tenpines.html5poc.components.transformer.flavors.Identifiable2NumberConverter;
 import ar.com.tenpines.html5poc.components.transformer.flavors.Number2PersistentConverter;
@@ -15,6 +16,7 @@ import net.sf.kfgodel.bean2bean.conversion.converters.*;
 import net.sf.kfgodel.bean2bean.instantiation.EmptyConstructorObjectFactory;
 import org.joda.time.DateTime;
 
+import java.lang.reflect.Type;
 import java.util.Collection;
 
 /**
@@ -60,6 +62,7 @@ public class B2BTransformer implements TypeTransformer {
 
         //Collections
         b2bConverter.registerSpecializedConverterFor(Collection.class, Collection.class, Collection2CollectionConverter.create(b2bConverter));
+        b2bConverter.registerSpecializedConverterFor(Nary.class, Collection.class, Nary2CollectionConverter.create(b2bConverter));
 
         // Persistent objects
         b2bConverter.registerSpecializedConverterFor(Identifiable.class, Long.class, Identifiable2NumberConverter.create());
@@ -93,5 +96,10 @@ public class B2BTransformer implements TypeTransformer {
     @Override
     public <T> T transformTo(Class<T> expectedClass, Object sourceObject) {
         return b2bConverter.convertValueToClass(expectedClass, sourceObject);
+    }
+
+    @Override
+    public <R> R transformTo(Type expectedType, Object sourceObject) {
+        return b2bConverter.convertValue(sourceObject, expectedType);
     }
 }

@@ -1,17 +1,18 @@
 package web.api.resources;
 
+import ar.com.kfgodel.diamond.api.types.reference.ReferenceOf;
 import ar.com.kfgodel.nary.api.Nary;
 import ar.com.tenpines.html5poc.Application;
-import ar.com.tenpines.orm.api.operations.basic.Save;
-import convention.persistent.Procedure;
 import ar.com.tenpines.html5poc.persistent.filters.procedures.FindAllProceduresOrdByName;
 import ar.com.tenpines.orm.api.operations.basic.DeleteById;
 import ar.com.tenpines.orm.api.operations.basic.FindById;
+import ar.com.tenpines.orm.api.operations.basic.Save;
+import convention.persistent.Procedure;
 import web.api.resources.tos.ProcedureTo;
 
 import javax.ws.rs.*;
+import java.lang.reflect.Type;
 import java.util.List;
-import java.util.stream.Collectors;
 
 /**
  * This type represents the resource to access procedures
@@ -25,9 +26,10 @@ public class ProcedureResource {
     public List<ProcedureTo> getAllProceduresUsers(){
         Nary<Procedure> procedimientos = application.getHibernate().doWithSession(FindAllProceduresOrdByName.create());
 
-        return procedimientos
-                .map(this::createTo)
-                .collect(Collectors.toList());
+        Type listOfProceduresTo = new ReferenceOf<List<ProcedureTo>>() {}.getReferencedType();
+        List<ProcedureTo> proceduresTo = this.application.getTransformer().transformTo(listOfProceduresTo, procedimientos);
+
+        return proceduresTo;
     }
 
     private ProcedureTo createTo(Procedure procedure) {
