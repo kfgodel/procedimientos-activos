@@ -2,9 +2,10 @@ package web.api.resources;
 
 import ar.com.kfgodel.nary.api.Nary;
 import ar.com.tenpines.html5poc.Application;
-import ar.com.tenpines.html5poc.persistent.filters.users.AllUsersOrderedByName;
-import ar.com.tenpines.orm.api.operations.DeleteById;
-import ar.com.tenpines.orm.api.operations.FindById;
+import ar.com.tenpines.html5poc.persistent.filters.users.FindAllUsersOrderedByName;
+import ar.com.tenpines.orm.api.operations.basic.DeleteById;
+import ar.com.tenpines.orm.api.operations.basic.FindById;
+import ar.com.tenpines.orm.api.operations.basic.Save;
 import convention.persistent.Usuario;
 import web.api.resources.tos.UserTo;
 
@@ -22,9 +23,7 @@ public class UserResource {
 
     @GET
     public List<UserTo> getAllUsers(){
-        Nary<Usuario> usuarios = application.getHibernate()
-                .doWithSession(context -> context.perform(AllUsersOrderedByName.create()));
-
+        Nary<Usuario> usuarios = application.getHibernate().doWithSession(FindAllUsersOrderedByName.create());
 
         List<UserTo> userTos = usuarios.map(this::createTo)
                 .collect(Collectors.toList());
@@ -41,16 +40,15 @@ public class UserResource {
     public UserTo createUser(){
         Usuario nuevoUsuario = Usuario.create("Sin nombre", "", "");
 
-        application.getHibernate().doInTransaction((context) -> context.save(nuevoUsuario));
+        application.getHibernate().doUnderTransaction(Save.create(nuevoUsuario));
 
-        UserTo userTo = application.getTransformer().transformTo(UserTo.class, nuevoUsuario);
-        return userTo;
+        return createTo(nuevoUsuario);
     }
 
     @GET
     @Path("/{userId}")
     public UserTo getSingleUser(@PathParam("userId") Long userId){
-        Nary<Usuario> usuario = application.getHibernate().doWithSession(context -> context.perform(FindById.create(Usuario.class, userId)));
+        Nary<Usuario> usuario = application.getHibernate().doWithSession(FindById.create(Usuario.class, userId));
         return usuario.mapOptional(this::createTo)
                 .orElseThrow(()->new WebApplicationException("user not found", 404));
     }
@@ -60,7 +58,7 @@ public class UserResource {
     @Path("/{userId}")
     public UserTo editUser(UserTo newUserState, @PathParam("userId") Long userId){
 
-        Usuario usuario = application.getHibernate().doInTransaction(context -> {
+        Usuario usuario = application.getHibernate().doUnderTransaction(context -> {
             Usuario editedUsuario = this.application.getTransformer().transformTo(Usuario.class, newUserState);
             if (editedUsuario == null) {
                 throw new WebApplicationException("user not found", 404);
@@ -76,10 +74,7 @@ public class UserResource {
     @DELETE
     @Path("/{userId}")
     public UserTo deleteUser(@PathParam("userId") Long userId){
-        application.getHibernate().doInTransaction(context-> {
-            context.perform(DeleteById.create(Usuario.class, userId));
-            return null;
-        });
+        application.getHibernate().doUnderTransaction(DeleteById.create(Usuario.class, userId));
 
         return UserTo.create(userId,"","","");
     }

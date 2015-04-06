@@ -2,7 +2,7 @@ package ar.com.tenpines.html5poc.components.transformer.flavors;
 
 import ar.com.kfgodel.nary.api.Nary;
 import ar.com.tenpines.orm.api.HibernateOrm;
-import ar.com.tenpines.orm.api.operations.FindById;
+import ar.com.tenpines.orm.api.operations.basic.FindById;
 import convention.persistent.PersistentSupport;
 import net.sf.kfgodel.bean2bean.conversion.SpecializedTypeConverter;
 import net.sf.kfgodel.bean2bean.exceptions.CannotConvertException;

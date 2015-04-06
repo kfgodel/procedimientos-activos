@@ -2,23 +2,23 @@ package ar.com.tenpines.html5poc.persistent.filters.users;
 
 import ar.com.kfgodel.nary.api.Nary;
 import ar.com.kfgodel.nary.impl.NaryFromNative;
+import ar.com.tenpines.orm.api.operations.CrudOperation;
 import com.mysema.query.jpa.hibernate.HibernateQuery;
 import convention.persistent.QUsuario;
 import convention.persistent.Usuario;
 import org.hibernate.Session;
 
 import java.util.List;
-import java.util.function.Function;
 
 /**
  * This type represents the filter that searches for all users and list them ordered by name
  *
  * Created by kfgodel on 04/04/15.
  */
-public class AllUsersOrderedByName implements Function<Session, Nary<Usuario>> {
+public class FindAllUsersOrderedByName implements CrudOperation<Usuario> {
 
     @Override
-    public Nary<Usuario> apply(Session session) {
+    public Nary<Usuario> applyUsing(Session session) {
         QUsuario usuario = QUsuario.usuario;
 
         HibernateQuery query = new HibernateQuery(session);
@@ -29,8 +29,8 @@ public class AllUsersOrderedByName implements Function<Session, Nary<Usuario>> {
         
     }
 
-    public static AllUsersOrderedByName create() {
-        AllUsersOrderedByName filter = new AllUsersOrderedByName();
+    public static FindAllUsersOrderedByName create() {
+        FindAllUsersOrderedByName filter = new FindAllUsersOrderedByName();
         return filter;
     }
 

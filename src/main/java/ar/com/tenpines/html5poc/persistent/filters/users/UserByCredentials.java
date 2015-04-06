@@ -3,23 +3,22 @@ package ar.com.tenpines.html5poc.persistent.filters.users;
 import ar.com.kfgodel.nary.api.Nary;
 import ar.com.kfgodel.nary.impl.NaryFromNative;
 import ar.com.kfgodel.webbyconvention.auth.api.WebCredential;
+import ar.com.tenpines.orm.api.operations.CrudOperation;
 import com.mysema.query.jpa.hibernate.HibernateQuery;
 import convention.persistent.QUsuario;
 import convention.persistent.Usuario;
 import org.hibernate.Session;
 
-import java.util.function.Function;
-
 /**
  * This type represents a filter that looks for a single user with given login and password
  * Created by kfgodel on 04/04/15.
  */
-public class UserByCredentials implements Function<Session, Nary<Usuario>> {
+public class UserByCredentials implements CrudOperation<Usuario> {
 
     private WebCredential credentials;
 
     @Override
-    public Nary<Usuario> apply(Session session) {
+    public Nary<Usuario> applyUsing(Session session) {
         QUsuario usuario = QUsuario.usuario;
 
         Usuario foundUsuario = new HibernateQuery(session).from(usuario)

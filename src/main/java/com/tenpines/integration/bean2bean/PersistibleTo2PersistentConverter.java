@@ -6,7 +6,7 @@ package com.tenpines.integration.bean2bean;
 import ar.com.kfgodel.nary.api.Nary;
 import ar.com.kfgodel.nary.impl.NaryFromNative;
 import ar.com.tenpines.orm.api.HibernateOrm;
-import ar.com.tenpines.orm.api.operations.FindById;
+import ar.com.tenpines.orm.api.operations.basic.FindById;
 import com.tenpines.commons.tos.PersistibleTo;
 import convention.persistent.PersistentSupport;
 import net.sf.kfgodel.bean2bean.Bean2Bean;
