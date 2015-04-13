@@ -83,7 +83,9 @@ module.exports = function(grunt) {
                           'ember/ember.debug.js',
                           'ember-data/ember-data.js',
                           'marked/lib/marked.js',
-                          'normalize.css/normalize.css'
+                          'normalize.css/normalize.css',
+                          'bootstrap/dist/css/bootstrap.css',
+                          'bootstrap/dist/js/bootstrap.js'
                       ],
                       dest: 'src/main/javascript/web/bower_components/'
                   }
