@@ -108,6 +108,10 @@ module.exports = function(grunt) {
         sassRefresh: {
           files: '<%= sassSrcFolder %>',
           tasks: ['sass']
+        },
+        index_template: {
+          files: '<%= indexHtmlTemplateLocation %>',
+          tasks: ['update_js_deps']
         }
       }
 

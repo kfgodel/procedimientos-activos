@@ -1,5 +1,7 @@
-<section style="float: left">
-    {{name}} - <button {{action "editProcedure" model}}>Editar</button> - <button {{action "deleteProcedure" model}}>Borrar</button>
-    <br>
-    {{markdown-view value=description}}
-</section>
+<h1 class="page-header">{{name}}</h1>
+
+{{markdown-view value=description}}
+
+<h2 class="sub-header">Pasos</h2>
+<button class="btn btn-default" {{action "editProcedure" model}}>Editar</button>
+<button class="btn btn-danger" {{action "deleteProcedure" model}}>Borrar</button>
