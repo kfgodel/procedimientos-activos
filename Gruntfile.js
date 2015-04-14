@@ -85,6 +85,8 @@ module.exports = function(grunt) {
                           'marked/lib/marked.js',
                           'normalize.css/normalize.css',
                           'bootstrap/dist/css/bootstrap.css',
+                          'bootstrap/dist/css/bootstrap-theme.css',
+                          'bootstrap/dist/fonts/glyphicons-halflings-regular.woff',
                           'bootstrap/dist/js/bootstrap.js'
                       ],
                       dest: 'src/main/javascript/web/bower_components/'
