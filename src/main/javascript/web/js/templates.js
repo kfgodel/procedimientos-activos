@@ -937,6 +937,15 @@ Ember.TEMPLATES["procedures/view"] = Ember.HTMLBars.template((function() {
       var el1 = dom.createElement("h1");
       dom.setAttribute(el1,"class","page-header");
       dom.appendChild(el0, el1);
+      var el1 = dom.createTextNode("\n\n");
+      dom.appendChild(el0, el1);
+      var el1 = dom.createTextNode("\n\n");
+      dom.appendChild(el0, el1);
+      var el1 = dom.createElement("h2");
+      dom.setAttribute(el1,"class","sub-header");
+      var el2 = dom.createTextNode("Acciones");
+      dom.appendChild(el1, el2);
+      dom.appendChild(el0, el1);
       var el1 = dom.createTextNode("\n");
       dom.appendChild(el0, el1);
       var el1 = dom.createElement("button");
@@ -951,22 +960,13 @@ Ember.TEMPLATES["procedures/view"] = Ember.HTMLBars.template((function() {
       var el2 = dom.createTextNode("Borrar");
       dom.appendChild(el1, el2);
       dom.appendChild(el0, el1);
-      var el1 = dom.createTextNode("\n\n");
-      dom.appendChild(el0, el1);
-      var el1 = dom.createTextNode("\n\n");
-      dom.appendChild(el0, el1);
-      var el1 = dom.createElement("h2");
-      dom.setAttribute(el1,"class","sub-header");
-      var el2 = dom.createTextNode("Pasos");
-      dom.appendChild(el1, el2);
-      dom.appendChild(el0, el1);
-      var el1 = dom.createTextNode("\nPendiente...");
+      var el1 = dom.createTextNode("\n");
       dom.appendChild(el0, el1);
       return el0;
     },
     render: function render(context, env, contextualElement) {
       var dom = env.dom;
-      var hooks = env.hooks, content = hooks.content, get = hooks.get, element = hooks.element, inline = hooks.inline;
+      var hooks = env.hooks, content = hooks.content, get = hooks.get, inline = hooks.inline, element = hooks.element;
       dom.detectNamespace(contextualElement);
       var fragment;
       if (env.useFragmentCache && dom.canClone) {
@@ -984,14 +984,14 @@ Ember.TEMPLATES["procedures/view"] = Ember.HTMLBars.template((function() {
       } else {
         fragment = this.build(dom);
       }
-      var element0 = dom.childAt(fragment, [2]);
-      var element1 = dom.childAt(fragment, [4]);
+      var element0 = dom.childAt(fragment, [5]);
+      var element1 = dom.childAt(fragment, [7]);
       var morph0 = dom.createMorphAt(dom.childAt(fragment, [0]),-1,-1);
-      var morph1 = dom.createMorphAt(fragment,5,6,contextualElement);
+      var morph1 = dom.createMorphAt(fragment,1,2,contextualElement);
       content(env, morph0, context, "name");
+      inline(env, morph1, context, "markdown-view", [], {"value": get(env, context, "description")});
       element(env, element0, context, "action", ["editProcedure", get(env, context, "model")], {});
       element(env, element1, context, "action", ["deleteProcedure", get(env, context, "model")], {});
-      inline(env, morph1, context, "markdown-view", [], {"value": get(env, context, "description")});
       return fragment;
     }
   };
