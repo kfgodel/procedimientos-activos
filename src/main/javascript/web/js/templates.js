@@ -99,12 +99,10 @@ Ember.TEMPLATES["components/labeled-label"] = Ember.HTMLBars.template((function(
     build: function build(dom) {
       var el0 = dom.createDocumentFragment();
       var el1 = dom.createElement("span");
-      dom.setAttribute(el1,"class","label");
       dom.appendChild(el0, el1);
       var el1 = dom.createTextNode("\n");
       dom.appendChild(el0, el1);
       var el1 = dom.createElement("span");
-      dom.setAttribute(el1,"class","value");
       dom.appendChild(el0, el1);
       var el1 = dom.createTextNode("\n");
       dom.appendChild(el0, el1);
@@ -492,13 +490,13 @@ Ember.TEMPLATES["login"] = Ember.HTMLBars.template((function() {
       hasRendered: false,
       build: function build(dom) {
         var el0 = dom.createDocumentFragment();
-        var el1 = dom.createTextNode("        ");
+        var el1 = dom.createTextNode("            ");
         dom.appendChild(el0, el1);
         var el1 = dom.createElement("div");
         dom.setAttribute(el1,"class","error-message");
-        var el2 = dom.createTextNode("\n            ");
+        var el2 = dom.createTextNode("\n                ");
         dom.appendChild(el1, el2);
-        var el2 = dom.createTextNode("\n        ");
+        var el2 = dom.createTextNode("\n            ");
         dom.appendChild(el1, el2);
         dom.appendChild(el0, el1);
         var el1 = dom.createTextNode("\n");
@@ -537,22 +535,46 @@ Ember.TEMPLATES["login"] = Ember.HTMLBars.template((function() {
     cachedFragment: null,
     hasRendered: false,
     build: function build(dom) {
-      var el0 = dom.createElement("section");
-      dom.setAttribute(el0,"id","login-section");
-      var el1 = dom.createTextNode("\n    ");
-      dom.appendChild(el0, el1);
-      var el1 = dom.createTextNode("\n    ");
-      dom.appendChild(el0, el1);
+      var el0 = dom.createElement("div");
+      dom.setAttribute(el0,"class","container");
       var el1 = dom.createTextNode("\n\n    ");
       dom.appendChild(el0, el1);
-      var el1 = dom.createElement("p");
-      dom.setAttribute(el1,"class","property-input");
+      var el1 = dom.createElement("form");
+      dom.setAttribute(el1,"class","form-signin");
+      var el2 = dom.createTextNode("\n        ");
+      dom.appendChild(el1, el2);
+      var el2 = dom.createElement("h2");
+      dom.setAttribute(el2,"class","form-signin-heading");
+      var el3 = dom.createTextNode("Login");
+      dom.appendChild(el2, el3);
+      dom.appendChild(el1, el2);
       var el2 = dom.createTextNode("\n");
       dom.appendChild(el1, el2);
       var el2 = dom.createTextNode("        ");
       dom.appendChild(el1, el2);
+      var el2 = dom.createElement("label");
+      dom.setAttribute(el2,"class","sr-only");
+      dom.setAttribute(el2,"for","loginInput");
+      var el3 = dom.createTextNode("Login:");
+      dom.appendChild(el2, el3);
+      dom.appendChild(el1, el2);
+      var el2 = dom.createTextNode("\n        ");
+      dom.appendChild(el1, el2);
+      var el2 = dom.createTextNode("\n        ");
+      dom.appendChild(el1, el2);
+      var el2 = dom.createElement("label");
+      dom.setAttribute(el2,"class","sr-only");
+      dom.setAttribute(el2,"for","loginInput");
+      var el3 = dom.createTextNode("Password:");
+      dom.appendChild(el2, el3);
+      dom.appendChild(el1, el2);
+      var el2 = dom.createTextNode("\n        ");
+      dom.appendChild(el1, el2);
+      var el2 = dom.createTextNode("\n        ");
+      dom.appendChild(el1, el2);
       var el2 = dom.createElement("button");
-      var el3 = dom.createTextNode("\n            Entrar\n        ");
+      dom.setAttribute(el2,"class","btn btn-lg btn-primary btn-block");
+      var el3 = dom.createTextNode("Entrar");
       dom.appendChild(el2, el3);
       dom.appendChild(el1, el2);
       var el2 = dom.createTextNode("\n    ");
@@ -564,7 +586,7 @@ Ember.TEMPLATES["login"] = Ember.HTMLBars.template((function() {
     },
     render: function render(context, env, contextualElement) {
       var dom = env.dom;
-      var hooks = env.hooks, get = hooks.get, inline = hooks.inline, block = hooks.block, element = hooks.element;
+      var hooks = env.hooks, get = hooks.get, block = hooks.block, inline = hooks.inline, element = hooks.element;
       dom.detectNamespace(contextualElement);
       var fragment;
       if (env.useFragmentCache && dom.canClone) {
@@ -582,14 +604,14 @@ Ember.TEMPLATES["login"] = Ember.HTMLBars.template((function() {
       } else {
         fragment = this.build(dom);
       }
-      var element0 = dom.childAt(fragment, [3]);
-      var element1 = dom.childAt(element0, [2]);
-      var morph0 = dom.createMorphAt(fragment,0,1);
-      var morph1 = dom.createMorphAt(fragment,1,2);
-      var morph2 = dom.createMorphAt(element0,0,1);
-      inline(env, morph0, context, "labeled-input", [], {"label": "Login:", "value": get(env, context, "model.login")});
-      inline(env, morph1, context, "labeled-input", [], {"label": "Password:", "value": get(env, context, "model.password")});
-      block(env, morph2, context, "if", [get(env, context, "errorMessage")], {}, child0, null);
+      var element0 = dom.childAt(fragment, [1]);
+      var element1 = dom.childAt(element0, [10]);
+      var morph0 = dom.createMorphAt(element0,2,3);
+      var morph1 = dom.createMorphAt(element0,5,6);
+      var morph2 = dom.createMorphAt(element0,8,9);
+      block(env, morph0, context, "if", [get(env, context, "errorMessage")], {}, child0, null);
+      inline(env, morph1, context, "input", [], {"class": "form-control", "placeholder": "login name", "value": get(env, context, "model.login")});
+      inline(env, morph2, context, "input", [], {"class": "form-control", "placeholder": "password", "value": get(env, context, "model.password")});
       element(env, element1, context, "action", ["logIn"], {});
       return fragment;
     }
