@@ -83,7 +83,11 @@ module.exports = function(grunt) {
                           'ember/ember.debug.js',
                           'ember-data/ember-data.js',
                           'marked/lib/marked.js',
-                          'normalize.css/normalize.css'
+                          'normalize.css/normalize.css',
+                          'bootstrap/dist/css/bootstrap.css',
+                          'bootstrap/dist/css/bootstrap-theme.css',
+                          'bootstrap/dist/fonts/glyphicons-halflings-regular.woff',
+                          'bootstrap/dist/js/bootstrap.js'
                       ],
                       dest: 'src/main/javascript/web/bower_components/'
                   }
@@ -104,6 +108,10 @@ module.exports = function(grunt) {
         sassRefresh: {
           files: '<%= sassSrcFolder %>',
           tasks: ['sass']
+        },
+        index_template: {
+          files: '<%= indexHtmlTemplateLocation %>',
+          tasks: ['update_js_deps']
         }
       }
 

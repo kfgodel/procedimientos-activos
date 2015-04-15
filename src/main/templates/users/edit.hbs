@@ -1,20 +1,13 @@
-<section class="abm-edit">
+{{labeled-label label='Id:' value=model.id}}
+{{labeled-input label='Nombre:' value=model.name}}
+{{labeled-input label='Login:' value=model.login}}
+{{labeled-input label='Password:' value=model.password}}
+{{labeled-label label='Created:' value=model.creation}}
+{{labeled-label label='Edited:' value=model.modification}}
 
-    {{labeled-label label='Id:' value=model.id}}
-    {{labeled-input label='Nombre:' value=model.name}}
-    {{labeled-input label='Login:' value=model.login}}
-    {{labeled-input label='Password:' value=model.password}}
-    {{labeled-label label='Created:' value=model.creation}}
-    {{labeled-label label='Edited:' value=model.modification}}
-
-    <p>
-        <p class="property-input">
-            <button {{action "save"}}>
-                Guardar
-            </button>
-            <button {{action "remove"}}>
-                Borrar
-            </button>
-        </p>
-    </p>
-</section>
+<p>
+<p class="property-input">
+  <button class="btn btn-success" {{action "save"}}>Guardar</button>
+  <button class="btn btn-danger" {{action "remove"}}>Borrar</button>
+</p>
+</p>

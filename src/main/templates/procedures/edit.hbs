@@ -1,11 +1,14 @@
-<section style="float: left">
-    {{labeled-input label='Nombre:' value=model.name}}
+<h1 class="page-header">{{input value=model.name}}</h1>
+
+<div class="row">
+  <div class="col-md-6">
     {{labeled-area label='Descripción:' value=model.description}}
+  </div>
+  <div class="col-md-6">
     {{markdown-view value=model.description}}
-    <button {{action "saveProcedure"}}>
-        Guardar
-    </button>
-    <button {{action "deleteProcedure"}}>
-        Borrar
-    </button>
-</section>
+  </div>
+</div>
+
+<h2 class="sub-header">Acciones</h2>
+<button class="btn btn-success" {{action "saveProcedure" }}>Guardar</button>
+<button class="btn btn-danger" {{action "deleteProcedure" model}}>Borrar</button>
