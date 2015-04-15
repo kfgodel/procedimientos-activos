@@ -13,3 +13,6 @@
   .abm > section {
     float: left;
     width: 50%; }
+
+textarea.description_edit {
+  height: 410px; }

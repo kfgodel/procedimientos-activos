@@ -611,7 +611,7 @@ Ember.TEMPLATES["login"] = Ember.HTMLBars.template((function() {
       var morph2 = dom.createMorphAt(element0,8,9);
       block(env, morph0, context, "if", [get(env, context, "errorMessage")], {}, child0, null);
       inline(env, morph1, context, "input", [], {"class": "form-control", "placeholder": "login name", "value": get(env, context, "model.login")});
-      inline(env, morph2, context, "input", [], {"class": "form-control", "placeholder": "password", "value": get(env, context, "model.password"), "action": "logIn"});
+      inline(env, morph2, context, "input", [], {"class": "form-control", "placeholder": "password", "type": "password", "value": get(env, context, "model.password"), "action": "logIn"});
       element(env, element1, context, "action", ["logIn"], {});
       return fragment;
     }
@@ -906,6 +906,13 @@ Ember.TEMPLATES["procedures/edit"] = Ember.HTMLBars.template((function() {
       var el1 = dom.createTextNode("\n");
       dom.appendChild(el0, el1);
       var el1 = dom.createElement("button");
+      dom.setAttribute(el1,"class","btn btn-default");
+      var el2 = dom.createTextNode("Cancelar");
+      dom.appendChild(el1, el2);
+      dom.appendChild(el0, el1);
+      var el1 = dom.createTextNode("\n");
+      dom.appendChild(el0, el1);
+      var el1 = dom.createElement("button");
       dom.setAttribute(el1,"class","btn btn-danger");
       var el2 = dom.createTextNode("Borrar");
       dom.appendChild(el1, el2);
@@ -935,14 +942,16 @@ Ember.TEMPLATES["procedures/edit"] = Ember.HTMLBars.template((function() {
       var element0 = dom.childAt(fragment, [2]);
       var element1 = dom.childAt(fragment, [6]);
       var element2 = dom.childAt(fragment, [8]);
+      var element3 = dom.childAt(fragment, [10]);
       var morph0 = dom.createMorphAt(dom.childAt(fragment, [0]),-1,-1);
       var morph1 = dom.createMorphAt(dom.childAt(element0, [1]),0,1);
       var morph2 = dom.createMorphAt(dom.childAt(element0, [3]),0,1);
       inline(env, morph0, context, "input", [], {"class": "form-control", "placeholder": "procedure name", "value": get(env, context, "model.name")});
-      inline(env, morph1, context, "textarea", [], {"class": "form-control", "placeholder": "description", "value": get(env, context, "model.description")});
+      inline(env, morph1, context, "textarea", [], {"class": "description_edit form-control", "placeholder": "description", "value": get(env, context, "model.description")});
       inline(env, morph2, context, "markdown-view", [], {"value": get(env, context, "model.description")});
       element(env, element1, context, "action", ["saveProcedure"], {});
-      element(env, element2, context, "action", ["deleteProcedure", get(env, context, "model")], {});
+      element(env, element2, context, "action", ["cancelEdition"], {});
+      element(env, element3, context, "action", ["deleteProcedure", get(env, context, "model")], {});
       return fragment;
     }
   };
@@ -960,6 +969,13 @@ Ember.TEMPLATES["procedures/view"] = Ember.HTMLBars.template((function() {
       dom.setAttribute(el1,"class","page-header");
       dom.appendChild(el0, el1);
       var el1 = dom.createTextNode("\n\n");
+      dom.appendChild(el0, el1);
+      var el1 = dom.createElement("div");
+      dom.setAttribute(el1,"class","container-fluid");
+      var el2 = dom.createTextNode("\n    ");
+      dom.appendChild(el1, el2);
+      var el2 = dom.createTextNode("\n");
+      dom.appendChild(el1, el2);
       dom.appendChild(el0, el1);
       var el1 = dom.createTextNode("\n\n");
       dom.appendChild(el0, el1);
@@ -988,7 +1004,7 @@ Ember.TEMPLATES["procedures/view"] = Ember.HTMLBars.template((function() {
     },
     render: function render(context, env, contextualElement) {
       var dom = env.dom;
-      var hooks = env.hooks, content = hooks.content, get = hooks.get, inline = hooks.inline, element = hooks.element;
+      var hooks = env.hooks, get = hooks.get, element = hooks.element, content = hooks.content, inline = hooks.inline;
       dom.detectNamespace(contextualElement);
       var fragment;
       if (env.useFragmentCache && dom.canClone) {
@@ -1006,14 +1022,18 @@ Ember.TEMPLATES["procedures/view"] = Ember.HTMLBars.template((function() {
       } else {
         fragment = this.build(dom);
       }
-      var element0 = dom.childAt(fragment, [5]);
-      var element1 = dom.childAt(fragment, [7]);
-      var morph0 = dom.createMorphAt(dom.childAt(fragment, [0]),-1,-1);
-      var morph1 = dom.createMorphAt(fragment,1,2,contextualElement);
+      var element0 = dom.childAt(fragment, [0]);
+      var element1 = dom.childAt(fragment, [2]);
+      var element2 = dom.childAt(fragment, [6]);
+      var element3 = dom.childAt(fragment, [8]);
+      var morph0 = dom.createMorphAt(element0,-1,-1);
+      var morph1 = dom.createMorphAt(element1,0,1);
+      element(env, element0, context, "action", ["editProcedure", get(env, context, "model")], {"on": "doubleClick"});
       content(env, morph0, context, "name");
+      element(env, element1, context, "action", ["editProcedure", get(env, context, "model")], {"on": "doubleClick"});
       inline(env, morph1, context, "markdown-view", [], {"value": get(env, context, "description")});
-      element(env, element0, context, "action", ["editProcedure", get(env, context, "model")], {});
-      element(env, element1, context, "action", ["deleteProcedure", get(env, context, "model")], {});
+      element(env, element2, context, "action", ["editProcedure", get(env, context, "model")], {});
+      element(env, element3, context, "action", ["deleteProcedure", get(env, context, "model")], {});
       return fragment;
     }
   };
