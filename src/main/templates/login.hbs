@@ -8,9 +8,11 @@
             </div>
           {{/if}}
         <label class="sr-only" for="loginInput">Login:</label>
-        {{input class="form-control" placeholder="login name" value=model.login}}
+        {{input class="form-control" placeholder="login name"
+            value=model.login}}
         <label class="sr-only" for="loginInput">Password:</label>
-        {{input class="form-control" placeholder="password" value=model.password}}
+        {{input class="form-control" placeholder="password"
+            value=model.password action="logIn"}}
         <button class="btn btn-lg btn-primary btn-block" {{action "logIn"}}>Entrar</button>
     </form>
 </div>

@@ -611,7 +611,7 @@ Ember.TEMPLATES["login"] = Ember.HTMLBars.template((function() {
       var morph2 = dom.createMorphAt(element0,8,9);
       block(env, morph0, context, "if", [get(env, context, "errorMessage")], {}, child0, null);
       inline(env, morph1, context, "input", [], {"class": "form-control", "placeholder": "login name", "value": get(env, context, "model.login")});
-      inline(env, morph2, context, "input", [], {"class": "form-control", "placeholder": "password", "value": get(env, context, "model.password")});
+      inline(env, morph2, context, "input", [], {"class": "form-control", "placeholder": "password", "value": get(env, context, "model.password"), "action": "logIn"});
       element(env, element1, context, "action", ["logIn"], {});
       return fragment;
     }
