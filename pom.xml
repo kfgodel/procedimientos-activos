@@ -294,11 +294,25 @@
         <artifactId>querydsl-apt</artifactId>
         <version>${version.querydsl}</version>
         <scope>provided</scope>
+        <exclusions>
+            <exclusion>
+                <!-- Already provided by jetty under another groupid -->
+                <groupId>javax.inject</groupId>
+                <artifactId>javax.inject</artifactId>
+            </exclusion>
+        </exclusions>
     </dependency>
     <dependency>
         <groupId>com.mysema.querydsl</groupId>
         <artifactId>querydsl-jpa</artifactId>
         <version>${version.querydsl}</version>
+        <exclusions>
+            <exclusion>
+                <!-- Already provided by a reflections findbugs dependency -->
+                <groupId>com.google.code.findbugs</groupId>
+                <artifactId>jsr305</artifactId>
+            </exclusion>
+        </exclusions>
     </dependency>
 
     <!-- Multi-type conversions -->
