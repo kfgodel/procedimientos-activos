@@ -1,8 +1,8 @@
-<h1 class="page-header">{{input value=model.name}}</h1>
+<h1 class="page-header">{{input class="form-control" placeholder="procedure name" value=model.name}}</h1>
 
 <div class="row">
   <div class="col-md-6">
-    {{labeled-area label='Descripción:' value=model.description}}
+    {{textarea class="description_edit form-control" placeholder="description" value=model.description}}
   </div>
   <div class="col-md-6">
     {{markdown-view value=model.description}}
@@ -11,4 +11,5 @@
 
 <h2 class="sub-header">Acciones</h2>
 <button class="btn btn-success" {{action "saveProcedure" }}>Guardar</button>
+<button class="btn btn-default" {{action "cancelEdition" }}>Cancelar</button>
 <button class="btn btn-danger" {{action "deleteProcedure" model}}>Borrar</button>

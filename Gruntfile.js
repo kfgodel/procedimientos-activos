@@ -7,15 +7,19 @@ module.exports = function(grunt) {
     grunt.loadNpmTasks('grunt-wiredep');
     grunt.loadNpmTasks('grunt-contrib-copy');
     grunt.loadNpmTasks('grunt-sass');
+    grunt.loadNpmTasks('grunt-contrib-clean');
+
+    // Measure execution time for the tasks
+    require('time-grunt')(grunt);
 
     // Initialize and configure grunt with a config object
     grunt.initConfig({
         
       // Ember templates compilation (details on: https://github.com/dgeb/grunt-ember-templates/pull/77)
       templateSrcFolder: 'src/main/templates',
+      templateSrcFiles: '<%= templateSrcFolder %>/**/*.hbs',
       templateDstFile: 'src/main/javascript/web/js/templates.js',
 
-      templateSrcFiles: '<%= templateSrcFolder %>/**/*.hbs',
       emberTemplates: {
           compile: {
               options: {
@@ -30,15 +34,15 @@ module.exports = function(grunt) {
       },
 
       // Sass css compilation
-      sassSrcFolder: 'src/main/sass/main.scss',
+      sassSrcFile: 'src/main/sass/main.scss',
       sassDstFile: 'src/main/html/web/main.css',
       sass: {
         options: {
-          sourceMap: false
+          sourceMap: true
         },
         dist: {
           files: {
-            '<%= sassDstFile %>': '<%= sassSrcFolder %>'
+            '<%= sassDstFile %>': '<%= sassSrcFile %>'
           }
         }
       },
@@ -70,9 +74,15 @@ module.exports = function(grunt) {
           }
       },
 
+      bower_publish_folder: 'src/main/javascript/web/bower_components',
+      // Delete published bower deps (needed to remove unused)
+      clean:{
+        bower_deps: ["<%= bower_publish_folder %>/*"]
+      },
+
       // Make bower dependencies available in runtime
       copy: {
-          publish_bower_js: {
+          bower_deps: {
               files: [
                   {
                       expand: true,
@@ -89,40 +99,61 @@ module.exports = function(grunt) {
                           'bootstrap/dist/fonts/glyphicons-halflings-regular.woff',
                           'bootstrap/dist/js/bootstrap.js'
                       ],
-                      dest: 'src/main/javascript/web/bower_components/'
+                      dest: '<%= bower_publish_folder %>/'
                   }
               ]
           }
       },
 
+      ownJsFiles: '<%= ownJsFolder %>/js/**/*.js',
       // Recompile templates if they change
       watch: {
-        emberTemplates: {
+        hbsRefresh: {
             files: '<%= templateSrcFiles %>',
-            tasks: ['emberTemplates']
-        },
-        own_js: {
-          files: '<%= ownJsFolder %>/js/**/*.js',
-          tasks: ['update_js_deps']
+            tasks: ['compile_hbs']
         },
         sassRefresh: {
-          files: '<%= sassSrcFolder %>',
-          tasks: ['sass']
+          files: '<%= sassSrcFile %>',
+          tasks: ['compile_sass']
         },
-        index_template: {
+        own_js_refresh: {
+          files: '<%= ownJsFiles %>',
+          tasks: ['compile_index']
+        },
+        index_template_refresh: {
           files: '<%= indexHtmlTemplateLocation %>',
-          tasks: ['update_js_deps']
+          tasks: ['compile_index']
+        },
+        bower_refresh: {
+          files: 'bower.json',
+          tasks: ['update_bower_deps']
         }
       }
 
     });
     
-    
-    
-    // Define runnable tasks
-    grunt.registerTask('default', ['setup_project']);
-    grunt.registerTask('compile_and_watch', ['sass', 'emberTemplates', 'watch']);
-    grunt.registerTask('update_js_deps', ['wiredep:include_bower_js','includeSource:include_own_js','copy:publish_bower_js']);
-    grunt.registerTask('setup_project', ['sass', 'emberTemplates', 'update_js_deps']);
+  // Basic task aliases (reference a single plugin task)
+  grunt.registerTask('compile_hbs', ['emberTemplates']);
+  grunt.registerTask('compile_sass', ['sass']);
+  grunt.registerTask('compile_index', ['includeSource:include_own_js']);
+  grunt.registerTask('update_bower_refs_in_template', ['wiredep:include_bower_js']);
+  grunt.registerTask('clean_bower_deps', ['clean:bower_deps']);
+  grunt.registerTask('publish_bower_deps', ['copy:bower_deps']);
+  grunt.registerTask('rebuild_on_changes', ['watch']);
+
+
+  // Aggregated task aliases (abstractions over a group of tasks)
+  grunt.registerTask('update_bower_deps', ['clean_bower_deps','publish_bower_deps','update_bower_refs_in_template','compile_index']);
+  grunt.registerTask('update_all_js_deps', ['update_bower_deps']); // Includes 'compile_index' that also updates own js deps
+
+  // Main useful tasks (agregated tasks that have an important meaning or usage in teh project)
+  grunt.registerTask('build', [
+    'compile_sass',
+    'compile_hbs',
+    'update_all_js_deps'
+  ]);
+
+  // Default
+  grunt.registerTask('default', ['build']);
 
 };

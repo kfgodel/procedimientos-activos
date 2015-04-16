@@ -9,6 +9,10 @@ App.ProceduresEditController = Ember.ObjectController.extend({
       var model = this.get('model');
       model.destroyRecord();
       this.transitionToRoute('procedures')
+    },
+    cancelEdition: function(){
+      var procedure = this.get('model');
+      this.transitionToRoute('procedures.view', procedure);
     }
   }
 });

@@ -15,19 +15,24 @@ Prueba de concepto para crear una aplicación web con un framework JS para front
 > npm install  
 > bower install  
 
-### Setupear la parte JS del proyecto para empezar desarrollo
-> grunt setup_project  
+### Recompilar proyecto JS (no debería ser necesario en un checkout limpio)
+> grunt  
 
 ### Levantar el server
+Desde una IDE ejecutar la clase Java
 ar.com.tenpines.html5poc.Html5PocMain.main()
 
+### Recompilar JS mientras hacemos cambios
+> grunt rebuild_on_changes  
+(anda mal en windows porque el server Java lockea los archivos)
+
 ## Generar binarios
+> mvn package  
 
 ### Probar el zip final
-> mvn package  
 > cd target  
 > unzip ateam-html5-poc.zip  
- (descomprime en una carpeta con ejecutables)  
+ (descomprime en una carpeta con ejecutables)    
 > cd ateam-html5-poc/bin  
 > ./wrapper.sh console  
 
