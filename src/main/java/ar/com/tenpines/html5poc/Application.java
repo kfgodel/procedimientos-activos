@@ -11,6 +11,7 @@ import ar.com.tenpines.orm.api.HibernateOrm;
 import ar.com.tenpines.orm.impl.HibernateFacade;
 import ar.com.tenpines.orm.impl.config.ImmutableCoordinates;
 import ar.com.tenpines.orm.impl.config.SmallAppPreConfig;
+import org.hibernate.dialect.H2Dialect;
 import org.hibernate.dialect.HSQLDialect;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -76,8 +77,7 @@ public class Application {
     }
 
     private HibernateOrm createPersistenceLayer() {
-        String closeAfterLastConnection = "shutdown=true";
-        DbCoordinates dbCoordinates = ImmutableCoordinates.create(HSQLDialect.class, "jdbc:hsqldb:file:db/hsql;" + closeAfterLastConnection, "sa", "");
+        DbCoordinates dbCoordinates = ImmutableCoordinates.create(H2Dialect.class, "jdbc:h2:file:./db/h2", "sa", "");
         HibernateOrm hibernateOrm = HibernateFacade.create(SmallAppPreConfig.create(dbCoordinates, "convention.persistent"));
         return hibernateOrm;
     }

@@ -44,6 +44,7 @@
         <version.bean2bean>1.1.4</version.bean2bean>
         <version.diamond>1.0.1-SNAPSHOT</version.diamond>
         <version.groovy>2.1.5</version.groovy>
+        <version.h2>1.4.187</version.h2>
     </properties>
 
 
@@ -287,8 +288,14 @@
         <artifactId>hsqldb</artifactId>
         <version>${version.hsqldb}</version>
     </dependency>
+    <dependency>
+        <groupId>com.h2database</groupId>
+        <artifactId>h2</artifactId>
+        <version>${version.h2}</version>
+    </dependency>
 
-    <!-- programmatic dsl for queries -->
+
+        <!-- programmatic dsl for queries -->
     <dependency>
         <groupId>com.mysema.querydsl</groupId>
         <artifactId>querydsl-apt</artifactId>
