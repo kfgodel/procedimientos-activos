@@ -1,55 +1,53 @@
 {{navigation-bar}}
 
-<div class="container-fluid">
-  <div class="row">
+<div class="row">
 
-    <!-- User list -->
-    <div class="col-md-8">
-      <button class="btn btn-success" {{action "create"}}>Crear</button>
+  <!-- User list -->
+  <div class="col-md-8">
+    <button class="btn btn-success" {{action "create"}}>Crear</button>
 
-      <div class="table-responsive">
-        <table class="table table-striped">
-          <thead>
+    <div class="table-responsive">
+      <table class="table table-striped">
+        <thead>
+        <tr>
+
+          <th>Id</th>
+          <th>Nombre</th>
+          <th>Login</th>
+          <th>Password</th>
+        </tr>
+        </thead>
+
+        <tbody>
+        {{#each user in model }}
           <tr>
-
-            <th>Id</th>
-            <th>Nombre</th>
-            <th>Login</th>
-            <th>Password</th>
+            <td>{{#link-to 'users.edit' user}}{{user.id}}{{/link-to}}</td>
+            <td>{{#link-to 'users.edit' user}}{{user.name}}{{/link-to}}</td>
+            <td>{{user.login}}</td>
+            <td>{{user.password}}</td>
           </tr>
-          </thead>
-
-          <tbody>
-          {{#each user in model }}
-            <tr>
-              <td>{{#link-to 'users.edit' user}}{{user.id}}{{/link-to}}</td>
-              <td>{{#link-to 'users.edit' user}}{{user.name}}{{/link-to}}</td>
-              <td>{{user.login}}</td>
-              <td>{{user.password}}</td>
-            </tr>
-          {{else}}
-            <tr>
-              <td colspan="4">No users found</td>
-            </tr>
-          {{/each}}
-          </tbody>
-
-          <tfoot>
+        {{else}}
           <tr>
-            <td>Total</td>
-            <td></td>
-            <td></td>
-            <td>{{model.length}}</td>
+            <td colspan="4">No users found</td>
           </tr>
-          </tfoot>
-        </table>
-      </div>
-    </div>
+        {{/each}}
+        </tbody>
 
-    <!-- User edit form -->
-    <div class="col-md-4">
-        {{outlet}}
+        <tfoot>
+        <tr>
+          <td>Total</td>
+          <td></td>
+          <td></td>
+          <td>{{model.length}}</td>
+        </tr>
+        </tfoot>
+      </table>
     </div>
-
   </div>
+
+  <!-- User edit form -->
+  <div class="col-md-4">
+    {{outlet}}
+  </div>
+
 </div>

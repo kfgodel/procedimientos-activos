@@ -1,18 +1,15 @@
-<div class="container">
-
-    <form class="form-signin">
-        <h2 class="form-signin-heading">Login</h2>
-          {{#if errorMessage}}
-            <div class="error-message">
-                {{errorMessage}}
-            </div>
-          {{/if}}
-        <label class="sr-only" for="loginInput">Login:</label>
-        {{input class="form-control" placeholder="login name"
-            value=model.login}}
-        <label class="sr-only" for="loginInput">Password:</label>
-        {{input class="form-control" placeholder="password" type="password"
-            value=model.password action="logIn"}}
-        <button class="btn btn-lg btn-primary btn-block" {{action "logIn"}}>Entrar</button>
-    </form>
-</div>
+<form class="form-signin">
+    <h2 class="form-signin-heading">Login</h2>
+      {{#if errorMessage}}
+        <div class="error-message">
+            {{errorMessage}}
+        </div>
+      {{/if}}
+    <label class="sr-only" for="loginInput">Login:</label>
+    {{input class="form-control" placeholder="login name"
+        value=model.login}}
+    <label class="sr-only" for="loginInput">Password:</label>
+    {{input class="form-control" placeholder="password" type="password"
+        value=model.password action="logIn"}}
+    <button class="btn btn-lg btn-primary btn-block" {{action "logIn"}}>Entrar</button>
+</form>

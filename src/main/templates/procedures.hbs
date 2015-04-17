@@ -1,26 +1,24 @@
 {{navigation-bar}}
 
-<div class="container-fluid">
-  <div class="row">
+<div class="row">
 
-    <!-- Procedure list -->
-    <div class="col-sm-3 col-md-2 sidebar">
-      <ul class="nav nav-sidebar">
-        <li><a href="#" {{action "createProcedure"}}>Crear nuevo</a></li>
-      </ul>
-      <ul class="nav nav-sidebar">
-        {{#each procedure in model }}
-          <li>{{#link-to 'procedures.view' procedure}}{{procedure.name}}{{/link-to}}</li>
-        {{else}}
-          <li>No procedures yet</li>
-        {{/each}}
-      </ul>
-    </div>
-
-    <!-- Procedure content -->
-    <div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main">
-        {{outlet}}
-    </div>
-
+  <!-- Procedure list -->
+  <div class="col-sm-3 col-md-2 sidebar">
+    <ul class="nav nav-sidebar">
+      <li><a href="#" {{action "createProcedure"}}>Crear nuevo</a></li>
+    </ul>
+    <ul class="nav nav-sidebar">
+      {{#each procedure in model }}
+        <li>{{#link-to 'procedures.view' procedure}}{{procedure.name}}{{/link-to}}</li>
+      {{else}}
+        <li>No procedures yet</li>
+      {{/each}}
+    </ul>
   </div>
+
+  <!-- Procedure content -->
+  <div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main">
+      {{outlet}}
+  </div>
+
 </div>
