@@ -538,22 +538,6 @@ Ember.TEMPLATES["login"] = Ember.HTMLBars.template((function() {
       dom.appendChild(el0, el1);
       var el1 = dom.createTextNode("    ");
       dom.appendChild(el0, el1);
-      var el1 = dom.createElement("label");
-      dom.setAttribute(el1,"class","sr-only");
-      dom.setAttribute(el1,"for","loginInput");
-      var el2 = dom.createTextNode("Login:");
-      dom.appendChild(el1, el2);
-      dom.appendChild(el0, el1);
-      var el1 = dom.createTextNode("\n    ");
-      dom.appendChild(el0, el1);
-      var el1 = dom.createTextNode("\n    ");
-      dom.appendChild(el0, el1);
-      var el1 = dom.createElement("label");
-      dom.setAttribute(el1,"class","sr-only");
-      dom.setAttribute(el1,"for","loginInput");
-      var el2 = dom.createTextNode("Password:");
-      dom.appendChild(el1, el2);
-      dom.appendChild(el0, el1);
       var el1 = dom.createTextNode("\n    ");
       dom.appendChild(el0, el1);
       var el1 = dom.createTextNode("\n    ");
@@ -587,10 +571,10 @@ Ember.TEMPLATES["login"] = Ember.HTMLBars.template((function() {
       } else {
         fragment = this.build(dom);
       }
-      var element0 = dom.childAt(fragment, [10]);
+      var element0 = dom.childAt(fragment, [6]);
       var morph0 = dom.createMorphAt(fragment,2,3);
-      var morph1 = dom.createMorphAt(fragment,5,6);
-      var morph2 = dom.createMorphAt(fragment,8,9);
+      var morph1 = dom.createMorphAt(fragment,3,4);
+      var morph2 = dom.createMorphAt(fragment,4,5);
       block(env, morph0, context, "if", [get(env, context, "errorMessage")], {}, child0, null);
       inline(env, morph1, context, "input", [], {"class": "form-control", "placeholder": "login name", "value": get(env, context, "model.login")});
       inline(env, morph2, context, "input", [], {"class": "form-control", "placeholder": "password", "type": "password", "value": get(env, context, "model.password"), "action": "logIn"});
@@ -748,18 +732,9 @@ Ember.TEMPLATES["procedures"] = Ember.HTMLBars.template((function() {
       dom.setAttribute(el2,"class","col-sm-3 col-md-2 sidebar");
       var el3 = dom.createTextNode("\n    ");
       dom.appendChild(el2, el3);
-      var el3 = dom.createElement("ul");
-      dom.setAttribute(el3,"class","nav nav-sidebar");
-      var el4 = dom.createTextNode("\n      ");
-      dom.appendChild(el3, el4);
-      var el4 = dom.createElement("li");
-      var el5 = dom.createElement("a");
-      dom.setAttribute(el5,"href","#");
-      var el6 = dom.createTextNode("Crear nuevo");
-      dom.appendChild(el5, el6);
-      dom.appendChild(el4, el5);
-      dom.appendChild(el3, el4);
-      var el4 = dom.createTextNode("\n    ");
+      var el3 = dom.createElement("button");
+      dom.setAttribute(el3,"class","btn btn-success");
+      var el4 = dom.createTextNode("Crear nuevo");
       dom.appendChild(el3, el4);
       dom.appendChild(el2, el3);
       var el3 = dom.createTextNode("\n    ");
@@ -815,7 +790,7 @@ Ember.TEMPLATES["procedures"] = Ember.HTMLBars.template((function() {
       if (this.cachedFragment) { dom.repairClonedNode(fragment,[0]); }
       var element0 = dom.childAt(fragment, [2]);
       var element1 = dom.childAt(element0, [3]);
-      var element2 = dom.childAt(element1, [1, 1, 0]);
+      var element2 = dom.childAt(element1, [1]);
       var morph0 = dom.createMorphAt(fragment,0,1,contextualElement);
       var morph1 = dom.createMorphAt(dom.childAt(element1, [3]),0,1);
       var morph2 = dom.createMorphAt(dom.childAt(element0, [7]),0,1);
@@ -1237,7 +1212,7 @@ Ember.TEMPLATES["users"] = Ember.HTMLBars.template((function() {
       dom.appendChild(el2, el3);
       var el3 = dom.createElement("button");
       dom.setAttribute(el3,"class","btn btn-success");
-      var el4 = dom.createTextNode("Crear");
+      var el4 = dom.createTextNode("Crear Nuevo");
       dom.appendChild(el3, el4);
       dom.appendChild(el2, el3);
       var el3 = dom.createTextNode("\n\n    ");
