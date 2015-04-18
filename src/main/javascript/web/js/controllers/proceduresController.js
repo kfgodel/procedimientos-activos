@@ -1,5 +1,5 @@
 App.ProceduresController = Ember.ArrayController.extend({
-  //queryParams: ['nameOrDescription'],
+  queryParams: ['nameOrDescription'],
   nameOrDescription: "",
   actions: {
     createProcedure: function() {
