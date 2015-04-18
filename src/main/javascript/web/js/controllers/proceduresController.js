@@ -9,6 +9,7 @@ App.ProceduresController = Ember.ArrayController.extend({
     }
   },
 
+  // We can do this while we have all the necessary data and the set is small enough
   filteredProcedures: function() {
     var nameOrDescription = this.get('nameOrDescription');
     var procedures = this.get('model');
