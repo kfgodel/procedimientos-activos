@@ -679,7 +679,7 @@ Ember.TEMPLATES["procedures"] = Ember.HTMLBars.template((function() {
         var el1 = dom.createTextNode("        ");
         dom.appendChild(el0, el1);
         var el1 = dom.createElement("li");
-        var el2 = dom.createTextNode("No procedures yet");
+        var el2 = dom.createTextNode("No procedures found");
         dom.appendChild(el1, el2);
         dom.appendChild(el0, el1);
         var el1 = dom.createTextNode("\n");
@@ -732,6 +732,12 @@ Ember.TEMPLATES["procedures"] = Ember.HTMLBars.template((function() {
       dom.setAttribute(el2,"class","col-sm-3 col-md-2 sidebar");
       var el3 = dom.createTextNode("\n    ");
       dom.appendChild(el2, el3);
+      var el3 = dom.createTextNode("\n    ");
+      dom.appendChild(el2, el3);
+      var el3 = dom.createElement("hr");
+      dom.appendChild(el2, el3);
+      var el3 = dom.createTextNode("\n    ");
+      dom.appendChild(el2, el3);
       var el3 = dom.createElement("button");
       dom.setAttribute(el3,"class","btn btn-success");
       var el4 = dom.createTextNode("Crear nuevo");
@@ -769,7 +775,7 @@ Ember.TEMPLATES["procedures"] = Ember.HTMLBars.template((function() {
     },
     render: function render(context, env, contextualElement) {
       var dom = env.dom;
-      var hooks = env.hooks, content = hooks.content, element = hooks.element, get = hooks.get, block = hooks.block;
+      var hooks = env.hooks, content = hooks.content, get = hooks.get, inline = hooks.inline, element = hooks.element, block = hooks.block;
       dom.detectNamespace(contextualElement);
       var fragment;
       if (env.useFragmentCache && dom.canClone) {
@@ -790,14 +796,16 @@ Ember.TEMPLATES["procedures"] = Ember.HTMLBars.template((function() {
       if (this.cachedFragment) { dom.repairClonedNode(fragment,[0]); }
       var element0 = dom.childAt(fragment, [2]);
       var element1 = dom.childAt(element0, [3]);
-      var element2 = dom.childAt(element1, [1]);
+      var element2 = dom.childAt(element1, [4]);
       var morph0 = dom.createMorphAt(fragment,0,1,contextualElement);
-      var morph1 = dom.createMorphAt(dom.childAt(element1, [3]),0,1);
-      var morph2 = dom.createMorphAt(dom.childAt(element0, [7]),0,1);
+      var morph1 = dom.createMorphAt(element1,0,1);
+      var morph2 = dom.createMorphAt(dom.childAt(element1, [6]),0,1);
+      var morph3 = dom.createMorphAt(dom.childAt(element0, [7]),0,1);
       content(env, morph0, context, "navigation-bar");
+      inline(env, morph1, context, "input", [], {"class": "form-control", "placeholder": "Buscar...", "value": get(env, context, "nameOrDescription")});
       element(env, element2, context, "action", ["createProcedure"], {});
-      block(env, morph1, context, "each", [get(env, context, "model")], {"keyword": "procedure"}, child0, child1);
-      content(env, morph2, context, "outlet");
+      block(env, morph2, context, "each", [get(env, context, "filteredProcedures")], {"keyword": "procedure"}, child0, child1);
+      content(env, morph3, context, "outlet");
       return fragment;
     }
   };

@@ -4,12 +4,14 @@
 
   <!-- Procedure list -->
   <div class="col-sm-3 col-md-2 sidebar">
+    {{input class="form-control" placeholder="Buscar..." value=nameOrDescription }}
+    <hr>
     <button class="btn btn-success" {{action "createProcedure"}}>Crear nuevo</button>
     <ul class="nav nav-sidebar">
-      {{#each procedure in model }}
+      {{#each procedure in filteredProcedures }}
         <li>{{#link-to 'procedures.view' procedure}}{{procedure.name}}{{/link-to}}</li>
       {{else}}
-        <li>No procedures yet</li>
+        <li>No procedures found</li>
       {{/each}}
     </ul>
   </div>
