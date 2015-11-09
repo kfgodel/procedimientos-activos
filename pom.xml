@@ -277,13 +277,6 @@
 
   <dependencies>
 
-    <!-- Ember JS frontend -->
-    <dependency>
-      <groupId>ar.com.kfgodel</groupId>
-      <artifactId>ember-cli-poc</artifactId>
-      <version>${version.frontend}</version>
-    </dependency>
-
     <!-- Communication classes to manage executable host container -->
     <dependency>
       <groupId>org.tanukisoftware</groupId>

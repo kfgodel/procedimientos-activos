@@ -1,51 +1,26 @@
 <!DOCTYPE html>
 <html>
-<head>
+  <head>
     <meta charset="utf-8">
-    <!--Mobile bootstrap compatibility -->
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>MyNewApp</title>
+    <meta name="description" content="">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Ember.js • TodoMVC</title>
 
-    <!-- Bootstrap core CSS / Includes Normalize.css -->
-    <link href="bower_components/bootstrap/dist/css/bootstrap.css" rel="stylesheet">
-    <!-- Bootstrap theme -->
-    <link href="bower_components/bootstrap/dist/css/bootstrap-theme.css" rel="stylesheet">
-    <!-- Bootstrap dashboard styles -->
-    <link href="vendor/dashboard.css" rel="stylesheet">
+    <base href="/" />
+<meta name="my-new-app/config/environment" content="%7B%22modulePrefix%22%3A%22my-new-app%22%2C%22environment%22%3A%22development%22%2C%22baseURL%22%3A%22/%22%2C%22locationType%22%3A%22auto%22%2C%22EmberENV%22%3A%7B%22FEATURES%22%3A%7B%7D%7D%2C%22APP%22%3A%7B%22name%22%3A%22my-new-app%22%2C%22version%22%3A%220.0.0+01dc4f1d%22%7D%2C%22contentSecurityPolicyHeader%22%3A%22Content-Security-Policy-Report-Only%22%2C%22contentSecurityPolicy%22%3A%7B%22default-src%22%3A%22%27none%27%22%2C%22script-src%22%3A%22%27self%27%20%27unsafe-eval%27%22%2C%22font-src%22%3A%22%27self%27%22%2C%22connect-src%22%3A%22%27self%27%22%2C%22img-src%22%3A%22%27self%27%22%2C%22style-src%22%3A%22%27self%27%22%2C%22media-src%22%3A%22%27self%27%22%7D%2C%22exportApplicationGlobal%22%3Atrue%7D" />
 
-    <!-- App styles -->
-    <link rel="stylesheet" href="main.css">
-</head>
+    <link rel="stylesheet" href="assets/vendor.css">
+    <link rel="stylesheet" href="assets/my-new-app.css">
 
-<body>
+    
+  </head>
+  <body>
+    
 
-    <!-- bower:js -->
-    <script src="bower_components/jquery/dist/jquery.js"></script>
-    <script src="bower_components/ember/ember.debug.js"></script>
-    <script src="bower_components/ember-data/ember-data.js"></script>
-    <script src="bower_components/marked/lib/marked.js"></script>
-    <script src="bower_components/bootstrap/dist/js/bootstrap.js"></script>
-    <!-- endbower -->
+    <script src="assets/vendor.js"></script>
+    <script src="assets/my-new-app.js"></script>
 
-    <!-- include: "type": "js", "files": "js/**/*.js" -->
-    <script src="js/_helpers/markdown2html.js"></script>
-    <script src="js/application.js"></script>
-    <script src="js/components/labeled-area.js"></script>
-    <script src="js/components/labeled-input.js"></script>
-    <script src="js/components/labeled-label.js"></script>
-    <script src="js/components/navigation-bar.js"></script>
-    <script src="js/controllers/loginController.js"></script>
-    <script src="js/controllers/proceduresController.js"></script>
-    <script src="js/controllers/proceduresEditController.js"></script>
-    <script src="js/controllers/proceduresViewController.js"></script>
-    <script src="js/controllers/usersController.js"></script>
-    <script src="js/controllers/usersEditController.js"></script>
-    <script src="js/models/procedure.js"></script>
-    <script src="js/models/user.js"></script>
-    <script src="js/router.js"></script>
-    <script src="js/templates.js"></script>
-    <script src="js/views/applicationView.js"></script>
-    <!-- /include -->
-
-</body>
+    
+  </body>
 </html>
