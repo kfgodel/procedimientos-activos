@@ -536,9 +536,9 @@ Ember.TEMPLATES["login"] = Ember.HTMLBars.template((function() {
       dom.appendChild(el0, el1);
       var el1 = dom.createTextNode("\n");
       dom.appendChild(el0, el1);
-      var el1 = dom.createTextNode("    ");
-      dom.appendChild(el0, el1);
       var el1 = dom.createTextNode("\n    ");
+      dom.appendChild(el0, el1);
+      var el1 = dom.createTextNode("\n\n    ");
       dom.appendChild(el0, el1);
       var el1 = dom.createTextNode("\n    ");
       dom.appendChild(el0, el1);

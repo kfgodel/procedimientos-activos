@@ -36,7 +36,7 @@ ar.com.tenpines.html5poc.Html5PocMain.main()
 > cd ateam-html5-poc/bin  
 > ./wrapper.sh console  
 
-Abrir browser en http://localhsot:9090 (debería verse la app)
+Abrir browser en [http://localhsot:9090](http://localhsot:9090) (debería verse la app)
 Ctrl+C para salir
 
 
