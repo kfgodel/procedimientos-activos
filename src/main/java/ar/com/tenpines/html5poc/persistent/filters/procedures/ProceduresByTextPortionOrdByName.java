@@ -14,20 +14,26 @@ import java.util.List;
  * This type represents a filter that fetches all the procedures ordered by name
  * Created by kfgodel on 04/04/15.
  */
-public class FindAllProceduresOrdByName implements CrudOperation<Procedure> {
+public class ProceduresByTextPortionOrdByName implements CrudOperation<Procedure> {
+
+    private String filterText;
 
     @Override
     public Nary<Procedure> applyUsing(Session session) {
         QProcedure procedure = QProcedure.procedure;
-        List<Procedure> foundProcedures = new HibernateQuery(session)
-                .from(procedure)
+        HibernateQuery query = new HibernateQuery(session)
+          .from(procedure)
+          .where(procedure.name.contains(filterText).or(procedure.description.contains(filterText)));
+
+        List<Procedure> foundProcedures = query
                 .orderBy(procedure.name.asc())
                 .list(procedure);
         return NaryFromNative.create(foundProcedures.stream());
     }
 
-    public static FindAllProceduresOrdByName create() {
-        FindAllProceduresOrdByName filter = new FindAllProceduresOrdByName();
+    public static ProceduresByTextPortionOrdByName create(String filterText) {
+        ProceduresByTextPortionOrdByName filter = new ProceduresByTextPortionOrdByName();
+        filter.filterText = filterText;
         return filter;
     }
 
