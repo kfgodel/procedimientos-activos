@@ -8,8 +8,8 @@ Prueba de concepto para crear una aplicación web con un framework JS para front
 Bajar como proyecto independiente [Ember-cli POC](https://github.com/kfgodel/ember-cli-poc)  
 Y setupearlo segun sus instrucciones.  
 
-Una vez que se obtiene el "compilado" en /dist usar `mvn install` o `mvn deploy` para generar una nueva version de maven.
-La cual se puede usar desde el backend como dependencia.
+Una vez que se obtiene el "compilado" en /dist usar `mvn install` o `mvn deploy` para generar una nueva version del 
+frontend disponible como dependencia maven. La cual se puede usar desde el backend como cualquier otra dependencia.
 
 ### Backend
 Para desarrollar sólo es necesario invocar
