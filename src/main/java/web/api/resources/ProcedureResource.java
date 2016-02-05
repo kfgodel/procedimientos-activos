@@ -39,12 +39,6 @@ public class ProcedureResource {
     return this.application.getTransformer().transformTo(ProcedureTo.class, procedure);
   }
 
-  @PUT
-  public ProcedureTo createProcedurePut() {
-    return createProcedure();
-  }
-
-
   @POST
   public ProcedureTo createProcedure() {
     Procedure newProcedure = Procedure.create("Procedimiento nn", "Sin descripción");
