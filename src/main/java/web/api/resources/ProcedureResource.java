@@ -75,10 +75,8 @@ public class ProcedureResource {
 
   @DELETE
   @Path("/{procedureId}")
-  public ProcedureTo deleteUser(@PathParam("procedureId") Long procedureId) {
+  public void deleteUser(@PathParam("procedureId") Long procedureId) {
     application.getHibernate().doUnderTransaction(DeleteById.create(Procedure.class, procedureId));
-
-    return ProcedureTo.create(procedureId, "", "");
   }
 
   public static ProcedureResource create(Application application) {
