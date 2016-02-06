@@ -1,12 +1,15 @@
 package convention.persistent;
 
 import javax.persistence.Entity;
+import javax.persistence.Table;
+import javax.persistence.UniqueConstraint;
 
 /**
  * This type represents a user in the database
  * Created by kfgodel on 22/03/15.
  */
 @Entity
+@Table(uniqueConstraints = @UniqueConstraint(columnNames = {Usuario.login_FIELD, Usuario.password_FIELD}))
 public class Usuario extends PersistentSupport {
 
     private String name;
