@@ -73,10 +73,8 @@ public class UserResource {
 
     @DELETE
     @Path("/{userId}")
-    public UserTo deleteUser(@PathParam("userId") Long userId){
+    public void deleteUser(@PathParam("userId") Long userId){
         application.getHibernate().doUnderTransaction(DeleteById.create(Usuario.class, userId));
-
-        return UserTo.create(userId,"","","");
     }
 
     public static UserResource create(Application application) {
