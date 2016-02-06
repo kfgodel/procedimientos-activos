@@ -56,7 +56,7 @@ public class UserResource {
 
     @PUT
     @Path("/{userId}")
-    public UserTo editUser(UserTo newUserState, @PathParam("userId") Long userId){
+    public UserTo updateUser(UserTo newUserState, @PathParam("userId") Long userId){
 
         Usuario usuario = application.getHibernate().doUnderTransaction(context -> {
             Usuario editedUsuario = this.application.getTransformer().transformTo(Usuario.class, newUserState);
