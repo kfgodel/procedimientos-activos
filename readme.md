@@ -2,32 +2,28 @@
 
 Prueba de concepto para crear una aplicación web con un framework JS para frontend y html5
 
-
 ## Setup desarrollo
 
-### Instalar herramientas
+### Frontend
+Bajar como proyecto independiente [Ember-cli POC](https://github.com/kfgodel/ember-cli-poc)  
+Y setupearlo segun sus instrucciones.  
 
-> sudo apt-get install nodejs  
-> sudo npm install -g bower  
-> sudo npm install -g grunt-cli  
+Una vez que se obtiene el "compilado" en /dist usar `mvn install` o `mvn deploy` para generar una nueva version del 
+frontend disponible como dependencia maven. La cual se puede usar desde el backend como cualquier otra dependencia.
 
-### Bajar dependencias js
-> npm install  
-> bower install  
+### Backend
+Para desarrollar sólo es necesario invocar
+> mvn compile  
 
-### Recompilar proyecto JS (no debería ser necesario en un checkout limpio)
-> grunt  
-
-### Levantar el server
-Desde una IDE ejecutar la clase Java
+Que genera las clases "auto generadas" de querydsl, y descomprime el frontend dentro de los resources del classpath.  
+Luego es  ejecutar la clase Java
 ar.com.tenpines.html5poc.Html5PocMain.main()
 
-### Recompilar JS mientras hacemos cambios
-> grunt rebuild_on_changes  
-(anda mal en windows porque el server Java lockea los archivos)
-
-## Generar binarios
+## Generar binarios entregables
 > mvn package  
+
+Genera un zip que además incluye varios ejecutables (segun plataforma) para poder ejecutar la aplicación java como
+si fuera nativa.
 
 ### Probar el zip final
 > cd target  

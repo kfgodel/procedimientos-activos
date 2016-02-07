@@ -4,6 +4,7 @@ import ar.com.kfgodel.nary.api.Nary;
 import ar.com.kfgodel.nary.impl.NaryFromNative;
 import ar.com.kfgodel.webbyconvention.auth.api.WebCredential;
 import ar.com.tenpines.orm.api.operations.CrudOperation;
+import com.mysema.query.NonUniqueResultException;
 import com.mysema.query.jpa.hibernate.HibernateQuery;
 import convention.persistent.QUsuario;
 import convention.persistent.Usuario;
@@ -21,11 +22,15 @@ public class UserByCredentials implements CrudOperation<Usuario> {
     public Nary<Usuario> applyUsing(Session session) {
         QUsuario usuario = QUsuario.usuario;
 
-        Usuario foundUsuario = new HibernateQuery(session).from(usuario)
-                .where(usuario.login.eq(credentials.getUsername())
-                        .and(usuario.password.eq(credentials.getPassword())))
-                .uniqueResult(usuario);
-        return NaryFromNative.ofNullable(foundUsuario);
+        try{
+            Usuario foundUsuario = new HibernateQuery(session).from(usuario)
+                    .where(usuario.login.eq(credentials.getUsername())
+                            .and(usuario.password.eq(credentials.getPassword())))
+                    .uniqueResult(usuario);
+            return NaryFromNative.ofNullable(foundUsuario);
+        }catch (NonUniqueResultException e){
+            throw new IllegalStateException("There's more than one user with same credentials? " + credentials);
+        }
     }
 
     public static UserByCredentials create(WebCredential credentials) {

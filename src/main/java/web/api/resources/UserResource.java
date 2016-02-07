@@ -56,7 +56,7 @@ public class UserResource {
 
     @PUT
     @Path("/{userId}")
-    public UserTo editUser(UserTo newUserState, @PathParam("userId") Long userId){
+    public UserTo updateUser(UserTo newUserState, @PathParam("userId") Long userId){
 
         Usuario usuario = application.getHibernate().doUnderTransaction(context -> {
             Usuario editedUsuario = this.application.getTransformer().transformTo(Usuario.class, newUserState);
@@ -73,10 +73,8 @@ public class UserResource {
 
     @DELETE
     @Path("/{userId}")
-    public UserTo deleteUser(@PathParam("userId") Long userId){
+    public void deleteUser(@PathParam("userId") Long userId){
         application.getHibernate().doUnderTransaction(DeleteById.create(Usuario.class, userId));
-
-        return UserTo.create(userId,"","","");
     }
 
     public static UserResource create(Application application) {
