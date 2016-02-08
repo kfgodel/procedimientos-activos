@@ -19,6 +19,15 @@ public class ApiV1Root {
 
     private UserResource users;
     private ProcedureResource procedures;
+    private SessionResource session;
+
+    @Path("/session")
+    public SessionResource session(){
+        if(session == null){
+            session = SessionResource.create();
+        }
+        return session;
+    }
 
     @Path("/users")
     public UserResource users(){
