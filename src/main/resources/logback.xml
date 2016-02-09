@@ -1,28 +1,28 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <configuration debug="false">
 
-	<!--
-		Este archivo define la configuración del logueo de la aplicación y es interpretado por logback,
-		que recibe las llamadas de logueo del resto de las apis (log4j, commons-logging, etc) a través
-		de slf4j que hace de wrapper del resto.
-		La sintaxis para los appenders que se pueden agregar está en: http://logback.qos.ch/manual/appenders.html
-		y la sintaxis para los patrones de formateo en: http://logback.qos.ch/manual/layouts.html#conversionWord 
-	 -->
+  <!--
+    Este archivo define la configuración del logueo de la aplicación y es interpretado por logback,
+    que recibe las llamadas de logueo del resto de las apis (log4j, commons-logging, etc) a través
+    de slf4j que hace de wrapper del resto.
+    La sintaxis para los appenders que se pueden agregar está en: http://logback.qos.ch/manual/appenders.html
+    y la sintaxis para los patrones de formateo en: http://logback.qos.ch/manual/layouts.html#conversionWord
+   -->
 
-	<!-- Output normal por consola -->
-	<appender name="STDOUT" class="ch.qos.logback.core.ConsoleAppender">
-		<encoder>
-		  <pattern>\(%-23d{ISO8601} | %11r\) %-5p %-100m  |  [%-18t] at %C.%M\(%F:%L\) %n</pattern>
-		</encoder>
-	</appender>
-	
-	<logger name="ar.dgarcia.prototipos.emberpoc" level="DEBUG" />
-    <logger name="org.glassfish.jersey.tracing" level="DEBUG" />
+  <!-- Output normal por consola -->
+  <appender name="STDOUT" class="ch.qos.logback.core.ConsoleAppender">
+    <encoder>
+      <pattern>\(%-23d{ISO8601} | %11r\) %-5p %-100m | [%-18t] at %C.%M\(%F:%L\) %n</pattern>
+    </encoder>
+  </appender>
 
-	
-  
-	<root level="info">
-	  <appender-ref ref="STDOUT" />
-	</root>
-  
+  <logger name="ar.dgarcia.prototipos.emberpoc" level="DEBUG"/>
+  <logger name="org.glassfish.jersey.tracing" level="DEBUG"/>
+  <logger name="ar.com.kfgodel.webbyconvention.logging" level="DEBUG"/>
+
+
+  <root level="info">
+    <appender-ref ref="STDOUT"/>
+  </root>
+
 </configuration>
