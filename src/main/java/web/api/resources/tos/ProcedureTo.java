@@ -16,6 +16,9 @@ public class ProcedureTo extends PersistibleToSupport {
     @CopyFromAndTo(Procedure.description_FIELD)
     private String description;
 
+    @CopyFromAndTo(Procedure.tags_FIELD)
+    private String tags;
+
     public String getName() {
         return name;
     }
@@ -30,6 +33,14 @@ public class ProcedureTo extends PersistibleToSupport {
 
     public void setDescription(String description) {
         this.description = description;
+    }
+
+    public String getTags() {
+        return tags;
+    }
+
+    public void setTags(String tags) {
+        this.tags = tags;
     }
 
     public static ProcedureTo create(Long id, String name, String description) {

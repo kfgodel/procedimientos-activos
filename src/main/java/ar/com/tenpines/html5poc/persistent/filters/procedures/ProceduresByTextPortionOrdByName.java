@@ -26,7 +26,11 @@ public class ProceduresByTextPortionOrdByName implements CrudOperation<Procedure
       .from(procedure);
 
     filterText.ifPresent((textToRestrict)->{
-      query.where(procedure.name.contains(textToRestrict).or(procedure.description.contains(textToRestrict)));
+      query.where(
+        procedure.name.contains(textToRestrict)
+          .or(procedure.description.contains(textToRestrict))
+          .or(procedure.tags.contains(textToRestrict))
+      );
     });
 
     List<Procedure> foundProcedures = query

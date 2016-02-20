@@ -60,7 +60,7 @@ public class ProcedureResource {
 
   @PUT
   @Path("/{procedureId}")
-  public ProcedureTo editUser(ProcedureTo newState, @PathParam("procedureId") Long procedureId) {
+  public ProcedureTo editProcedure(ProcedureTo newState, @PathParam("procedureId") Long procedureId) {
     Procedure procedure = application.getHibernate().doUnderTransaction(context -> {
       Procedure editedProcedure = this.application.getTransformer().transformTo(Procedure.class, newState);
       if (editedProcedure == null) {
@@ -75,7 +75,7 @@ public class ProcedureResource {
 
   @DELETE
   @Path("/{procedureId}")
-  public void deleteUser(@PathParam("procedureId") Long procedureId) {
+  public void deleteProcedure(@PathParam("procedureId") Long procedureId) {
     application.getHibernate().doUnderTransaction(DeleteById.create(Procedure.class, procedureId));
   }
 

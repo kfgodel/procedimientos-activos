@@ -2,6 +2,7 @@ package convention.persistent;
 
 import javax.persistence.Entity;
 import javax.persistence.Lob;
+import javax.validation.constraints.Size;
 
 /**
  * This type represents a procedure to define how to do something
@@ -10,6 +11,7 @@ import javax.persistence.Lob;
 @Entity
 public class Procedure extends PersistentSupport {
 
+    @Size(max=1024)
     private String name;
     public static final String name_FIELD = "name";
 
@@ -17,6 +19,17 @@ public class Procedure extends PersistentSupport {
     private String description;
     public static final String description_FIELD = "description";
 
+    @Size(max=1024)
+    private String tags;
+    public static final String tags_FIELD = "tags";
+
+    public String getTags() {
+        return tags;
+    }
+
+    public void setTags(String tags) {
+        this.tags = tags;
+    }
 
     public String getName() {
         return name;
