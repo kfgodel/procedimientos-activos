@@ -16,27 +16,28 @@ import org.hibernate.Session;
  */
 public class UserByCredentials implements CrudOperation<Usuario> {
 
-    private WebCredential credentials;
+  private WebCredential credentials;
 
-    @Override
-    public Nary<Usuario> applyUsing(Session session) {
-        QUsuario usuario = QUsuario.usuario;
+  @Override
+  public Nary<Usuario> applyUsing(Session session) {
+    QUsuario usuario = QUsuario.usuario;
 
-        try{
-            Usuario foundUsuario = new HibernateQuery(session).from(usuario)
-                    .where(usuario.login.eq(credentials.getUsername())
-                            .and(usuario.password.eq(credentials.getPassword())))
-                    .uniqueResult(usuario);
-            return NaryFromNative.ofNullable(foundUsuario);
-        }catch (NonUniqueResultException e){
-            throw new IllegalStateException("There's more than one user with same credentials? " + credentials);
-        }
+    try {
+      Usuario foundUsuario = new HibernateQuery(session)
+        .from(usuario)
+        .where(usuario.login.eq(credentials.getUsername())
+          .and(usuario.password.eq(credentials.getPassword())))
+        .uniqueResult(usuario);
+      return NaryFromNative.ofNullable(foundUsuario);
+    } catch (NonUniqueResultException e) {
+      throw new IllegalStateException("There's more than one user with same credentials? " + credentials);
     }
+  }
 
-    public static UserByCredentials create(WebCredential credentials) {
-        UserByCredentials filter = new UserByCredentials();
-        filter.credentials = credentials;
-        return filter;
-    }
+  public static UserByCredentials create(WebCredential credentials) {
+    UserByCredentials filter = new UserByCredentials();
+    filter.credentials = credentials;
+    return filter;
+  }
 
 }

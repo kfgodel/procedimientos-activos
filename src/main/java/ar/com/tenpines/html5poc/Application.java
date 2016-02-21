@@ -1,6 +1,6 @@
 package ar.com.tenpines.html5poc;
 
-import ar.com.kfgodel.webbyconvention.DefaultConfiguration;
+import ar.com.kfgodel.webbyconvention.config.DefaultConfiguration;
 import ar.com.kfgodel.webbyconvention.WebServer;
 import ar.com.kfgodel.webbyconvention.WebServerConfiguration;
 import ar.com.tenpines.html5poc.components.DatabaseAuthenticator;
@@ -8,11 +8,11 @@ import ar.com.tenpines.html5poc.components.transformer.B2BTransformer;
 import ar.com.tenpines.html5poc.components.transformer.TypeTransformer;
 import ar.com.tenpines.orm.api.DbCoordinates;
 import ar.com.tenpines.orm.api.HibernateOrm;
+import ar.com.tenpines.orm.api.Preconfig;
 import ar.com.tenpines.orm.impl.HibernateFacade;
-import ar.com.tenpines.orm.impl.config.ImmutableCoordinates;
+import ar.com.tenpines.orm.impl.config.ImmutableDbCoordinates;
 import ar.com.tenpines.orm.impl.config.SmallAppPreConfig;
 import org.hibernate.dialect.H2Dialect;
-import org.hibernate.dialect.HSQLDialect;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -62,9 +62,8 @@ public class Application {
     }
 
     private void initialize() {
-        // Order is important as web server authenticator relies on hibernate
         this.hibernate = createPersistenceLayer();
-        this.webServer = createWebServer();
+        this.webServer = createWebServer(this.hibernate);
         this.transformer = B2BTransformer.create(this);
         registerCleanupHook();
     }
@@ -77,18 +76,19 @@ public class Application {
     }
 
     private HibernateOrm createPersistenceLayer() {
-        DbCoordinates dbCoordinates = ImmutableCoordinates.create(H2Dialect.class, "jdbc:h2:file:./db/h2", "sa", "");
-        HibernateOrm hibernateOrm = HibernateFacade.create(SmallAppPreConfig.create(dbCoordinates, "convention.persistent"));
+        DbCoordinates dbCoordinates = ImmutableDbCoordinates.create(H2Dialect.class, "jdbc:h2:file:./db/h2", "sa", "");
+        Preconfig hibernateConfig = SmallAppPreConfig.create(dbCoordinates, "convention.persistent");
+        HibernateOrm hibernateOrm = HibernateFacade.create(hibernateConfig);
         return hibernateOrm;
     }
 
-    private WebServer createWebServer() {
+    private WebServer createWebServer(HibernateOrm hibernateOrm) {
         WebServerConfiguration serverConfig = DefaultConfiguration.create()
                 .listeningHttpOn(9090)
                 .withInjections((binder) -> {
                     binder.bind(this).to(Application.class);
                 })
-                .authenticatingWith(DatabaseAuthenticator.create(getHibernate()));
+                .authenticatingWith(DatabaseAuthenticator.create(hibernateOrm));
         return WebServer.createFor(serverConfig);
     }
 
