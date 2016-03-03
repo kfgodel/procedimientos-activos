@@ -8,7 +8,7 @@ package ar.com.tenpines.html5poc;
 public class Html5PocMain {
     
     public static void main(String[] args) {
-        Application.create().start();
+        ProceduresApplication.create().start();
     }
 
 }

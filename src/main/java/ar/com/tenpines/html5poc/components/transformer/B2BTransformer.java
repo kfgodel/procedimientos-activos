@@ -66,8 +66,8 @@ public class B2BTransformer implements TypeTransformer {
 
         // Persistent objects
         b2bConverter.registerSpecializedConverterFor(Identifiable.class, Long.class, Identifiable2NumberConverter.create());
-        b2bConverter.registerSpecializedConverterFor(Number.class, PersistentSupport.class, Number2PersistentConverter.create(application.getHibernate()));
-        b2bConverter.registerSpecializedConverterFor(PersistibleTo.class, PersistentSupport.class, PersistibleTo2PersistentConverter.create(b2bManipulator, application.getHibernate()));
+        b2bConverter.registerSpecializedConverterFor(Number.class, PersistentSupport.class, Number2PersistentConverter.create(application.getOrmModule()));
+        b2bConverter.registerSpecializedConverterFor(PersistibleTo.class, PersistentSupport.class, PersistibleTo2PersistentConverter.create(b2bManipulator, application.getOrmModule()));
 
 
         // Register general converters (order indicates precedence)

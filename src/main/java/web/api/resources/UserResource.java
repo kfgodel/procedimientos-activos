@@ -26,13 +26,13 @@ public class UserResource {
 
     @GET
     public List<UserTo> getAllUsers(){
-        Nary<Usuario> usuarios = application.getHibernate().doWithSession(FindAllUsersOrderedByName.create());
+        Nary<Usuario> usuarios = application.getOrmModule().doWithSession(FindAllUsersOrderedByName.create());
 
-        return application.getTransformer().transformTo(LIST_OF_USER_TOS, usuarios);
+        return application.getTransformerModule().transformTo(LIST_OF_USER_TOS, usuarios);
     }
 
     private UserTo createTo(Usuario usuario) {
-        UserTo userTo = application.getTransformer().transformTo(UserTo.class, usuario);
+        UserTo userTo = application.getTransformerModule().transformTo(UserTo.class, usuario);
         return userTo;
     }
 
@@ -40,7 +40,7 @@ public class UserResource {
     public UserTo createUser(){
         Usuario nuevoUsuario = Usuario.create("Sin nombre", "", "");
 
-        application.getHibernate().doUnderTransaction(Save.create(nuevoUsuario));
+        application.getOrmModule().doUnderTransaction(Save.create(nuevoUsuario));
 
         return createTo(nuevoUsuario);
     }
@@ -48,7 +48,7 @@ public class UserResource {
     @GET
     @Path("/{userId}")
     public UserTo getSingleUser(@PathParam("userId") Long userId){
-        Nary<Usuario> usuario = application.getHibernate().doWithSession(FindById.create(Usuario.class, userId));
+        Nary<Usuario> usuario = application.getOrmModule().doWithSession(FindById.create(Usuario.class, userId));
         return usuario.mapOptional(this::createTo)
                 .orElseThrow(()->new WebApplicationException("user not found", 404));
     }
@@ -58,8 +58,8 @@ public class UserResource {
     @Path("/{userId}")
     public UserTo updateUser(UserTo newUserState, @PathParam("userId") Long userId){
 
-        Usuario usuario = application.getHibernate().doUnderTransaction(context -> {
-            Usuario editedUsuario = this.application.getTransformer().transformTo(Usuario.class, newUserState);
+        Usuario usuario = application.getOrmModule().doUnderTransaction(context -> {
+            Usuario editedUsuario = this.application.getTransformerModule().transformTo(Usuario.class, newUserState);
             if (editedUsuario == null) {
                 throw new WebApplicationException("user not found", 404);
             }
@@ -74,7 +74,7 @@ public class UserResource {
     @DELETE
     @Path("/{userId}")
     public void deleteUser(@PathParam("userId") Long userId){
-        application.getHibernate().doUnderTransaction(DeleteById.create(Usuario.class, userId));
+        application.getOrmModule().doUnderTransaction(DeleteById.create(Usuario.class, userId));
     }
 
     public static UserResource create(Application application) {
