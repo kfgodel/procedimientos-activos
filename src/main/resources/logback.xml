@@ -16,9 +16,36 @@
     </encoder>
   </appender>
 
-  <logger name="ar.dgarcia.prototipos.emberpoc" level="DEBUG"/>
-  <logger name="org.glassfish.jersey.tracing" level="DEBUG"/>
+  <!-- Log incoming requests -->
   <logger name="ar.com.kfgodel.webbyconvention.logging" level="DEBUG"/>
+
+  <!-- Mute reflections scan measurement logging-->
+  <logger name="org.reflections.Reflections" level="WARN"/>
+
+  <!-- Mute some c3p0 verbosity -->
+  <logger name="com.mchange.v2.log.MLog" level="WARN"/>
+  <logger name="com.mchange.v2.c3p0.C3P0Registry" level="WARN"/>
+
+  <!-- Mute useless jetty log message -->
+  <logger name="org.eclipse.jetty.util.log" level="WARN"/>
+
+  <!-- Mute some hibernate version declaration -->
+  <logger name="org.hibernate.Version" level="WARN"/>
+  <logger name="org.hibernate.annotations.common.Version" level="WARN"/>
+  <logger name="org.hibernate.cfg.Environment" level="WARN"/>
+  <logger name="org.hibernate.dialect.Dialect" level="WARN"/>
+  <logger name="org.hibernate.engine.jdbc.internal.LobCreatorBuilder" level="WARN"/>
+  <logger name="org.hibernate.engine.transaction.internal.TransactionFactoryInitiator" level="WARN"/>
+  <logger name="org.hibernate.hql.internal.ast.ASTQueryTranslatorFactory" level="WARN"/>
+  <!-- Not sure if warn HHH000148 can be ignored, but the app seems to work without it -->
+  <logger name="org.hibernate.c3p0.internal.C3P0ConnectionProvider" level="ERROR"/>
+
+  <!-- Mute schema update info -->
+  <logger name="org.hibernate.tool.hbm2ddl.SchemaUpdate" level="WARN"/>
+  <logger name="org.hibernate.tool.hbm2ddl.TableMetadata" level="WARN"/>
+
+
+
 
 
   <root level="info">
