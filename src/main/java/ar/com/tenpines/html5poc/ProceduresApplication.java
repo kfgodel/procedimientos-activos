@@ -85,8 +85,8 @@ public class ProceduresApplication implements Application {
 
   private HibernateOrm createPersistenceLayer() {
     DbCoordinates dbCoordinates = ImmutableDbCoordinates.createDeductingDialect("jdbc:h2:file:./db/h2", "sa", "");
-    HibernateConfigurator hibernateConfig = ByConventionConfigurator.create(dbCoordinates);
-    HibernateOrm hibernateOrm = HibernateFacade.create(hibernateConfig);
+    HibernateConfigurator configurator = ByConventionConfigurator.create(dbCoordinates);
+    HibernateOrm hibernateOrm = HibernateFacade.create(configurator);
     return hibernateOrm;
   }
 
