@@ -8,10 +8,10 @@ import ar.com.tenpines.html5poc.components.transformer.B2BTransformer;
 import ar.com.tenpines.html5poc.components.transformer.TypeTransformer;
 import ar.com.tenpines.orm.api.DbCoordinates;
 import ar.com.tenpines.orm.api.HibernateOrm;
-import ar.com.tenpines.orm.api.Preconfig;
+import ar.com.tenpines.orm.api.HibernateConfigurator;
 import ar.com.tenpines.orm.impl.HibernateFacade;
 import ar.com.tenpines.orm.impl.config.ImmutableDbCoordinates;
-import ar.com.tenpines.orm.impl.config.SmallAppPreConfig;
+import ar.com.tenpines.orm.impl.config.ByConventionConfigurator;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -85,7 +85,7 @@ public class ProceduresApplication implements Application {
 
   private HibernateOrm createPersistenceLayer() {
     DbCoordinates dbCoordinates = ImmutableDbCoordinates.createDeductingDialect("jdbc:h2:file:./db/h2", "sa", "");
-    Preconfig hibernateConfig = SmallAppPreConfig.create(dbCoordinates, "convention.persistent");
+    HibernateConfigurator hibernateConfig = ByConventionConfigurator.create(dbCoordinates);
     HibernateOrm hibernateOrm = HibernateFacade.create(hibernateConfig);
     return hibernateOrm;
   }
