@@ -1,4 +1,4 @@
-package web.api.resources;
+package convention.rest.api;
 
 import ar.com.tenpines.html5poc.Application;
 

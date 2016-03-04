@@ -1,4 +1,4 @@
-package web.api.resources.tos;
+package convention.rest.api.tos;
 
 /**
  * Created by kfgodel on 12/03/15.

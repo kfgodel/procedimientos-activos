@@ -1,4 +1,4 @@
-package web.api.resources;
+package convention.rest.api;
 
 import ar.com.kfgodel.diamond.api.types.reference.ReferenceOf;
 import ar.com.kfgodel.nary.api.Nary;
@@ -8,7 +8,7 @@ import ar.com.tenpines.orm.api.operations.basic.DeleteById;
 import ar.com.tenpines.orm.api.operations.basic.FindById;
 import ar.com.tenpines.orm.api.operations.basic.Save;
 import convention.persistent.Usuario;
-import web.api.resources.tos.UserTo;
+import convention.rest.api.tos.UserTo;
 
 import javax.ws.rs.*;
 import java.lang.reflect.Type;

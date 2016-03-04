@@ -1,4 +1,4 @@
-package web.api.resources.tos;
+package convention.rest.api.tos;
 
 import com.tenpines.commons.tos.PersistibleToSupport;
 import convention.persistent.Usuario;
