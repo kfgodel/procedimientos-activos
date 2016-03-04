@@ -23,3 +23,4 @@ dependency-reduced-pom.xml
 #Js libs
 /node_modules
 /bower_components
+/src/main/resources/convention/web

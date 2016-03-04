@@ -52,16 +52,6 @@
 
   <build>
 
-    <!-- Include all types of resources into the final build -->
-    <resources>
-      <resource>
-        <directory>src/main/html</directory>
-      </resource>
-      <resource>
-        <directory>src/main/resources</directory>
-      </resource>
-    </resources>
-
     <plugins>
 
       <!-- Genera los binarios -->
@@ -116,7 +106,7 @@
                   <version>${version.frontend}</version>
                   <type>zip</type>
                   <overWrite>true</overWrite>
-                  <outputDirectory>src/main/html/web</outputDirectory>
+                  <outputDirectory>src/main/resources/convention/web</outputDirectory>
                 </artifactItem>
               </artifactItems>
             </configuration>
