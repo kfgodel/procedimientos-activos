@@ -2,16 +2,14 @@ package ar.com.tenpines.html5poc;
 
 import ar.com.kfgodel.webbyconvention.WebServer;
 import ar.com.kfgodel.webbyconvention.WebServerConfiguration;
-import ar.com.kfgodel.webbyconvention.config.DefaultConfiguration;
+import ar.com.kfgodel.webbyconvention.config.ConfigurationByConvention;
 import ar.com.tenpines.html5poc.components.DatabaseAuthenticator;
 import ar.com.tenpines.html5poc.components.transformer.B2BTransformer;
 import ar.com.tenpines.html5poc.components.transformer.TypeTransformer;
 import ar.com.tenpines.orm.api.DbCoordinates;
 import ar.com.tenpines.orm.api.HibernateOrm;
-import ar.com.tenpines.orm.api.HibernateConfigurator;
 import ar.com.tenpines.orm.impl.HibernateFacade;
 import ar.com.tenpines.orm.impl.config.ImmutableDbCoordinates;
-import ar.com.tenpines.orm.impl.config.ByConventionConfigurator;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -85,13 +83,12 @@ public class ProceduresApplication implements Application {
 
   private HibernateOrm createPersistenceLayer() {
     DbCoordinates dbCoordinates = ImmutableDbCoordinates.createDeductingDialect("jdbc:h2:file:./db/h2", "sa", "");
-    HibernateConfigurator configurator = ByConventionConfigurator.create(dbCoordinates);
-    HibernateOrm hibernateOrm = HibernateFacade.create(configurator);
+    HibernateOrm hibernateOrm = HibernateFacade.createWithConventionsFor(dbCoordinates);
     return hibernateOrm;
   }
 
   private WebServer createWebServer(HibernateOrm hibernateOrm) {
-    WebServerConfiguration serverConfig = DefaultConfiguration.create()
+    WebServerConfiguration serverConfig = ConfigurationByConvention.create()
       .listeningHttpOn(9090)
       .withInjections((binder) -> {
         binder.bind(this).to(Application.class);
