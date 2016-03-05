@@ -33,7 +33,7 @@ public class Number2PersistentConverter implements SpecializedTypeConverter<Numb
         }
 
         Class<? extends PersistentSupport> expectedClass = (Class<? extends PersistentSupport>) expectedType;
-        Nary<? extends PersistentSupport> foundObject = this.hibernate.ensureSessionFor((context) -> context.perform(FindById.create(expectedClass, sourceObject.longValue())));
+        Nary<? extends PersistentSupport> foundObject = this.hibernate.ensureSessionFor(FindById.create(expectedClass, sourceObject.longValue()));
         // Si no lo encontramos será null
         return foundObject
                 .orElse(null);

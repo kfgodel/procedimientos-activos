@@ -43,7 +43,7 @@ public class ProcedureResource {
   public ProcedureTo createProcedure() {
     Procedure newProcedure = Procedure.create("Procedimiento nn", "Sin descripción");
 
-    application.getOrmModule().ensureTransactionFor(Save.create(newProcedure));
+    application.getOrmModule().ensureSessionFor(Save.create(newProcedure));
 
     return createTo(newProcedure);
   }
@@ -66,7 +66,7 @@ public class ProcedureResource {
       if (editedProcedure == null) {
         throw new WebApplicationException("procedure not found", 404);
       }
-      context.save(editedProcedure);
+      Save.create(editedProcedure).applyWithSessionOn(context);
       return editedProcedure;
     });
 
@@ -76,7 +76,7 @@ public class ProcedureResource {
   @DELETE
   @Path("/{procedureId}")
   public void deleteProcedure(@PathParam("procedureId") Long procedureId) {
-    application.getOrmModule().ensureTransactionFor(DeleteById.create(Procedure.class, procedureId));
+    application.getOrmModule().ensureSessionFor(DeleteById.create(Procedure.class, procedureId));
   }
 
   public static ProcedureResource create(Application application) {

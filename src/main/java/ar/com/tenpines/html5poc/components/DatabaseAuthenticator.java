@@ -25,12 +25,12 @@ public class DatabaseAuthenticator implements Function<WebCredential, Optional<O
     public Optional<Object> apply(WebCredential credentials) {
         Nary<Usuario> foundUser = hibernate.ensureSessionFor((context) -> {
             // If there are no users allow anyone to authenticate
-            Nary<Long> userCount = context.perform(UserCount.create());
+            Nary<Long> userCount = UserCount.create().applyWithSessionOn(context);
             if (userCount.get() < 1) {
                 return NaryFromNative.of(getProtoUser());
             }
             // If there are users, try to get the one for the credentials
-            return context.perform(UserByCredentials.create(credentials));
+            return UserByCredentials.create(credentials).applyWithSessionOn(context);
         });
 
         // Use the id as the web identification

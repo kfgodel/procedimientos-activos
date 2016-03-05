@@ -3,11 +3,11 @@ package ar.com.tenpines.html5poc.persistent.filters.procedures;
 import ar.com.kfgodel.nary.api.Nary;
 import ar.com.kfgodel.nary.impl.NaryFromNative;
 import ar.com.kfgodel.optionals.Optional;
-import ar.com.tenpines.orm.api.operations.CrudOperation;
+import ar.com.tenpines.orm.api.SessionContext;
+import ar.com.tenpines.orm.api.operations.SessionOperation;
 import com.mysema.query.jpa.hibernate.HibernateQuery;
 import convention.persistent.Procedure;
 import convention.persistent.QProcedure;
-import org.hibernate.Session;
 
 import java.util.List;
 
@@ -15,14 +15,20 @@ import java.util.List;
  * This type represents a filter that fetches all the procedures ordered by name
  * Created by kfgodel on 04/04/15.
  */
-public class ProceduresByTextPortionOrdByName implements CrudOperation<Procedure> {
+public class ProceduresByTextPortionOrdByName implements SessionOperation<Nary<Procedure>> {
 
   private Optional<String> filterText;
 
+  public static ProceduresByTextPortionOrdByName create(Optional<String> filterText) {
+    ProceduresByTextPortionOrdByName filter = new ProceduresByTextPortionOrdByName();
+    filter.filterText = filterText;
+    return filter;
+  }
+
   @Override
-  public Nary<Procedure> applyUsing(Session session) {
+  public Nary<Procedure> applyWithSessionOn(SessionContext sessionContext) {
     QProcedure procedure = QProcedure.procedure;
-    HibernateQuery query = new HibernateQuery(session)
+    HibernateQuery query = new HibernateQuery(sessionContext.getSession())
       .from(procedure);
 
     filterText.ifPresent((textToRestrict)->{
@@ -38,11 +44,4 @@ public class ProceduresByTextPortionOrdByName implements CrudOperation<Procedure
       .list(procedure);
     return NaryFromNative.create(foundProcedures.stream());
   }
-
-  public static ProceduresByTextPortionOrdByName create(Optional<String> filterText) {
-    ProceduresByTextPortionOrdByName filter = new ProceduresByTextPortionOrdByName();
-    filter.filterText = filterText;
-    return filter;
-  }
-
 }
