@@ -28,7 +28,7 @@ public class ProcedureResource {
   @GET
   public List<ProcedureTo> getAllProceduresUsers(@QueryParam("searchText") String searchText) {
     Nary<Procedure> procedimientos = application.getOrmModule()
-      .doWithSession(ProceduresByTextPortionOrdByName.create(NaryFromNative.ofNullable(searchText)));
+      .ensureSessionFor(ProceduresByTextPortionOrdByName.create(NaryFromNative.ofNullable(searchText)));
 
     List<ProcedureTo> proceduresTo = this.application.getTransformerModule().transformTo(LIST_OF_PROCEDURES_TO, procedimientos);
 
@@ -43,7 +43,7 @@ public class ProcedureResource {
   public ProcedureTo createProcedure() {
     Procedure newProcedure = Procedure.create("Procedimiento nn", "Sin descripción");
 
-    application.getOrmModule().doUnderTransaction(Save.create(newProcedure));
+    application.getOrmModule().ensureTransactionFor(Save.create(newProcedure));
 
     return createTo(newProcedure);
   }
@@ -51,7 +51,7 @@ public class ProcedureResource {
   @GET
   @Path("/{procedureId}")
   public ProcedureTo getSingleProcedure(@PathParam("procedureId") Long procedureId) {
-    Nary<Procedure> procedure = application.getOrmModule().doWithSession(FindById.create(Procedure.class, procedureId));
+    Nary<Procedure> procedure = application.getOrmModule().ensureSessionFor(FindById.create(Procedure.class, procedureId));
     return procedure
       .mapOptional(this::createTo)
       .orElseThrow(() -> new WebApplicationException("procedure not found", 404));
@@ -61,7 +61,7 @@ public class ProcedureResource {
   @PUT
   @Path("/{procedureId}")
   public ProcedureTo editProcedure(ProcedureTo newState, @PathParam("procedureId") Long procedureId) {
-    Procedure procedure = application.getOrmModule().doUnderTransaction(context -> {
+    Procedure procedure = application.getOrmModule().ensureTransactionFor(context -> {
       Procedure editedProcedure = this.application.getTransformerModule().transformTo(Procedure.class, newState);
       if (editedProcedure == null) {
         throw new WebApplicationException("procedure not found", 404);
@@ -76,7 +76,7 @@ public class ProcedureResource {
   @DELETE
   @Path("/{procedureId}")
   public void deleteProcedure(@PathParam("procedureId") Long procedureId) {
-    application.getOrmModule().doUnderTransaction(DeleteById.create(Procedure.class, procedureId));
+    application.getOrmModule().ensureTransactionFor(DeleteById.create(Procedure.class, procedureId));
   }
 
   public static ProcedureResource create(Application application) {

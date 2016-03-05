@@ -53,7 +53,7 @@ public class PersistibleTo2PersistentConverter implements SpecializedTypeConvert
         Nary<PersistentSupport> foundPersistent;
         if (persistibleId != null && persistibleId > 0) {
             // Como flex manda 0 por null, tenemos que tomar ese caso como null
-            foundPersistent = hibernate.doWithSession((context)-> context.perform(FindById.create(persistibleSupportSubclass, persistibleId)));
+            foundPersistent = hibernate.ensureSessionFor((context)-> context.perform(FindById.create(persistibleSupportSubclass, persistibleId)));
         }else{
             // Si no hay id, entonces no existe entidad persistida
             foundPersistent = NaryFromNative.empty();

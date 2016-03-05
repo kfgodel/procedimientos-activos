@@ -26,7 +26,7 @@ public class UserResource {
 
     @GET
     public List<UserTo> getAllUsers(){
-        Nary<Usuario> usuarios = application.getOrmModule().doWithSession(FindAllUsersOrderedByName.create());
+        Nary<Usuario> usuarios = application.getOrmModule().ensureSessionFor(FindAllUsersOrderedByName.create());
 
         return application.getTransformerModule().transformTo(LIST_OF_USER_TOS, usuarios);
     }
@@ -40,7 +40,7 @@ public class UserResource {
     public UserTo createUser(){
         Usuario nuevoUsuario = Usuario.create("Sin nombre", "", "");
 
-        application.getOrmModule().doUnderTransaction(Save.create(nuevoUsuario));
+        application.getOrmModule().ensureTransactionFor(Save.create(nuevoUsuario));
 
         return createTo(nuevoUsuario);
     }
@@ -48,7 +48,7 @@ public class UserResource {
     @GET
     @Path("/{userId}")
     public UserTo getSingleUser(@PathParam("userId") Long userId){
-        Nary<Usuario> usuario = application.getOrmModule().doWithSession(FindById.create(Usuario.class, userId));
+        Nary<Usuario> usuario = application.getOrmModule().ensureSessionFor(FindById.create(Usuario.class, userId));
         return usuario.mapOptional(this::createTo)
                 .orElseThrow(()->new WebApplicationException("user not found", 404));
     }
@@ -58,7 +58,7 @@ public class UserResource {
     @Path("/{userId}")
     public UserTo updateUser(UserTo newUserState, @PathParam("userId") Long userId){
 
-        Usuario usuario = application.getOrmModule().doUnderTransaction(context -> {
+        Usuario usuario = application.getOrmModule().ensureTransactionFor(context -> {
             Usuario editedUsuario = this.application.getTransformerModule().transformTo(Usuario.class, newUserState);
             if (editedUsuario == null) {
                 throw new WebApplicationException("user not found", 404);
@@ -74,7 +74,7 @@ public class UserResource {
     @DELETE
     @Path("/{userId}")
     public void deleteUser(@PathParam("userId") Long userId){
-        application.getOrmModule().doUnderTransaction(DeleteById.create(Usuario.class, userId));
+        application.getOrmModule().ensureTransactionFor(DeleteById.create(Usuario.class, userId));
     }
 
     public static UserResource create(Application application) {
