@@ -1,7 +1,6 @@
 package ar.com.tenpines.html5poc.persistent.filters.users;
 
 import ar.com.kfgodel.nary.api.Nary;
-import ar.com.kfgodel.nary.impl.NaryFromNative;
 import ar.com.tenpines.orm.api.SessionContext;
 import ar.com.tenpines.orm.api.operations.SessionOperation;
 import com.mysema.query.jpa.hibernate.HibernateQuery;
@@ -30,6 +29,6 @@ public class FindAllUsersOrderedByName implements SessionOperation<Nary<Usuario>
         List<Usuario> foundUsuarios = query.from(usuario)
           .orderBy(usuario.name.asc())
           .list(usuario);
-        return NaryFromNative.create(foundUsuarios.stream());
+        return Nary.create(foundUsuarios.stream());
     }
 }

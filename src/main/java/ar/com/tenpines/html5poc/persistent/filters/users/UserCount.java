@@ -1,7 +1,6 @@
 package ar.com.tenpines.html5poc.persistent.filters.users;
 
 import ar.com.kfgodel.nary.api.Nary;
-import ar.com.kfgodel.nary.impl.NaryFromNative;
 import ar.com.tenpines.orm.api.SessionContext;
 import ar.com.tenpines.orm.api.operations.SessionOperation;
 import com.mysema.query.jpa.hibernate.HibernateQuery;
@@ -25,6 +24,6 @@ public class UserCount implements SessionOperation<Nary<Long>> {
         Long userCount = new HibernateQuery(sessionContext.getSession())
           .from(usuario)
           .uniqueResult(usuario.count());
-        return NaryFromNative.of(userCount);
+        return Nary.of(userCount);
     }
 }

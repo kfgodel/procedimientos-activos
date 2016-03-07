@@ -1,7 +1,6 @@
 package ar.com.tenpines.html5poc.components;
 
 import ar.com.kfgodel.nary.api.Nary;
-import ar.com.kfgodel.nary.impl.NaryFromNative;
 import ar.com.kfgodel.webbyconvention.auth.api.WebCredential;
 import convention.persistent.Usuario;
 import ar.com.tenpines.html5poc.persistent.filters.users.UserByCredentials;
@@ -27,7 +26,7 @@ public class DatabaseAuthenticator implements Function<WebCredential, Optional<O
             // If there are no users allow anyone to authenticate
             Nary<Long> userCount = UserCount.create().applyWithSessionOn(context);
             if (userCount.get() < 1) {
-                return NaryFromNative.of(getProtoUser());
+                return Nary.of(getProtoUser());
             }
             // If there are users, try to get the one for the credentials
             return UserByCredentials.create(credentials).applyWithSessionOn(context);

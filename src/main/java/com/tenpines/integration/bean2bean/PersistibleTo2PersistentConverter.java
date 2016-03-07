@@ -4,7 +4,6 @@
 package com.tenpines.integration.bean2bean;
 
 import ar.com.kfgodel.nary.api.Nary;
-import ar.com.kfgodel.nary.impl.NaryFromNative;
 import ar.com.tenpines.orm.api.HibernateOrm;
 import ar.com.tenpines.orm.api.operations.basic.FindById;
 import com.tenpines.commons.tos.PersistibleTo;
@@ -56,7 +55,7 @@ public class PersistibleTo2PersistentConverter implements SpecializedTypeConvert
             foundPersistent = hibernate.ensureSessionFor(FindById.create(persistibleSupportSubclass, persistibleId));
         }else{
             // Si no hay id, entonces no existe entidad persistida
-            foundPersistent = NaryFromNative.empty();
+            foundPersistent = Nary.empty();
         }
         // Si no tenía id, o no lo encontramos en la base, creamos uno
         PersistentSupport persistent = foundPersistent

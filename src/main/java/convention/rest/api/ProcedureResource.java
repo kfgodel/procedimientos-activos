@@ -2,7 +2,6 @@ package convention.rest.api;
 
 import ar.com.kfgodel.diamond.api.types.reference.ReferenceOf;
 import ar.com.kfgodel.nary.api.Nary;
-import ar.com.kfgodel.nary.impl.NaryFromNative;
 import ar.com.tenpines.html5poc.Application;
 import ar.com.tenpines.html5poc.persistent.filters.procedures.ProceduresByTextPortionOrdByName;
 import ar.com.tenpines.orm.api.operations.basic.DeleteById;
@@ -28,7 +27,7 @@ public class ProcedureResource {
   @GET
   public List<ProcedureTo> getAllProceduresUsers(@QueryParam("searchText") String searchText) {
     Nary<Procedure> procedimientos = application.getOrmModule()
-      .ensureSessionFor(ProceduresByTextPortionOrdByName.create(NaryFromNative.ofNullable(searchText)));
+      .ensureSessionFor(ProceduresByTextPortionOrdByName.create(Nary.ofNullable(searchText)));
 
     List<ProcedureTo> proceduresTo = this.application.getTransformerModule().transformTo(LIST_OF_PROCEDURES_TO, procedimientos);
 

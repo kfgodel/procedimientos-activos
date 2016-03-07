@@ -1,7 +1,6 @@
 package ar.com.tenpines.html5poc.persistent.filters.procedures;
 
 import ar.com.kfgodel.nary.api.Nary;
-import ar.com.kfgodel.nary.impl.NaryFromNative;
 import ar.com.kfgodel.optionals.Optional;
 import ar.com.tenpines.orm.api.SessionContext;
 import ar.com.tenpines.orm.api.operations.SessionOperation;
@@ -42,6 +41,6 @@ public class ProceduresByTextPortionOrdByName implements SessionOperation<Nary<P
     List<Procedure> foundProcedures = query
       .orderBy(procedure.name.asc())
       .list(procedure);
-    return NaryFromNative.create(foundProcedures.stream());
+    return Nary.create(foundProcedures);
   }
 }
