@@ -3,6 +3,7 @@ package ar.com.tenpines.html5poc;
 import ar.com.kfgodel.webbyconvention.WebServer;
 import ar.com.kfgodel.webbyconvention.WebServerConfiguration;
 import ar.com.kfgodel.webbyconvention.config.ConfigurationByConvention;
+import ar.com.kfgodel.webbyconvention.server.JettyWebServer;
 import ar.com.tenpines.html5poc.components.DatabaseAuthenticator;
 import ar.com.tenpines.html5poc.components.transformer.B2BTransformer;
 import ar.com.tenpines.html5poc.components.transformer.TypeTransformer;
@@ -94,7 +95,7 @@ public class ProceduresApplication implements Application {
         binder.bind(this).to(Application.class);
       })
       .authenticatingWith(DatabaseAuthenticator.create(hibernateOrm));
-    return WebServer.createFor(serverConfig);
+    return JettyWebServer.createFor(serverConfig);
   }
 
 }
