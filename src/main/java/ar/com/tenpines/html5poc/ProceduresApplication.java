@@ -1,9 +1,9 @@
 package ar.com.tenpines.html5poc;
 
-import ar.com.kfgodel.webbyconvention.WebServer;
-import ar.com.kfgodel.webbyconvention.WebServerConfiguration;
-import ar.com.kfgodel.webbyconvention.config.ConfigurationByConvention;
-import ar.com.kfgodel.webbyconvention.server.JettyWebServer;
+import ar.com.kfgodel.webbyconvention.api.WebServer;
+import ar.com.kfgodel.webbyconvention.api.config.WebServerConfiguration;
+import ar.com.kfgodel.webbyconvention.impl.JettyWebServer;
+import ar.com.kfgodel.webbyconvention.impl.config.ConfigurationByConvention;
 import ar.com.tenpines.html5poc.components.DatabaseAuthenticator;
 import ar.com.tenpines.html5poc.components.transformer.B2BTransformer;
 import ar.com.tenpines.html5poc.components.transformer.TypeTransformer;

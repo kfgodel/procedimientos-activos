@@ -1,6 +1,6 @@
 package ar.com.tenpines.html5poc;
 
-import ar.com.kfgodel.webbyconvention.WebServer;
+import ar.com.kfgodel.webbyconvention.api.WebServer;
 import ar.com.tenpines.html5poc.components.transformer.TypeTransformer;
 import ar.com.tenpines.orm.api.HibernateOrm;
 

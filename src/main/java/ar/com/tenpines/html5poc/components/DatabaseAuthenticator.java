@@ -1,11 +1,11 @@
 package ar.com.tenpines.html5poc.components;
 
 import ar.com.kfgodel.nary.api.Nary;
-import ar.com.kfgodel.webbyconvention.auth.api.WebCredential;
-import convention.persistent.Usuario;
+import ar.com.kfgodel.webbyconvention.api.auth.WebCredential;
 import ar.com.tenpines.html5poc.persistent.filters.users.UserByCredentials;
 import ar.com.tenpines.html5poc.persistent.filters.users.UserCount;
 import ar.com.tenpines.orm.api.HibernateOrm;
+import convention.persistent.Usuario;
 
 import java.util.Optional;
 import java.util.function.Function;

@@ -1,7 +1,7 @@
 package ar.com.tenpines.html5poc.persistent.filters.users;
 
 import ar.com.kfgodel.nary.api.Nary;
-import ar.com.kfgodel.webbyconvention.auth.api.WebCredential;
+import ar.com.kfgodel.webbyconvention.api.auth.WebCredential;
 import ar.com.tenpines.orm.api.SessionContext;
 import ar.com.tenpines.orm.api.operations.SessionOperation;
 import com.mysema.query.NonUniqueResultException;
