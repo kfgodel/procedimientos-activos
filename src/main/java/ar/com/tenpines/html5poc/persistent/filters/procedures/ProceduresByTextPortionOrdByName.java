@@ -1,7 +1,7 @@
 package ar.com.tenpines.html5poc.persistent.filters.procedures;
 
 import ar.com.kfgodel.nary.api.Nary;
-import ar.com.kfgodel.optionals.Optional;
+import ar.com.kfgodel.nary.api.optionals.Optional;
 import ar.com.tenpines.orm.api.SessionContext;
 import ar.com.tenpines.orm.api.operations.SessionOperation;
 import com.mysema.query.jpa.hibernate.HibernateQuery;
