@@ -7,10 +7,10 @@ import ar.com.kfgodel.webbyconvention.impl.config.ConfigurationByConvention;
 import ar.com.tenpines.html5poc.components.DatabaseAuthenticator;
 import ar.com.tenpines.html5poc.components.transformer.B2BTransformer;
 import ar.com.tenpines.html5poc.components.transformer.TypeTransformer;
+import ar.com.tenpines.html5poc.config.ProceduresConfiguration;
 import ar.com.tenpines.orm.api.HibernateOrm;
 import ar.com.tenpines.orm.api.config.DbCoordinates;
 import ar.com.tenpines.orm.impl.HibernateFacade;
-import ar.com.tenpines.orm.impl.config.ImmutableDbCoordinates;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -26,6 +26,7 @@ public class ProceduresApplication implements Application {
   private WebServer webServer;
   private HibernateOrm hibernate;
   private TypeTransformer transformer;
+  private ProceduresConfiguration config;
 
   @Override
   public WebServer getWebServerModule() {
@@ -42,8 +43,14 @@ public class ProceduresApplication implements Application {
     return transformer;
   }
 
-  public static Application create() {
+  @Override
+  public ProceduresConfiguration getConfiguration() {
+    return config;
+  }
+
+  public static Application create(ProceduresConfiguration config) {
     ProceduresApplication application = new ProceduresApplication();
+    application.config = config;
     return application;
   }
 
@@ -83,14 +90,14 @@ public class ProceduresApplication implements Application {
   }
 
   private HibernateOrm createPersistenceLayer() {
-    DbCoordinates dbCoordinates = ImmutableDbCoordinates.createDeductingDialect("jdbc:h2:file:./db/h2", "sa", "");
+    DbCoordinates dbCoordinates = config.getDatabaseCoordinates();
     HibernateOrm hibernateOrm = HibernateFacade.createWithConventionsFor(dbCoordinates);
     return hibernateOrm;
   }
 
   private WebServer createWebServer(HibernateOrm hibernateOrm) {
     WebServerConfiguration serverConfig = ConfigurationByConvention.create()
-      .listeningHttpOn(9090)
+      .listeningHttpOn(config.getHttpPort())
       .withInjections((binder) -> {
         binder.bind(this).to(Application.class);
       })

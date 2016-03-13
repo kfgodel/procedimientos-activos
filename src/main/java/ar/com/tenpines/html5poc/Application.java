@@ -2,6 +2,7 @@ package ar.com.tenpines.html5poc;
 
 import ar.com.kfgodel.webbyconvention.api.WebServer;
 import ar.com.tenpines.html5poc.components.transformer.TypeTransformer;
+import ar.com.tenpines.html5poc.config.ProceduresConfiguration;
 import ar.com.tenpines.orm.api.HibernateOrm;
 
 /**
@@ -25,6 +26,11 @@ public interface Application {
    * @return The transformer layer that can cnvert between different object types
    */
   TypeTransformer getTransformerModule();
+
+  /**
+   * @return The configuration object with the parameters for this application
+   */
+  ProceduresConfiguration getConfiguration();
 
   /**
    * Starts this application and its modules
