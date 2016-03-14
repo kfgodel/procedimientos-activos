@@ -40,4 +40,7 @@ Ctrl+C para salir
 > mvn deploy  
 
 ### Deployar en heroku
-> 
+Repo git de heroku:
+> git remote add heroku https://git.heroku.com/procedimientos-activos.git
+
+> git push heroku master
