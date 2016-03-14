@@ -1,6 +1,8 @@
 package ar.com.tenpines.html5poc;
 
-import ar.com.tenpines.html5poc.config.DevelopmentConfig;
+import ar.com.tenpines.html5poc.config.ConfigurationSelector;
+import ar.com.tenpines.html5poc.config.HerokuConfigSelector;
+import ar.com.tenpines.html5poc.config.ProceduresConfiguration;
 
 /**
  * Este tipo es el punto de entrada de la aplicación
@@ -10,7 +12,9 @@ import ar.com.tenpines.html5poc.config.DevelopmentConfig;
 public class Html5PocMain {
     
     public static void main(String[] args) {
-        ProceduresApplication.create(DevelopmentConfig.create()).start();
+        ConfigurationSelector selector = HerokuConfigSelector.create();
+        ProceduresConfiguration applicationConfig = selector.selectConfig();
+        ProceduresApplication.create(applicationConfig).start();
     }
 
 }

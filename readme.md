@@ -36,5 +36,8 @@ Abrir browser en [http://localhsot:9090](http://localhsot:9090) (debería verse 
 Ctrl+C para salir
 
 
-### deployar el zip
+### deployar el zip en su repo
 > mvn deploy  
+
+### Deployar en heroku
+> 
