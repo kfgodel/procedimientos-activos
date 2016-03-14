@@ -1,0 +1,6 @@
+{
+  "name": "Procedimientos activos",
+  "description": "Application to manage procedures of a team",
+  "image": "heroku/java",
+  "addons": [ "heroku-postgresql" ]
+}

@@ -34,7 +34,7 @@
     <version.testng>6.8.8</version.testng>
     <version.assertj>1.6.1</version.assertj>
     <version.mockito>1.9.5</version.mockito>
-    <version.javaspec>2.0</version.javaspec>
+    <version.javaspec>2.1-SNAPSHOT</version.javaspec>
 
     <version.webbyconvention>0.2-SNAPSHOT</version.webbyconvention>
     <version.wrapper>3.5.25</version.wrapper>
@@ -61,6 +61,7 @@
         <configuration>
           <source>${project.java.source}</source>
           <target>${project.java.target}</target>
+          <optimize>true</optimize>
           <debug>true</debug>
           <!-- This parameter enables parameter name preservation -->
           <compilerArgument>-parameters</compilerArgument>
@@ -129,6 +130,12 @@
                 </artifactItem>
               </artifactItems>
             </configuration>
+          </execution>
+          <execution>
+            <!-- Needed by heroku find all the dependencies in a dir -->
+            <id>copy-dependencies</id>
+            <phase>package</phase>
+            <goals><goal>copy-dependencies</goal></goals>
           </execution>
         </executions>
       </plugin>
@@ -301,6 +308,18 @@
       <version>${version.h2}</version>
     </dependency>
 
+    <!-- Heroku database -->
+    <dependency>
+      <groupId>org.postgresql</groupId>
+      <artifactId>postgresql</artifactId>
+      <version>9.4-1201-jdbc4</version>
+    </dependency>
+    <!-- Optional for heroku? to manage database connections?-->
+    <dependency>
+      <groupId>com.heroku.sdk</groupId>
+      <artifactId>heroku-jdbc</artifactId>
+      <version>0.1.1</version>
+    </dependency>
 
     <!-- programmatic dsl for queries -->
     <dependency>
