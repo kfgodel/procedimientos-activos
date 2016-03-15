@@ -1,10 +1,10 @@
-package ar.com.tenpines.html5poc;
+package ar.com.kfgodel.proact;
 
 import ar.com.dgarcia.javaspec.api.JavaSpec;
 import ar.com.dgarcia.javaspec.api.JavaSpecRunner;
-import ar.com.tenpines.html5poc.config.DevelopmentConfig;
-import ar.com.tenpines.html5poc.config.HerokuConfigSelector;
-import ar.com.tenpines.html5poc.config.ProceduresConfiguration;
+import ar.com.kfgodel.proact.config.DevelopmentConfig;
+import ar.com.kfgodel.proact.config.HerokuConfigSelector;
+import ar.com.kfgodel.proact.config.ProceduresConfiguration;
 import org.junit.runner.RunWith;
 
 import static org.assertj.core.api.Assertions.assertThat;

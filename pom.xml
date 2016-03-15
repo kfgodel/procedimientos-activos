@@ -4,11 +4,11 @@
          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
   <modelVersion>4.0.0</modelVersion>
 
-  <groupId>ar.com.tenpines</groupId>
-  <artifactId>ateam-html5-poc</artifactId>
+  <groupId>ar.com.kfgodel</groupId>
+  <artifactId>procedimientos-activos</artifactId>
   <version>0.1-SNAPSHOT</version>
-  <name>Html5 POC</name>
-  <description>Prueba de concepto ember + java + html5</description>
+  <name>Procedimientos Activos</name>
+  <description>Aplicacion Java para administrar procedimientos e integrarlos con otros sistemas</description>
 
   <properties>
     <project.java.source>1.8</project.java.source>
@@ -165,7 +165,7 @@
           <archive>
             <manifest>
               <addClasspath>true</addClasspath>
-              <mainClass>ar.com.tenpines.html5poc.Html5PocMain</mainClass>
+              <mainClass>ar.com.kfgodel.proact.Html5PocMain</mainClass>
             </manifest>
             <manifestEntries>
               <Build-JVM>${java.vm.name} - ${java.vm.vendor}</Build-JVM>

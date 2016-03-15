@@ -1,6 +1,6 @@
 package convention.rest.api;
 
-import ar.com.tenpines.html5poc.Application;
+import ar.com.kfgodel.proact.Application;
 
 import javax.inject.Inject;
 import javax.ws.rs.Path;

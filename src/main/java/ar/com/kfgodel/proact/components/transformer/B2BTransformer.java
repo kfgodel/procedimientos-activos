@@ -1,9 +1,9 @@
-package ar.com.tenpines.html5poc.components.transformer;
+package ar.com.kfgodel.proact.components.transformer;
 
 import ar.com.kfgodel.nary.api.Nary;
-import ar.com.tenpines.html5poc.Application;
-import ar.com.tenpines.html5poc.components.transformer.flavors.Identifiable2NumberConverter;
-import ar.com.tenpines.html5poc.components.transformer.flavors.Number2PersistentConverter;
+import ar.com.kfgodel.proact.Application;
+import ar.com.kfgodel.proact.components.transformer.flavors.Identifiable2NumberConverter;
+import ar.com.kfgodel.proact.components.transformer.flavors.Number2PersistentConverter;
 import ar.com.tenpines.orm.api.entities.Identifiable;
 import com.tenpines.commons.tos.EnumTo;
 import com.tenpines.commons.tos.PersistibleTo;

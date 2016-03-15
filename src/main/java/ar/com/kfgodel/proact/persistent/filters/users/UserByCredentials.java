@@ -1,4 +1,4 @@
-package ar.com.tenpines.html5poc.persistent.filters.users;
+package ar.com.kfgodel.proact.persistent.filters.users;
 
 import ar.com.kfgodel.nary.api.Nary;
 import ar.com.kfgodel.webbyconvention.api.auth.WebCredential;

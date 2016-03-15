@@ -1,4 +1,4 @@
-package ar.com.tenpines.html5poc.config;
+package ar.com.kfgodel.proact.config;
 
 import ar.com.tenpines.orm.api.config.DbCoordinates;
 
