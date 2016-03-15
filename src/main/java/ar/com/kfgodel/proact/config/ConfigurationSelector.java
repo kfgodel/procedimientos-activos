@@ -1,4 +1,4 @@
-package ar.com.tenpines.html5poc.config;
+package ar.com.kfgodel.proact.config;
 
 /**
  * This type represents the object that knows wich configuration should be used in the current application

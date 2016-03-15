@@ -1,11 +1,12 @@
-# ateam-html5-poc
+# Procedimientos Activos
 
-Prueba de concepto para crear una aplicación web con un framework JS para frontend y html5
+Proyecto java web para administrar el conocimiento de procedural de un grupo.  
+
 
 ## Setup desarrollo
 
 ### Frontend
-Bajar como proyecto independiente [Ember-cli POC](https://github.com/kfgodel/ember-cli-poc)  
+Bajar como proyecto independiente [Ember-cli POC](https://github.com/kfgodel/procedimientos-activos)  
 Y setupearlo segun sus instrucciones.  
 
 Una vez que se obtiene el "compilado" en /dist usar `mvn install` o `mvn deploy` para generar una nueva version del 
@@ -17,7 +18,7 @@ Para desarrollar sólo es necesario invocar
 
 Que genera las clases "auto generadas" de querydsl, y descomprime el frontend dentro de los resources del classpath.  
 Luego es  ejecutar la clase Java
-ar.com.tenpines.html5poc.Html5PocMain.main()
+ar.com.kfgodel.proact.Html5PocMain.main()
 
 ## Generar binarios entregables
 > mvn package  

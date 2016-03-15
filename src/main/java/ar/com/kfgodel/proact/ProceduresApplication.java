@@ -1,13 +1,13 @@
-package ar.com.tenpines.html5poc;
+package ar.com.kfgodel.proact;
 
+import ar.com.kfgodel.proact.components.transformer.B2BTransformer;
+import ar.com.kfgodel.proact.components.transformer.TypeTransformer;
 import ar.com.kfgodel.webbyconvention.api.WebServer;
 import ar.com.kfgodel.webbyconvention.api.config.WebServerConfiguration;
 import ar.com.kfgodel.webbyconvention.impl.JettyWebServer;
 import ar.com.kfgodel.webbyconvention.impl.config.ConfigurationByConvention;
-import ar.com.tenpines.html5poc.components.DatabaseAuthenticator;
-import ar.com.tenpines.html5poc.components.transformer.B2BTransformer;
-import ar.com.tenpines.html5poc.components.transformer.TypeTransformer;
-import ar.com.tenpines.html5poc.config.ProceduresConfiguration;
+import ar.com.kfgodel.proact.components.DatabaseAuthenticator;
+import ar.com.kfgodel.proact.config.ProceduresConfiguration;
 import ar.com.tenpines.orm.api.HibernateOrm;
 import ar.com.tenpines.orm.api.config.DbCoordinates;
 import ar.com.tenpines.orm.impl.HibernateFacade;

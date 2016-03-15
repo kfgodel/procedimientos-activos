@@ -1,4 +1,4 @@
-package ar.com.tenpines.html5poc.persistent.filters.procedures;
+package ar.com.kfgodel.proact.persistent.filters.procedures;
 
 import ar.com.kfgodel.nary.api.Nary;
 import ar.com.kfgodel.nary.api.optionals.Optional;

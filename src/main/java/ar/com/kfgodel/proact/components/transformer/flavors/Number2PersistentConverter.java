@@ -1,4 +1,4 @@
-package ar.com.tenpines.html5poc.components.transformer.flavors;
+package ar.com.kfgodel.proact.components.transformer.flavors;
 
 import ar.com.kfgodel.nary.api.Nary;
 import ar.com.tenpines.orm.api.HibernateOrm;

@@ -1,15 +1,15 @@
-package ar.com.tenpines.html5poc;
+package ar.com.kfgodel.proact;
 
-import ar.com.tenpines.html5poc.config.ConfigurationSelector;
-import ar.com.tenpines.html5poc.config.HerokuConfigSelector;
-import ar.com.tenpines.html5poc.config.ProceduresConfiguration;
+import ar.com.kfgodel.proact.config.ConfigurationSelector;
+import ar.com.kfgodel.proact.config.HerokuConfigSelector;
+import ar.com.kfgodel.proact.config.ProceduresConfiguration;
 
 /**
  * Este tipo es el punto de entrada de la aplicación
  *  
  * Created by kfgodel on 19/02/15.
  */
-public class Html5PocMain {
+public class ProceduresMain {
     
     public static void main(String[] args) {
         ConfigurationSelector selector = HerokuConfigSelector.create();

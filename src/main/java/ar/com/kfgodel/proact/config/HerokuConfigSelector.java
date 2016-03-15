@@ -1,4 +1,4 @@
-package ar.com.tenpines.html5poc.config;
+package ar.com.kfgodel.proact.config;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

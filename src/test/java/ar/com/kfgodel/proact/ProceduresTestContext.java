@@ -1,7 +1,7 @@
-package ar.com.tenpines.html5poc;
+package ar.com.kfgodel.proact;
 
 import ar.com.dgarcia.javaspec.api.contexts.TestContext;
-import ar.com.tenpines.html5poc.config.ConfigurationSelector;
+import ar.com.kfgodel.proact.config.ConfigurationSelector;
 
 import java.util.function.Supplier;
 
