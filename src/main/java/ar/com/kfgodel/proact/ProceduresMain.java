@@ -9,7 +9,7 @@ import ar.com.kfgodel.proact.config.ProceduresConfiguration;
  *  
  * Created by kfgodel on 19/02/15.
  */
-public class Html5PocMain {
+public class ProceduresMain {
     
     public static void main(String[] args) {
         ConfigurationSelector selector = HerokuConfigSelector.create();
