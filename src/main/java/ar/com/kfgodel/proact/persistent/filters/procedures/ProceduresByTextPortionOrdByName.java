@@ -32,9 +32,9 @@ public class ProceduresByTextPortionOrdByName implements SessionOperation<Nary<P
 
     filterText.ifPresent((textToRestrict)->{
       query.where(
-        procedure.name.contains(textToRestrict)
-          .or(procedure.description.contains(textToRestrict))
-          .or(procedure.tags.contains(textToRestrict))
+        procedure.name.containsIgnoreCase(textToRestrict)
+          .or(procedure.description.containsIgnoreCase(textToRestrict))
+          .or(procedure.tags.containsIgnoreCase(textToRestrict))
       );
     });
 
