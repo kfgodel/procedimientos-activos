@@ -46,5 +46,5 @@ Repo git de heroku:
 
 > git push heroku master
 
-Deployar vetemecum
-> git push heroku_vetemecum DLG-2335_vetemecum:master
+Deployar vetemecum (forzar si rebaseamos master)
+> git push -f heroku_vetemecum DLG-2335_vetemecum:master
