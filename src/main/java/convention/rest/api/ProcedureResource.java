@@ -25,7 +25,7 @@ public class ProcedureResource {
   private Application application;
 
   @GET
-  public List<ProcedureTo> getAllProceduresUsers(@QueryParam("searchText") String searchText) {
+  public List<ProcedureTo> getAllEntities(@QueryParam("searchText") String searchText) {
     Nary<Procedure> procedimientos = application.getOrmModule()
       .ensureSessionFor(ProceduresByTextPortionOrdByName.create(Nary.ofNullable(searchText)));
 
@@ -39,7 +39,7 @@ public class ProcedureResource {
   }
 
   @POST
-  public ProcedureTo createProcedure() {
+  public ProcedureTo createEntity() {
     Procedure newProcedure = Procedure.create("Procedimiento nn", "Sin descripción");
 
     application.getOrmModule().ensureSessionFor(Save.create(newProcedure));
@@ -48,8 +48,8 @@ public class ProcedureResource {
   }
 
   @GET
-  @Path("/{procedureId}")
-  public ProcedureTo getSingleProcedure(@PathParam("procedureId") Long procedureId) {
+  @Path("/{entityId}")
+  public ProcedureTo getSingleEntity(@PathParam("entityId") Long procedureId) {
     Nary<Procedure> procedure = application.getOrmModule().ensureSessionFor(FindById.create(Procedure.class, procedureId));
     return procedure
       .mapOptional(this::createTo)
@@ -58,8 +58,8 @@ public class ProcedureResource {
 
 
   @PUT
-  @Path("/{procedureId}")
-  public ProcedureTo editProcedure(ProcedureTo newState, @PathParam("procedureId") Long procedureId) {
+  @Path("/{entityId}")
+  public ProcedureTo editEntity(ProcedureTo newState, @PathParam("entityId") Long procedureId) {
     Procedure procedure = application.getOrmModule().ensureTransactionFor(context -> {
       Procedure editedProcedure = this.application.getTransformerModule().transformTo(Procedure.class, newState);
       if (editedProcedure == null) {
@@ -73,8 +73,8 @@ public class ProcedureResource {
   }
 
   @DELETE
-  @Path("/{procedureId}")
-  public void deleteProcedure(@PathParam("procedureId") Long procedureId) {
+  @Path("/{entityId}")
+  public void deleteEntity(@PathParam("entityId") Long procedureId) {
     application.getOrmModule().ensureTransactionFor(DeleteById.create(Procedure.class, procedureId));
   }
 
