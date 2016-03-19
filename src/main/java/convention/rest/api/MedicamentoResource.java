@@ -42,11 +42,17 @@ public class MedicamentoResource {
   @POST
   public MedicamentoTo createEntity() {
     Medicamento newEntity = Medicamento.create("Medicamento nn",
-      "**Nombre comercial:**\n\n" +
-      "**Laboratorio:**\n\n" +
-      "**Indicaciones:**\n\n" +
-      "**Contraindicaciones:**\n\n" +
-      "**Dosis:**\n\n");
+      "**Nombre comercial:**  \n" +
+      " - \n\n\n" +
+      "**Laboratorio:**  \n" +
+        " - \n\n\n" +
+      "**Indicaciones:**  \n" +
+        " - \n\n\n" +
+      "**Contraindicaciones:**  \n" +
+        " - \n\n\n" +
+      "**Dosis:**  \n"+
+      " - \n\n\n"
+    );
 
     application.getOrmModule().ensureSessionFor(Save.create(newEntity));
 

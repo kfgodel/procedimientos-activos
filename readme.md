@@ -45,3 +45,6 @@ Repo git de heroku:
 > git remote add heroku https://git.heroku.com/procedimientos-activos.git
 
 > git push heroku master
+
+Deployar vetemecum
+> git push heroku_vetemecum DLG-2335_vetemecum:master

@@ -11,11 +11,11 @@
   </parent>
 
   <groupId>ar.com.kfgodel</groupId>
-  <artifactId>procedimientos-activos</artifactId>
+  <artifactId>vetemecum</artifactId>
   <version>0.1-SNAPSHOT</version>
 
-  <name>Procedimientos Activos</name>
-  <description>Aplicacion Java para administrar procedimientos e integrarlos con otros sistemas</description>
+  <name>Vetemecum</name>
+  <description>Aplicacion Java para administrar informacion de medicación veterinaria</description>
 
   <scm>
     <connection>scm:git:ssh://github.com/kfgodel/procedimientos-activos.git</connection>
@@ -75,7 +75,7 @@
               <artifactItems>
                 <artifactItem>
                   <groupId>ar.com.kfgodel</groupId>
-                  <artifactId>procedimientos-activos-frontend</artifactId>
+                  <artifactId>vetemecum-frontend</artifactId>
                   <version>${version.frontend}</version>
                   <type>zip</type>
                   <overWrite>true</overWrite>
