@@ -21,6 +21,7 @@ public class ApiV1Root {
   private UserResource users;
   private ProcedureResource procedures;
   private SessionResource session;
+  private MedicamentoResource medicamentos;
 
   @Path("/session")
   public SessionResource session() {
@@ -45,4 +46,13 @@ public class ApiV1Root {
     }
     return procedures;
   }
+
+  @Path("/medicamentos")
+  public MedicamentoResource medicamentos(){
+    if (medicamentos == null) {
+      medicamentos = MedicamentoResource.create(application);
+    }
+    return medicamentos;
+  }
+
 }
