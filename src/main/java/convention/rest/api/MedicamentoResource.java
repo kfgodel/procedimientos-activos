@@ -14,6 +14,7 @@ import convention.rest.api.tos.MedicamentoTo;
 import javax.ws.rs.*;
 import java.lang.reflect.Type;
 import java.util.List;
+import java.util.UUID;
 
 /**
  * This type represents the resource to access medicamentos
@@ -41,17 +42,31 @@ public class MedicamentoResource {
 
   @POST
   public MedicamentoTo createEntity() {
-    Medicamento newEntity = Medicamento.create("Medicamento nn",
+    Medicamento newEntity = Medicamento.create("Medicamento " + UUID.randomUUID(),
       "**Nombre comercial:**  \n" +
-      " - \n\n\n" +
+      "- \n\n\n" +
       "**Laboratorio:**  \n" +
-        " - \n\n\n" +
+        "- \n\n\n" +
       "**Indicaciones:**  \n" +
-        " - \n\n\n" +
+        "- \n\n\n" +
       "**Contraindicaciones:**  \n" +
-        " - \n\n\n" +
+        "- \n\n\n" +
+      "**Droga(s):**  \n"+
+        "- \n\n\n" +
       "**Dosis:**  \n"+
-      " - \n\n\n"
+      "- \n\n\n" +
+      "**Efectos adversos:**  \n"+
+      "- \n\n\n" +
+      "**Presentacion:**  \n"+
+        "- \n\n\n" +
+      "**Posologia:**  \n"+
+        "- \n\n\n" +
+      "**Vias de administracion:**  \n"+
+        "- \n\n\n" +
+      "**Ventajas:**  \n"+
+        "- \n\n\n" +
+      "**Especie:**  \n"+
+        "- \n\n\n"
     );
 
     application.getOrmModule().ensureSessionFor(Save.create(newEntity));

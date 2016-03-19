@@ -33,9 +33,9 @@ public class MedicamentosByTextPortionOrdByName implements SessionOperation<Nary
 
     filterText.ifPresent((textToRestrict)->{
       query.where(
-        medicamento.name.contains(textToRestrict)
-          .or(medicamento.description.contains(textToRestrict))
-          .or(medicamento.tags.contains(textToRestrict))
+        medicamento.name.containsIgnoreCase(textToRestrict)
+          .or(medicamento.description.containsIgnoreCase(textToRestrict))
+          .or(medicamento.tags.containsIgnoreCase(textToRestrict))
       );
     });
 
