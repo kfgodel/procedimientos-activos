@@ -75,7 +75,7 @@ public class ProcedureResource {
   @DELETE
   @Path("/{procedureId}")
   public void deleteProcedure(@PathParam("procedureId") Long procedureId) {
-    application.getOrmModule().ensureSessionFor(DeleteById.create(Procedure.class, procedureId));
+    application.getOrmModule().ensureTransactionFor(DeleteById.create(Procedure.class, procedureId));
   }
 
   public static ProcedureResource create(Application application) {
