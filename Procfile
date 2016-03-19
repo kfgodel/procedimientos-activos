@@ -1,1 +1,1 @@
-web:    java -cp target/classes:target/dependency/* Html5PocMain
+web:    java -cp target/classes:target/dependency/* ar.com.kfgodel.proact.ProceduresMain
