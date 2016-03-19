@@ -13,6 +13,7 @@ import convention.rest.api.tos.ProcedureTo;
 import javax.ws.rs.*;
 import java.lang.reflect.Type;
 import java.util.List;
+import java.util.UUID;
 
 /**
  * This type represents the resource to access procedures
@@ -40,7 +41,7 @@ public class ProcedureResource {
 
   @POST
   public ProcedureTo createEntity() {
-    Procedure newProcedure = Procedure.create("Procedimiento nn", "Sin descripción");
+    Procedure newProcedure = Procedure.create("Procedimiento " + UUID.randomUUID(), "Sin descripción");
 
     application.getOrmModule().ensureSessionFor(Save.create(newProcedure));
 
