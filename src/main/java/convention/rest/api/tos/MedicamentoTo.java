@@ -1,6 +1,6 @@
 package convention.rest.api.tos;
 
-import com.tenpines.commons.tos.PersistibleToSupport;
+import ar.com.kfgodel.transformbyconvention.api.tos.PersistibleToSupport;
 import convention.persistent.Medicamento;
 import net.sf.kfgodel.bean2bean.annotations.CopyFromAndTo;
 
