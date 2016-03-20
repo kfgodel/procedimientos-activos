@@ -1,8 +1,8 @@
 package ar.com.kfgodel.proact;
 
-import ar.com.kfgodel.proact.components.transformer.TypeTransformer;
-import ar.com.kfgodel.webbyconvention.api.WebServer;
 import ar.com.kfgodel.proact.config.ProceduresConfiguration;
+import ar.com.kfgodel.transformbyconvention.api.TypeTransformer;
+import ar.com.kfgodel.webbyconvention.api.WebServer;
 import ar.com.tenpines.orm.api.HibernateOrm;
 
 /**

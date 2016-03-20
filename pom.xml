@@ -348,40 +348,11 @@
       </exclusions>
     </dependency>
 
-    <!-- Multi-type conversions -->
+    <!-- Type transformations to ease communication with other systems -->
     <dependency>
-      <groupId>net.sf.kfgodel</groupId>
-      <artifactId>bean2bean</artifactId>
-      <version>${version.bean2bean}</version>
-    </dependency>
-    <!-- Lenguaje de scripting para expresiones de conversiones -->
-    <dependency>
-      <!-- Groovy language -->
-      <groupId>org.codehaus.groovy</groupId>
-      <artifactId>groovy-all</artifactId>
-      <version>${version.groovy}</version>
-      <exclusions>
-        <exclusion>
-          <groupId>org.ow2.asm</groupId>
-          <artifactId>asm-tree</artifactId>
-        </exclusion>
-        <exclusion>
-          <groupId>org.ow2.asm</groupId>
-          <artifactId>asm-commons</artifactId>
-        </exclusion>
-        <exclusion>
-          <groupId>org.ow2.asm</groupId>
-          <artifactId>asm</artifactId>
-        </exclusion>
-        <exclusion>
-          <groupId>org.ow2.asm</groupId>
-          <artifactId>asm-util</artifactId>
-        </exclusion>
-        <exclusion>
-          <groupId>org.ow2.asm</groupId>
-          <artifactId>asm-analysis</artifactId>
-        </exclusion>
-      </exclusions>
+      <groupId>ar.com.kfgodel</groupId>
+      <artifactId>transform-by-convention</artifactId>
+      <version>0.1-SNAPSHOT</version>
     </dependency>
 
     <!-- Better reflection -->

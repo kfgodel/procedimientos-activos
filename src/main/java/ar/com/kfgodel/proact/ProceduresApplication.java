@@ -1,13 +1,13 @@
 package ar.com.kfgodel.proact;
 
-import ar.com.kfgodel.proact.components.transformer.B2BTransformer;
-import ar.com.kfgodel.proact.components.transformer.TypeTransformer;
+import ar.com.kfgodel.proact.components.DatabaseAuthenticator;
+import ar.com.kfgodel.proact.config.ProceduresConfiguration;
+import ar.com.kfgodel.transformbyconvention.api.TypeTransformer;
+import ar.com.kfgodel.transformbyconvention.impl.B2BTransformer;
 import ar.com.kfgodel.webbyconvention.api.WebServer;
 import ar.com.kfgodel.webbyconvention.api.config.WebServerConfiguration;
 import ar.com.kfgodel.webbyconvention.impl.JettyWebServer;
 import ar.com.kfgodel.webbyconvention.impl.config.ConfigurationByConvention;
-import ar.com.kfgodel.proact.components.DatabaseAuthenticator;
-import ar.com.kfgodel.proact.config.ProceduresConfiguration;
 import ar.com.tenpines.orm.api.HibernateOrm;
 import ar.com.tenpines.orm.api.config.DbCoordinates;
 import ar.com.tenpines.orm.impl.HibernateFacade;
@@ -74,12 +74,12 @@ public class ProceduresApplication implements Application {
   private void initialize() {
     this.hibernate = createPersistenceLayer();
     this.webServer = createWebServer(this.hibernate);
-    this.transformer = createTransformer();
+    this.transformer = createTransformer(this.hibernate);
     registerCleanupHook();
   }
 
-  private B2BTransformer createTransformer() {
-    return B2BTransformer.create(this);
+  private TypeTransformer createTransformer(HibernateOrm persistenceModule) {
+    return B2BTransformer.create(persistenceModule);
   }
 
   private void registerCleanupHook() {
