@@ -26,25 +26,22 @@ import org.slf4j.LoggerFactory;
 public class ProceduresApplication implements Application {
   public static Logger LOG = LoggerFactory.getLogger(ProceduresApplication.class);
 
-  private WebServer webServer;
-  private HibernateOrm hibernate;
-  private TypeTransformer transformer;
   private ProceduresConfiguration config;
   private DependencyInjector injector;
 
   @Override
   public WebServer getWebServerModule() {
-    return webServer;
+    return this.injector.getImplementationFor(WebServer.class);
   }
 
   @Override
   public HibernateOrm getOrmModule() {
-    return hibernate;
+    return this.injector.getImplementationFor(HibernateOrm.class);
   }
 
   @Override
   public TypeTransformer getTransformerModule() {
-    return transformer;
+    return this.injector.getImplementationFor(TypeTransformer.class);
   }
 
   @Override
@@ -70,23 +67,25 @@ public class ProceduresApplication implements Application {
   public void start() {
     LOG.info("Starting APP");
     this.initialize();
-    this.webServer.startAndJoin();
+    this.getWebServerModule().startAndJoin();
   }
 
   @Override
   public void stop() {
     LOG.info("Stopping APP");
-    this.webServer.stop();
-    this.hibernate.close();
+    this.getWebServerModule().stop();
+    this.getOrmModule().close();
   }
 
   private void initialize() {
     this.injector = DependencyInjectorImpl.create();
-    this.hibernate = createPersistenceLayer();
-    this.injector.bindTo(HibernateOrm.class, this.hibernate);
+    this.injector.bindTo(Application.class, this);
 
-    this.webServer = createWebServer(this.hibernate);
-    this.transformer = createTransformer();
+    this.injector.bindTo(HibernateOrm.class, createPersistenceLayer());
+    // Web server depends on hibernate, so it needs to be created after hibernate
+    this.injector.bindTo(WebServer.class, createWebServer());
+    this.injector.bindTo(TypeTransformer.class, createTransformer());
+
     registerCleanupHook();
   }
 
@@ -108,13 +107,14 @@ public class ProceduresApplication implements Application {
     return hibernateOrm;
   }
 
-  private WebServer createWebServer(HibernateOrm hibernateOrm) {
+  private WebServer createWebServer() {
     WebServerConfiguration serverConfig = ConfigurationByConvention.create()
       .listeningHttpOn(config.getHttpPort())
       .withInjections((binder) -> {
+        //Make application the only jetty injectable dependency
         binder.bind(this).to(Application.class);
       })
-      .authenticatingWith(DatabaseAuthenticator.create(hibernateOrm));
+      .authenticatingWith(DatabaseAuthenticator.create(getOrmModule()));
     return JettyWebServer.createFor(serverConfig);
   }
 
