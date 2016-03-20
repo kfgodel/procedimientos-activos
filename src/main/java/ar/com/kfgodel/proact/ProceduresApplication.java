@@ -1,9 +1,12 @@
 package ar.com.kfgodel.proact;
 
+import ar.com.kfgodel.dependencies.api.DependencyInjector;
+import ar.com.kfgodel.dependencies.impl.DependencyInjectorImpl;
 import ar.com.kfgodel.proact.components.DatabaseAuthenticator;
 import ar.com.kfgodel.proact.config.ProceduresConfiguration;
 import ar.com.kfgodel.transformbyconvention.api.TypeTransformer;
 import ar.com.kfgodel.transformbyconvention.impl.B2BTransformer;
+import ar.com.kfgodel.transformbyconvention.impl.config.TransformerConfigurationByConvention;
 import ar.com.kfgodel.webbyconvention.api.WebServer;
 import ar.com.kfgodel.webbyconvention.api.config.WebServerConfiguration;
 import ar.com.kfgodel.webbyconvention.impl.JettyWebServer;
@@ -27,6 +30,7 @@ public class ProceduresApplication implements Application {
   private HibernateOrm hibernate;
   private TypeTransformer transformer;
   private ProceduresConfiguration config;
+  private DependencyInjector injector;
 
   @Override
   public WebServer getWebServerModule() {
@@ -46,6 +50,11 @@ public class ProceduresApplication implements Application {
   @Override
   public ProceduresConfiguration getConfiguration() {
     return config;
+  }
+
+  @Override
+  public DependencyInjector getInjector() {
+    return injector;
   }
 
   public static Application create(ProceduresConfiguration config) {
@@ -72,14 +81,18 @@ public class ProceduresApplication implements Application {
   }
 
   private void initialize() {
+    this.injector = DependencyInjectorImpl.create();
     this.hibernate = createPersistenceLayer();
+    this.injector.bindTo(HibernateOrm.class, this.hibernate);
+
     this.webServer = createWebServer(this.hibernate);
-    this.transformer = createTransformer(this.hibernate);
+    this.transformer = createTransformer();
     registerCleanupHook();
   }
 
-  private TypeTransformer createTransformer(HibernateOrm persistenceModule) {
-    return B2BTransformer.create(persistenceModule);
+  private TypeTransformer createTransformer() {
+    TransformerConfigurationByConvention configuration = TransformerConfigurationByConvention.create(this.getInjector());
+    return B2BTransformer.create(configuration);
   }
 
   private void registerCleanupHook() {

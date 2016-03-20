@@ -1,5 +1,6 @@
 package ar.com.kfgodel.proact;
 
+import ar.com.kfgodel.dependencies.api.DependencyInjector;
 import ar.com.kfgodel.proact.config.ProceduresConfiguration;
 import ar.com.kfgodel.transformbyconvention.api.TypeTransformer;
 import ar.com.kfgodel.webbyconvention.api.WebServer;
@@ -31,6 +32,11 @@ public interface Application {
    * @return The configuration object with the parameters for this application
    */
   ProceduresConfiguration getConfiguration();
+
+  /**
+   * @return The dependency injector used to wire application dependencies
+   */
+  DependencyInjector getInjector();
 
   /**
    * Starts this application and its modules
