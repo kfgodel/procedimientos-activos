@@ -1,6 +1,6 @@
 package ar.com.kfgodel.proact;
 
-import ar.com.dgarcia.javaspec.api.contexts.TestContext;
+import ar.com.dgarcia.javaspec.api.TestContext;
 import ar.com.kfgodel.proact.config.ConfigurationSelector;
 
 import java.util.function.Supplier;
