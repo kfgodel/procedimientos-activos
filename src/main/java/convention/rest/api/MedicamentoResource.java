@@ -1,5 +1,6 @@
 package convention.rest.api;
 
+import ar.com.kfgodel.appbyconvention.operation.api.ApplicationOperation;
 import ar.com.kfgodel.diamond.api.types.reference.ReferenceOf;
 import ar.com.kfgodel.nary.api.Nary;
 import ar.com.kfgodel.proact.Application;
@@ -8,7 +9,6 @@ import ar.com.tenpines.orm.api.operations.basic.DeleteById;
 import ar.com.tenpines.orm.api.operations.basic.FindById;
 import ar.com.tenpines.orm.api.operations.basic.Save;
 import convention.persistent.Medicamento;
-import convention.persistent.Procedure;
 import convention.rest.api.tos.MedicamentoTo;
 
 import javax.ws.rs.*;
@@ -28,16 +28,10 @@ public class MedicamentoResource {
 
   @GET
   public List<MedicamentoTo> getAllEntities(@QueryParam("searchText") String searchText) {
-    Nary<Medicamento> medicamentos = application.getOrmModule()
-      .ensureSessionFor(MedicamentosByTextPortionOrdByName.create(Nary.ofNullable(searchText)));
-
-    List<MedicamentoTo> proceduresTo = this.application.getTransformerModule().transformTo(LIST_OF_MEDICAMENTOS_TO, medicamentos);
-
-    return proceduresTo;
-  }
-
-  private MedicamentoTo createTo(Medicamento medicamento) {
-    return this.application.getTransformerModule().transformTo(MedicamentoTo.class, medicamento);
+    return createOperation()
+      .insideASession()
+      .applying(MedicamentosByTextPortionOrdByName.create(Nary.ofNullable(searchText)))
+      .convertTo(LIST_OF_MEDICAMENTOS_TO);
   }
 
   @POST
@@ -69,46 +63,57 @@ public class MedicamentoResource {
         "- \n\n\n"
     );
 
-    application.getOrmModule().ensureSessionFor(Save.create(newEntity));
-
-    return createTo(newEntity);
+    return createOperation()
+      .insideASession()
+      .taking(newEntity)
+      .applyingResultOf(Save::create)
+      .convertTo(MedicamentoTo.class);
   }
 
   @GET
   @Path("/{entityId}")
   public MedicamentoTo getSingleEntity(@PathParam("entityId") Long medicamentoId) {
-    Nary<Medicamento> medicamento = application.getOrmModule().ensureSessionFor(FindById.create(Medicamento.class, medicamentoId));
-    return medicamento
-      .mapOptional(this::createTo)
-      .orElseThrow(() -> new WebApplicationException("medicamento not found", 404));
+    return createOperation()
+      .insideASession()
+      .applying(FindById.create(Medicamento.class, medicamentoId))
+      .mapping((encontrado) -> encontrado.orElseThrowRuntime(() -> new WebApplicationException("medicamento not found", 404)))
+      .convertTo(MedicamentoTo.class);
   }
 
 
   @PUT
   @Path("/{entityId}")
   public MedicamentoTo editEntity(MedicamentoTo newState, @PathParam("entityId") Long medicamentoId) {
-    Medicamento medicamento = application.getOrmModule().ensureTransactionFor(context -> {
-      Medicamento editedMedicamento = this.application.getTransformerModule().transformTo(Medicamento.class, newState);
-      if (editedMedicamento == null) {
-        throw new WebApplicationException("Medicamento not found", 404);
-      }
-      Save.create(editedMedicamento).applyWithSessionOn(context);
-      return editedMedicamento;
-    });
-
-    return createTo(medicamento);
+    return createOperation()
+      .insideATransaction()
+      .taking(newState)
+      .convertingTo(Medicamento.class)
+      .mapping((encontrado) -> {
+        if (encontrado == null) {
+          throw new WebApplicationException("Medicamento not found", 404);
+        }
+        return encontrado;
+      })
+      .applyingResultOf(Save::create)
+      .convertTo(MedicamentoTo.class);
   }
 
   @DELETE
   @Path("/{procedureId}")
-  public void deleteProcedure(@PathParam("procedureId") Long procedureId) {
-    application.getOrmModule().ensureSessionFor(DeleteById.create(Procedure.class, procedureId));
+  public void deleteProcedure(@PathParam("procedureId") Long medicamentoId) {
+    createOperation()
+      .insideATransaction()
+      .apply(DeleteById.create(Medicamento.class, medicamentoId));
   }
 
   public static MedicamentoResource create(Application application) {
     MedicamentoResource resource = new MedicamentoResource();
     resource.application = application;
     return resource;
+  }
+
+  private ApplicationOperation createOperation() {
+    return ApplicationOperation.createFor(application.getInjector());
   }
 
 }
