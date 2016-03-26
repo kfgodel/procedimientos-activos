@@ -6,6 +6,7 @@ import ar.com.kfgodel.nary.api.Nary;
 import ar.com.kfgodel.proact.Application;
 import ar.com.kfgodel.proact.persistent.filters.procedures.ProceduresByTextPortionOrdByName;
 import ar.com.tenpines.orm.api.operations.basic.DeleteById;
+import ar.com.tenpines.orm.api.operations.basic.FindById;
 import ar.com.tenpines.orm.api.operations.basic.Save;
 import convention.persistent.Procedure;
 import convention.rest.api.tos.ProcedureTo;
@@ -51,14 +52,10 @@ public class ProcedureResource {
   public ProcedureTo getSingleEntity(@PathParam("entityId") Long procedureId) throws WebApplicationException{
     return createOperation()
       .insideASession()
-      .taking(procedureId)
-      .convertingTo(Procedure.class)
-      .mapping((procedure) -> {
+      .applying(FindById.create(Procedure.class, procedureId))
+      .mapping((foundProcedure) -> {
         // Answer 404 instead of null if it doesn't exist
-        if (procedure == null) {
-          throw new WebApplicationException("procedure not found", 404);
-        }
-        return procedure;
+        return foundProcedure.orElseThrowRuntime(() -> new WebApplicationException("procedure not found", 404));
       })
       .convertTo(ProcedureTo.class);
   }

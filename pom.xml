@@ -205,18 +205,11 @@
       <scope>provided</scope>
     </dependency>
 
-    <!-- Simplified web container -->
+    <!-- Convention based application modules -->
     <dependency>
       <groupId>ar.com.kfgodel</groupId>
-      <artifactId>web-by-convention</artifactId>
-      <version>${version.webbyconvention}</version>
-    </dependency>
-
-    <!-- Programmatic hibernate -->
-    <dependency>
-      <groupId>ar.com.tenpines</groupId>
-      <artifactId>ateam-hibernate</artifactId>
-      <version>${version.ateamhibernate}</version>
+      <artifactId>app-by-convention</artifactId>
+      <version>0.1-SNAPSHOT</version>
     </dependency>
 
     <!-- In file database -->
@@ -269,27 +262,6 @@
           <artifactId>jsr305</artifactId>
         </exclusion>
       </exclusions>
-    </dependency>
-
-    <!-- Type transformations to ease communication with other systems -->
-    <dependency>
-      <groupId>ar.com.kfgodel</groupId>
-      <artifactId>transform-by-convention</artifactId>
-      <version>0.1-SNAPSHOT</version>
-    </dependency>
-
-    <!-- Better reflection -->
-    <dependency>
-      <groupId>ar.com.kfgodel</groupId>
-      <artifactId>diamond</artifactId>
-      <version>${version.diamond}</version>
-    </dependency>
-
-    <!-- Follow knwon conventions -->
-    <dependency>
-      <groupId>ar.com.kfgodel</groupId>
-      <artifactId>by-convention</artifactId>
-      <version>0.1-SNAPSHOT</version>
     </dependency>
 
     <!-- Logging  as compile dependency-->

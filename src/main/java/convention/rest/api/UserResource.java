@@ -1,7 +1,7 @@
 package convention.rest.api;
 
+import ar.com.kfgodel.appbyconvention.operation.api.ApplicationOperation;
 import ar.com.kfgodel.diamond.api.types.reference.ReferenceOf;
-import ar.com.kfgodel.nary.api.Nary;
 import ar.com.kfgodel.proact.Application;
 import ar.com.kfgodel.proact.persistent.filters.users.FindAllUsersOrderedByName;
 import ar.com.tenpines.orm.api.operations.basic.DeleteById;
@@ -27,60 +27,68 @@ public class UserResource {
 
   @GET
   public List<UserTo> getAllUsers() {
-    Nary<Usuario> usuarios = application.getOrmModule().ensureSessionFor(FindAllUsersOrderedByName.create());
-
-    return application.getTransformerModule().transformTo(LIST_OF_USER_TOS, usuarios);
-  }
-
-  private UserTo createTo(Usuario usuario) {
-    UserTo userTo = application.getTransformerModule().transformTo(UserTo.class, usuario);
-    return userTo;
+    return createOperation()
+      .insideASession()
+      .applying(FindAllUsersOrderedByName.create())
+      .convertTo(LIST_OF_USER_TOS);
   }
 
   @POST
   public UserTo createUser() {
-    Usuario nuevoUsuario = Usuario.create("Sin nombre", "", "");
-
-    application.getOrmModule().ensureSessionFor(Save.create(nuevoUsuario));
-
-    return createTo(nuevoUsuario);
+    return createOperation()
+      .insideASession()
+      .taking(Usuario.create("Sin nombre", "", ""))
+      .applyingResultOf(Save::create)
+      .convertTo(UserTo.class);
   }
 
   @GET
   @Path("/{userId}")
   public UserTo getSingleUser(@PathParam("userId") Long userId) {
-    Nary<Usuario> usuario = application.getOrmModule().ensureSessionFor(FindById.create(Usuario.class, userId));
-    return usuario.mapOptional(this::createTo)
-      .orElseThrow(() -> new WebApplicationException("user not found", 404));
+    return createOperation()
+      .insideASession()
+      .applying(FindById.create(Usuario.class, userId))
+      .mapping((encontrado) -> {
+        // Answer 404 if missing
+        return encontrado.orElseThrowRuntime(() -> new WebApplicationException("user not found", 404));
+      })
+      .convertTo(UserTo.class);
   }
 
 
   @PUT
   @Path("/{userId}")
   public UserTo updateUser(UserTo newUserState, @PathParam("userId") Long userId) {
-
-    Usuario usuario = application.getOrmModule().ensureTransactionFor(context -> {
-      Usuario editedUsuario = this.application.getTransformerModule().transformTo(Usuario.class, newUserState);
-      if (editedUsuario == null) {
-        throw new WebApplicationException("user not found", 404);
-      }
-      Save.create(editedUsuario).applyWithSessionOn(context);
-      return editedUsuario;
-    });
-
-    return createTo(usuario);
+    return createOperation()
+      .insideATransaction()
+      .taking(newUserState)
+      .convertingTo(Usuario.class)
+      .mapping((encontrado) -> {
+        // Answer 404 if missing
+        if (encontrado == null) {
+          throw new WebApplicationException("user not found", 404);
+        }
+        return encontrado;
+      }).applyingResultOf(Save::create)
+      .convertTo(UserTo.class);
   }
 
   @DELETE
   @Path("/{userId}")
   public void deleteUser(@PathParam("userId") Long userId) {
-    application.getOrmModule().ensureSessionFor(DeleteById.create(Usuario.class, userId));
+    createOperation()
+      .insideATransaction()
+      .apply(DeleteById.create(Usuario.class, userId));
   }
 
   public static UserResource create(Application application) {
     UserResource resource = new UserResource();
     resource.application = application;
     return resource;
+  }
+
+  private ApplicationOperation createOperation() {
+    return ApplicationOperation.createFor(application.getInjector());
   }
 
 }
