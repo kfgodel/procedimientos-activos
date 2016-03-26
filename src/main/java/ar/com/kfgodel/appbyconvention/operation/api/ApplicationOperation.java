@@ -3,8 +3,7 @@ package ar.com.kfgodel.appbyconvention.operation.api;
 import ar.com.kfgodel.appbyconvention.operation.api.chains.SessionScopedOperation;
 import ar.com.kfgodel.appbyconvention.operation.api.chains.TransactionScopedOperation;
 import ar.com.kfgodel.appbyconvention.operation.impl.ApplicationOperationNode;
-import ar.com.kfgodel.transformbyconvention.api.TypeTransformer;
-import ar.com.tenpines.orm.api.HibernateOrm;
+import ar.com.kfgodel.dependencies.api.DependencyInjector;
 
 /**
  * This type represents an operation that affects several application layers (usually persistence and others)
@@ -19,12 +18,11 @@ public interface ApplicationOperation {
    * Creates a new empty operation that waits to be defined. <br>
    * The client code should indicate the scope of the operation after its creation
    *
-   * @param orm         The orm access object
-   * @param transformer The type transformer
+   * @param appInjector The dependency injector for the application
    * @return The created application operation
    */
-  static ApplicationOperation createFor(HibernateOrm orm, TypeTransformer transformer) {
-    return ApplicationOperationNode.create(orm, transformer);
+  static ApplicationOperation createFor(DependencyInjector appInjector) {
+    return ApplicationOperationNode.create(appInjector);
   }
 
   /**

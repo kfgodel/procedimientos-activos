@@ -40,7 +40,7 @@ public class ApplicationOperationTest extends JavaSpec<ProceduresTestContext> {
   @Override
   public void define() {
     describe("an application operation", () -> {
-      context().operation(() -> ApplicationOperation.createFor(new FakeOrm(), createTransformer()));
+      context().operation(() -> ApplicationOperation.createFor(createInjector()));
 
       it("can be done inside the context of a persistence session", () -> {
         assertThat(context().operation().insideASession())
@@ -322,12 +322,12 @@ public class ApplicationOperationTest extends JavaSpec<ProceduresTestContext> {
     });
   }
 
-  private TypeTransformer createTransformer() {
+  private DependencyInjector createInjector() {
     DependencyInjector injector = DependencyInjectorImpl.create();
     injector.bindTo(HibernateOrm.class, new FakeOrm());
     TransformerConfigurationByConvention configuration = TransformerConfigurationByConvention.create(injector);
-    return B2BTransformer.create(configuration);
-
+    injector.bindTo(TypeTransformer.class, B2BTransformer.create(configuration));
+    return injector;
   }
 
   private static class FakeOrm implements HibernateOrm {

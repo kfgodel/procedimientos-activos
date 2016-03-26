@@ -34,7 +34,7 @@ public class ProcedureResource {
   }
 
   private ApplicationOperation createOperation() {
-    return ApplicationOperation.createFor(application.getOrmModule(), application.getTransformerModule());
+    return ApplicationOperation.createFor(application.getInjector());
   }
 
   @POST
