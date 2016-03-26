@@ -1,4 +1,4 @@
-package ar.com.kfgodel.proact.operation.parts;
+package ar.com.kfgodel.appbyconvention.operation.impl.comphelp;
 
 import ar.com.tenpines.orm.api.operations.TransactionOperation;
 

@@ -1,7 +1,7 @@
-package ar.com.kfgodel.proact.operation;
+package ar.com.kfgodel.appbyconvention.operation.api.chains;
 
-import ar.com.kfgodel.proact.operation.parts.SessionContinuator;
-import ar.com.kfgodel.proact.operation.parts.SessionTerminator;
+import ar.com.kfgodel.appbyconvention.operation.api.chains.session.SessionContinuator;
+import ar.com.kfgodel.appbyconvention.operation.api.chains.session.SessionTerminator;
 import ar.com.tenpines.orm.api.operations.SessionOperation;
 
 import java.lang.reflect.Type;
@@ -9,6 +9,8 @@ import java.util.function.Function;
 import java.util.function.Supplier;
 
 /**
+ * This type represents an application operation with chained actions that will be executed on the same shared session
+ *
  * Created by kfgodel on 25/03/16.
  */
 public interface ChainedSessionOperation<O1> extends SessionContinuator<O1>, SessionTerminator<O1>, Supplier<O1> {

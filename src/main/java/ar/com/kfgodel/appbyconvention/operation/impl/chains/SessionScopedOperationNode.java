@@ -1,15 +1,16 @@
-package ar.com.kfgodel.proact.operation.impl;
+package ar.com.kfgodel.appbyconvention.operation.impl.chains;
 
-import ar.com.kfgodel.proact.operation.ChainedSessionOperation;
-import ar.com.kfgodel.proact.operation.SessionScopedOperation;
-import ar.com.kfgodel.proact.operation.parts.SessionApplierFunction;
-import ar.com.kfgodel.proact.operation.parts.TransformerFunction;
+import ar.com.kfgodel.appbyconvention.operation.api.chains.ChainedSessionOperation;
+import ar.com.kfgodel.appbyconvention.operation.api.chains.SessionScopedOperation;
+import ar.com.kfgodel.appbyconvention.operation.impl.comphelp.SessionApplierFunction;
+import ar.com.kfgodel.appbyconvention.operation.impl.comphelp.TransformerFunction;
 import ar.com.tenpines.orm.api.operations.SessionOperation;
 
 import java.lang.reflect.Type;
 import java.util.function.BiFunction;
 
 /**
+ * This type implements the session scoped operation by using two base functions
  * Created by kfgodel on 25/03/16.
  */
 public class SessionScopedOperationNode implements SessionScopedOperation {

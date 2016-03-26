@@ -2,12 +2,12 @@ package ar.com.kfgodel.proact;
 
 import ar.com.dgarcia.javaspec.api.JavaSpec;
 import ar.com.dgarcia.javaspec.api.JavaSpecRunner;
+import ar.com.kfgodel.appbyconvention.operation.api.ApplicationOperation;
+import ar.com.kfgodel.appbyconvention.operation.api.chains.ChainedSessionOperation;
+import ar.com.kfgodel.appbyconvention.operation.api.chains.ChainedTransactionOperation;
 import ar.com.kfgodel.dependencies.api.DependencyInjector;
 import ar.com.kfgodel.dependencies.impl.DependencyInjectorImpl;
 import ar.com.kfgodel.diamond.api.types.reference.ReferenceOf;
-import ar.com.kfgodel.proact.operation.ApplicationOperation;
-import ar.com.kfgodel.proact.operation.ChainedSessionOperation;
-import ar.com.kfgodel.proact.operation.ChainedTransactionOperation;
 import ar.com.kfgodel.transformbyconvention.api.TypeTransformer;
 import ar.com.kfgodel.transformbyconvention.impl.B2BTransformer;
 import ar.com.kfgodel.transformbyconvention.impl.config.TransformerConfigurationByConvention;

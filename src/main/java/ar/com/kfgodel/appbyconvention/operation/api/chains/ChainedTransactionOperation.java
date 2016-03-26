@@ -1,7 +1,7 @@
-package ar.com.kfgodel.proact.operation;
+package ar.com.kfgodel.appbyconvention.operation.api.chains;
 
-import ar.com.kfgodel.proact.operation.parts.TransactionContinuator;
-import ar.com.kfgodel.proact.operation.parts.TransactionTerminator;
+import ar.com.kfgodel.appbyconvention.operation.api.chains.transaction.TransactionContinuator;
+import ar.com.kfgodel.appbyconvention.operation.api.chains.transaction.TransactionTerminator;
 import ar.com.tenpines.orm.api.operations.TransactionOperation;
 
 import java.lang.reflect.Type;
@@ -9,6 +9,8 @@ import java.util.function.Function;
 import java.util.function.Supplier;
 
 /**
+ * This type represents an application operation with chained actions that will be executed on the same shared transaction
+ *
  * Created by kfgodel on 25/03/16.
  */
 public interface ChainedTransactionOperation<O1> extends TransactionContinuator<O1>, TransactionTerminator<O1>, Supplier<O1> {

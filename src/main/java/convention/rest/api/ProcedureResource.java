@@ -1,9 +1,9 @@
 package convention.rest.api;
 
+import ar.com.kfgodel.appbyconvention.operation.api.ApplicationOperation;
 import ar.com.kfgodel.diamond.api.types.reference.ReferenceOf;
 import ar.com.kfgodel.nary.api.Nary;
 import ar.com.kfgodel.proact.Application;
-import ar.com.kfgodel.proact.operation.ApplicationOperation;
 import ar.com.kfgodel.proact.persistent.filters.procedures.ProceduresByTextPortionOrdByName;
 import ar.com.tenpines.orm.api.operations.basic.DeleteById;
 import ar.com.tenpines.orm.api.operations.basic.Save;

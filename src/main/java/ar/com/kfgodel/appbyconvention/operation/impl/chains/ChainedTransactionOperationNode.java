@@ -1,12 +1,13 @@
-package ar.com.kfgodel.proact.operation.impl;
+package ar.com.kfgodel.appbyconvention.operation.impl.chains;
 
-import ar.com.kfgodel.proact.operation.ChainedTransactionOperation;
+import ar.com.kfgodel.appbyconvention.operation.api.chains.ChainedTransactionOperation;
 import ar.com.tenpines.orm.api.operations.TransactionOperation;
 
 import java.lang.reflect.Type;
 import java.util.function.Function;
 
 /**
+ * This type implements the chained transaction operation by wrapping the previous action
  * Created by kfgodel on 25/03/16.
  */
 public class ChainedTransactionOperationNode<I1> implements ChainedTransactionOperation<I1> {

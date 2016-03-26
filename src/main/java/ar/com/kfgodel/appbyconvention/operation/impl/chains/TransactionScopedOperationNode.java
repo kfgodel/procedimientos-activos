@@ -1,15 +1,16 @@
-package ar.com.kfgodel.proact.operation.impl;
+package ar.com.kfgodel.appbyconvention.operation.impl.chains;
 
-import ar.com.kfgodel.proact.operation.ChainedTransactionOperation;
-import ar.com.kfgodel.proact.operation.TransactionScopedOperation;
-import ar.com.kfgodel.proact.operation.parts.TransactionApplierFunction;
-import ar.com.kfgodel.proact.operation.parts.TransformerFunction;
+import ar.com.kfgodel.appbyconvention.operation.api.chains.ChainedTransactionOperation;
+import ar.com.kfgodel.appbyconvention.operation.api.chains.TransactionScopedOperation;
+import ar.com.kfgodel.appbyconvention.operation.impl.comphelp.TransactionApplierFunction;
+import ar.com.kfgodel.appbyconvention.operation.impl.comphelp.TransformerFunction;
 import ar.com.tenpines.orm.api.operations.TransactionOperation;
 
 import java.lang.reflect.Type;
 import java.util.function.BiFunction;
 
 /**
+ * This type implements the session scoped operation by using two base functions
  * Created by kfgodel on 25/03/16.
  */
 public class TransactionScopedOperationNode implements TransactionScopedOperation {

@@ -1,12 +1,13 @@
-package ar.com.kfgodel.proact.operation.impl;
+package ar.com.kfgodel.appbyconvention.operation.impl.chains;
 
-import ar.com.kfgodel.proact.operation.ChainedSessionOperation;
+import ar.com.kfgodel.appbyconvention.operation.api.chains.ChainedSessionOperation;
 import ar.com.tenpines.orm.api.operations.SessionOperation;
 
 import java.lang.reflect.Type;
 import java.util.function.Function;
 
 /**
+ * This type implements the chained session operation by wrapping the previous action
  * Created by kfgodel on 25/03/16.
  */
 public class ChainedSessionOperationNode<I1> implements ChainedSessionOperation<I1> {
