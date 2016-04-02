@@ -31,17 +31,17 @@ public class ProceduresApplication implements Application {
 
   @Override
   public WebServer getWebServerModule() {
-    return this.injector.getImplementationFor(WebServer.class);
+    return this.injector.getImplementationFor(WebServer.class).get();
   }
 
   @Override
   public HibernateOrm getOrmModule() {
-    return this.injector.getImplementationFor(HibernateOrm.class);
+    return this.injector.getImplementationFor(HibernateOrm.class).get();
   }
 
   @Override
   public TypeTransformer getTransformerModule() {
-    return this.injector.getImplementationFor(TypeTransformer.class);
+    return this.injector.getImplementationFor(TypeTransformer.class).get();
   }
 
   @Override
