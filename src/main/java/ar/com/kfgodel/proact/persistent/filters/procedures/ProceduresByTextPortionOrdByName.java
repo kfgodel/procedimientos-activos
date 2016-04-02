@@ -2,8 +2,8 @@ package ar.com.kfgodel.proact.persistent.filters.procedures;
 
 import ar.com.kfgodel.nary.api.Nary;
 import ar.com.kfgodel.nary.api.optionals.Optional;
-import ar.com.tenpines.orm.api.SessionContext;
-import ar.com.tenpines.orm.api.operations.SessionOperation;
+import ar.com.kfgodel.orm.api.SessionContext;
+import ar.com.kfgodel.orm.api.operations.SessionOperation;
 import com.mysema.query.jpa.hibernate.HibernateQuery;
 import convention.persistent.Procedure;
 import convention.persistent.QProcedure;

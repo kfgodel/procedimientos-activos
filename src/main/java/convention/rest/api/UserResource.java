@@ -3,10 +3,10 @@ package convention.rest.api;
 import ar.com.kfgodel.appbyconvention.operation.api.ApplicationOperation;
 import ar.com.kfgodel.dependencies.api.DependencyInjector;
 import ar.com.kfgodel.diamond.api.types.reference.ReferenceOf;
+import ar.com.kfgodel.orm.api.operations.basic.DeleteById;
+import ar.com.kfgodel.orm.api.operations.basic.FindById;
+import ar.com.kfgodel.orm.api.operations.basic.Save;
 import ar.com.kfgodel.proact.persistent.filters.users.FindAllUsersOrderedByName;
-import ar.com.tenpines.orm.api.operations.basic.DeleteById;
-import ar.com.tenpines.orm.api.operations.basic.FindById;
-import ar.com.tenpines.orm.api.operations.basic.Save;
 import convention.persistent.Usuario;
 import convention.rest.api.tos.UserTo;
 

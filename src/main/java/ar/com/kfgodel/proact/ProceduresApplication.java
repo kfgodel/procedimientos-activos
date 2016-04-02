@@ -2,6 +2,9 @@ package ar.com.kfgodel.proact;
 
 import ar.com.kfgodel.dependencies.api.DependencyInjector;
 import ar.com.kfgodel.dependencies.impl.DependencyInjectorImpl;
+import ar.com.kfgodel.orm.api.HibernateOrm;
+import ar.com.kfgodel.orm.api.config.DbCoordinates;
+import ar.com.kfgodel.orm.impl.HibernateFacade;
 import ar.com.kfgodel.proact.components.DatabaseAuthenticator;
 import ar.com.kfgodel.proact.config.ProceduresConfiguration;
 import ar.com.kfgodel.transformbyconvention.api.TypeTransformer;
@@ -11,9 +14,6 @@ import ar.com.kfgodel.webbyconvention.api.WebServer;
 import ar.com.kfgodel.webbyconvention.api.config.WebServerConfiguration;
 import ar.com.kfgodel.webbyconvention.impl.JettyWebServer;
 import ar.com.kfgodel.webbyconvention.impl.config.ConfigurationByConvention;
-import ar.com.tenpines.orm.api.HibernateOrm;
-import ar.com.tenpines.orm.api.config.DbCoordinates;
-import ar.com.tenpines.orm.impl.HibernateFacade;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 

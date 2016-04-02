@@ -1,10 +1,10 @@
 package ar.com.kfgodel.proact.components;
 
 import ar.com.kfgodel.nary.api.Nary;
+import ar.com.kfgodel.orm.api.HibernateOrm;
 import ar.com.kfgodel.proact.persistent.filters.users.UserByCredentials;
-import ar.com.kfgodel.webbyconvention.api.auth.WebCredential;
 import ar.com.kfgodel.proact.persistent.filters.users.UserCount;
-import ar.com.tenpines.orm.api.HibernateOrm;
+import ar.com.kfgodel.webbyconvention.api.auth.WebCredential;
 import convention.persistent.Usuario;
 
 import java.util.Optional;

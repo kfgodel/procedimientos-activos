@@ -1,7 +1,7 @@
 package ar.com.kfgodel.proact.config;
 
-import ar.com.tenpines.orm.api.config.DbCoordinates;
-import ar.com.tenpines.orm.impl.config.ImmutableDbCoordinates;
+import ar.com.kfgodel.orm.api.config.DbCoordinates;
+import ar.com.kfgodel.orm.impl.config.ImmutableDbCoordinates;
 
 /**
  * This type represents the configuration for a development environment

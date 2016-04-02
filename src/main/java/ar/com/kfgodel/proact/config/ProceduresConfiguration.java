@@ -1,6 +1,6 @@
 package ar.com.kfgodel.proact.config;
 
-import ar.com.tenpines.orm.api.config.DbCoordinates;
+import ar.com.kfgodel.orm.api.config.DbCoordinates;
 
 /**
  * This type represents the configuration data for the procedures application to work

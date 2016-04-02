@@ -1,9 +1,9 @@
 package ar.com.kfgodel.proact.persistent.filters.users;
 
 import ar.com.kfgodel.nary.api.Nary;
+import ar.com.kfgodel.orm.api.SessionContext;
+import ar.com.kfgodel.orm.api.operations.SessionOperation;
 import ar.com.kfgodel.webbyconvention.api.auth.WebCredential;
-import ar.com.tenpines.orm.api.SessionContext;
-import ar.com.tenpines.orm.api.operations.SessionOperation;
 import com.mysema.query.NonUniqueResultException;
 import com.mysema.query.jpa.hibernate.HibernateQuery;
 import convention.persistent.QUsuario;
