@@ -9,7 +9,7 @@ import javax.validation.constraints.Size;
  * Created by kfgodel on 24/03/15.
  */
 @Entity
-public class Medicamento extends PersistentSupport {
+public class Medicamento extends PersistableSupport {
 
     @Size(max=1024)
     private String name;

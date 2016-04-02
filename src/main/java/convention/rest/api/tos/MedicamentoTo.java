@@ -1,6 +1,6 @@
 package convention.rest.api.tos;
 
-import ar.com.kfgodel.transformbyconvention.api.tos.PersistibleToSupport;
+import ar.com.kfgodel.appbyconvention.tos.PersistableToSupport;
 import convention.persistent.Medicamento;
 import net.sf.kfgodel.bean2bean.annotations.CopyFromAndTo;
 
@@ -8,7 +8,7 @@ import net.sf.kfgodel.bean2bean.annotations.CopyFromAndTo;
  * This type represents a single medicamento for frontend
  * Created by kfgodel on 17/03/15.
  */
-public class MedicamentoTo extends PersistibleToSupport {
+public class MedicamentoTo extends PersistableToSupport {
 
     @CopyFromAndTo(Medicamento.name_FIELD)
     private String name;
