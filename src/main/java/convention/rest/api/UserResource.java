@@ -1,8 +1,8 @@
 package convention.rest.api;
 
 import ar.com.kfgodel.appbyconvention.operation.api.ApplicationOperation;
+import ar.com.kfgodel.dependencies.api.DependencyInjector;
 import ar.com.kfgodel.diamond.api.types.reference.ReferenceOf;
-import ar.com.kfgodel.proact.Application;
 import ar.com.kfgodel.proact.persistent.filters.users.FindAllUsersOrderedByName;
 import ar.com.tenpines.orm.api.operations.basic.DeleteById;
 import ar.com.tenpines.orm.api.operations.basic.FindById;
@@ -10,6 +10,7 @@ import ar.com.tenpines.orm.api.operations.basic.Save;
 import convention.persistent.Usuario;
 import convention.rest.api.tos.UserTo;
 
+import javax.inject.Inject;
 import javax.ws.rs.*;
 import java.lang.reflect.Type;
 import java.util.List;
@@ -22,10 +23,11 @@ import java.util.List;
 @Consumes("application/json")
 public class UserResource {
 
+  @Inject
+  private DependencyInjector appInjector;
+
   private static final Type LIST_OF_USER_TOS = new ReferenceOf<List<UserTo>>() {
   }.getReferencedType();
-
-  private Application application;
 
   @GET
   public List<UserTo> getAllUsers() {
@@ -83,14 +85,14 @@ public class UserResource {
       .apply(DeleteById.create(Usuario.class, userId));
   }
 
-  public static UserResource create(Application application) {
+  public static UserResource create(DependencyInjector appInjector) {
     UserResource resource = new UserResource();
-    resource.application = application;
+    resource.appInjector = appInjector;
     return resource;
   }
 
   private ApplicationOperation createOperation() {
-    return ApplicationOperation.createFor(application.getInjector());
+    return ApplicationOperation.createFor(appInjector);
   }
 
 }
