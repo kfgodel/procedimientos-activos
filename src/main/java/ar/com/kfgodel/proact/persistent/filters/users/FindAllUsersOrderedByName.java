@@ -3,7 +3,7 @@ package ar.com.kfgodel.proact.persistent.filters.users;
 import ar.com.kfgodel.nary.api.Nary;
 import ar.com.kfgodel.orm.api.SessionContext;
 import ar.com.kfgodel.orm.api.operations.SessionOperation;
-import com.mysema.query.jpa.hibernate.HibernateQuery;
+import com.querydsl.jpa.hibernate.HibernateQueryFactory;
 import convention.persistent.QUsuario;
 import convention.persistent.Usuario;
 
@@ -25,10 +25,10 @@ public class FindAllUsersOrderedByName implements SessionOperation<Nary<Usuario>
     public Nary<Usuario> applyWithSessionOn(SessionContext sessionContext) {
         QUsuario usuario = QUsuario.usuario;
 
-        HibernateQuery query = new HibernateQuery(sessionContext.getSession());
-        List<Usuario> foundUsuarios = query.from(usuario)
+        HibernateQueryFactory queryFactory = new HibernateQueryFactory(sessionContext.getSession());
+        List<Usuario> foundUsuarios = queryFactory.selectFrom(usuario)
           .orderBy(usuario.name.asc())
-          .list(usuario);
+          .fetch();
         return Nary.create(foundUsuarios.stream());
     }
 }

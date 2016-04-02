@@ -4,7 +4,8 @@ import ar.com.kfgodel.nary.api.Nary;
 import ar.com.kfgodel.nary.api.optionals.Optional;
 import ar.com.kfgodel.orm.api.SessionContext;
 import ar.com.kfgodel.orm.api.operations.SessionOperation;
-import com.mysema.query.jpa.hibernate.HibernateQuery;
+import com.querydsl.jpa.hibernate.HibernateQuery;
+import com.querydsl.jpa.hibernate.HibernateQueryFactory;
 import convention.persistent.Procedure;
 import convention.persistent.QProcedure;
 
@@ -27,8 +28,8 @@ public class ProceduresByTextPortionOrdByName implements SessionOperation<Nary<P
   @Override
   public Nary<Procedure> applyWithSessionOn(SessionContext sessionContext) {
     QProcedure procedure = QProcedure.procedure;
-    HibernateQuery query = new HibernateQuery(sessionContext.getSession())
-      .from(procedure);
+    HibernateQuery<Procedure> query = new HibernateQueryFactory(sessionContext.getSession())
+      .selectFrom(procedure);
 
     filterText.ifPresent((textToRestrict)->{
       query.where(
@@ -40,7 +41,7 @@ public class ProceduresByTextPortionOrdByName implements SessionOperation<Nary<P
 
     List<Procedure> foundProcedures = query
       .orderBy(procedure.name.asc())
-      .list(procedure);
+      .fetch();
     return Nary.create(foundProcedures);
   }
 }

@@ -3,7 +3,7 @@ package ar.com.kfgodel.proact.persistent.filters.users;
 import ar.com.kfgodel.nary.api.Nary;
 import ar.com.kfgodel.orm.api.SessionContext;
 import ar.com.kfgodel.orm.api.operations.SessionOperation;
-import com.mysema.query.jpa.hibernate.HibernateQuery;
+import com.querydsl.jpa.hibernate.HibernateQueryFactory;
 import convention.persistent.QUsuario;
 
 /**
@@ -21,9 +21,10 @@ public class UserCount implements SessionOperation<Nary<Long>> {
     @Override
     public Nary<Long> applyWithSessionOn(SessionContext sessionContext) {
         QUsuario usuario = QUsuario.usuario;
-        Long userCount = new HibernateQuery(sessionContext.getSession())
+        Long userCount = new HibernateQueryFactory(sessionContext.getSession())
+          .select(usuario.count())
           .from(usuario)
-          .uniqueResult(usuario.count());
+          .fetchCount();
         return Nary.of(userCount);
     }
 }

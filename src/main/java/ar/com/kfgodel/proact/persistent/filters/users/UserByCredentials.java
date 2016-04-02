@@ -4,8 +4,8 @@ import ar.com.kfgodel.nary.api.Nary;
 import ar.com.kfgodel.orm.api.SessionContext;
 import ar.com.kfgodel.orm.api.operations.SessionOperation;
 import ar.com.kfgodel.webbyconvention.api.auth.WebCredential;
-import com.mysema.query.NonUniqueResultException;
-import com.mysema.query.jpa.hibernate.HibernateQuery;
+import com.querydsl.core.NonUniqueResultException;
+import com.querydsl.jpa.hibernate.HibernateQueryFactory;
 import convention.persistent.QUsuario;
 import convention.persistent.Usuario;
 
@@ -28,11 +28,11 @@ public class UserByCredentials implements SessionOperation<Nary<Usuario>> {
     QUsuario usuario = QUsuario.usuario;
 
     try {
-      Usuario foundUsuario = new HibernateQuery(sessionContext.getSession())
-        .from(usuario)
+      Usuario foundUsuario = new HibernateQueryFactory(sessionContext.getSession())
+        .selectFrom(usuario)
         .where(usuario.login.eq(credentials.getUsername())
           .and(usuario.password.eq(credentials.getPassword())))
-        .uniqueResult(usuario);
+        .fetchOne();
       return Nary.ofNullable(foundUsuario);
     } catch (NonUniqueResultException e) {
       throw new IllegalStateException("There's more than one user with same credentials? " + credentials);
