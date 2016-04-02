@@ -18,6 +18,8 @@ import java.util.List;
  * This type is the resource API for users
  * Created by kfgodel on 03/03/15.
  */
+@Produces("application/json")
+@Consumes("application/json")
 public class UserResource {
 
   private static final Type LIST_OF_USER_TOS = new ReferenceOf<List<UserTo>>() {

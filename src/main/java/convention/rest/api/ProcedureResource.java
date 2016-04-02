@@ -20,6 +20,8 @@ import java.util.UUID;
  * This type represents the resource to access procedures
  * Created by kfgodel on 17/03/15.
  */
+@Produces("application/json")
+@Consumes("application/json")
 public class ProcedureResource {
 
   private static final Type LIST_OF_PROCEDURES_TO = new ReferenceOf<List<ProcedureTo>>() {
