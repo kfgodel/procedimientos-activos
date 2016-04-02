@@ -1,6 +1,6 @@
 package convention.rest.api.tos;
 
-import ar.com.kfgodel.transformbyconvention.api.tos.PersistibleToSupport;
+import ar.com.kfgodel.appbyconvention.tos.PersistableToSupport;
 import convention.persistent.Procedure;
 import net.sf.kfgodel.bean2bean.annotations.CopyFromAndTo;
 
@@ -8,7 +8,7 @@ import net.sf.kfgodel.bean2bean.annotations.CopyFromAndTo;
  * This type represents a sinlge procedure for frontend
  * Created by kfgodel on 17/03/15.
  */
-public class ProcedureTo extends PersistibleToSupport {
+public class ProcedureTo extends PersistableToSupport {
 
     @CopyFromAndTo(Procedure.name_FIELD)
     private String name;

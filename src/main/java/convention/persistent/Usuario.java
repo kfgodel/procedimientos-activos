@@ -10,7 +10,7 @@ import javax.persistence.UniqueConstraint;
  */
 @Entity
 @Table(uniqueConstraints = @UniqueConstraint(columnNames = {Usuario.login_FIELD, Usuario.password_FIELD}))
-public class Usuario extends PersistentSupport {
+public class Usuario extends PersistableSupport {
 
     private String name;
     public static final String name_FIELD = "name";

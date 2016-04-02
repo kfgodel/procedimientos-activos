@@ -1,6 +1,6 @@
 package convention.rest.api.tos;
 
-import ar.com.kfgodel.transformbyconvention.api.tos.PersistibleToSupport;
+import ar.com.kfgodel.appbyconvention.tos.PersistableToSupport;
 import convention.persistent.Usuario;
 import net.sf.kfgodel.bean2bean.annotations.CopyFrom;
 import net.sf.kfgodel.bean2bean.annotations.CopyFromAndTo;
@@ -9,7 +9,7 @@ import net.sf.kfgodel.bean2bean.annotations.CopyFromAndTo;
  * This type represents a user for the frontend
  * Created by kfgodel on 03/03/15.
  */
-public class UserTo extends PersistibleToSupport{
+public class UserTo extends PersistableToSupport {
 
     @CopyFromAndTo(Usuario.name_FIELD)
     private String name;
