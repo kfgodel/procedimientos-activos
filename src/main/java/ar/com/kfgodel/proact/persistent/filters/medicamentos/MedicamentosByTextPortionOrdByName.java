@@ -2,9 +2,10 @@ package ar.com.kfgodel.proact.persistent.filters.medicamentos;
 
 import ar.com.kfgodel.nary.api.Nary;
 import ar.com.kfgodel.nary.api.optionals.Optional;
-import ar.com.tenpines.orm.api.SessionContext;
-import ar.com.tenpines.orm.api.operations.SessionOperation;
-import com.mysema.query.jpa.hibernate.HibernateQuery;
+import ar.com.kfgodel.orm.api.SessionContext;
+import ar.com.kfgodel.orm.api.operations.SessionOperation;
+import com.querydsl.jpa.hibernate.HibernateQuery;
+import com.querydsl.jpa.hibernate.HibernateQueryFactory;
 import convention.persistent.Medicamento;
 import convention.persistent.QMedicamento;
 
@@ -28,8 +29,8 @@ public class MedicamentosByTextPortionOrdByName implements SessionOperation<Nary
   @Override
   public Nary<Medicamento> applyWithSessionOn(SessionContext sessionContext) {
     QMedicamento medicamento = QMedicamento.medicamento;
-    HibernateQuery query = new HibernateQuery(sessionContext.getSession())
-      .from(medicamento);
+    HibernateQuery<Medicamento> query = new HibernateQueryFactory(sessionContext.getSession())
+      .selectFrom(medicamento);
 
     filterText.ifPresent((textToRestrict)->{
       query.where(
@@ -41,7 +42,7 @@ public class MedicamentosByTextPortionOrdByName implements SessionOperation<Nary
 
     List<Medicamento> foundMedicamentos = query
       .orderBy(medicamento.name.asc())
-      .list(medicamento);
+      .fetch();
     return Nary.create(foundMedicamentos);
   }
 }

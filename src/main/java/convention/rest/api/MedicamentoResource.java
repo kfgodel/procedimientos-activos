@@ -1,16 +1,17 @@
 package convention.rest.api;
 
 import ar.com.kfgodel.appbyconvention.operation.api.ApplicationOperation;
+import ar.com.kfgodel.dependencies.api.DependencyInjector;
 import ar.com.kfgodel.diamond.api.types.reference.ReferenceOf;
 import ar.com.kfgodel.nary.api.Nary;
-import ar.com.kfgodel.proact.Application;
+import ar.com.kfgodel.orm.api.operations.basic.DeleteById;
+import ar.com.kfgodel.orm.api.operations.basic.FindById;
+import ar.com.kfgodel.orm.api.operations.basic.Save;
 import ar.com.kfgodel.proact.persistent.filters.medicamentos.MedicamentosByTextPortionOrdByName;
-import ar.com.tenpines.orm.api.operations.basic.DeleteById;
-import ar.com.tenpines.orm.api.operations.basic.FindById;
-import ar.com.tenpines.orm.api.operations.basic.Save;
 import convention.persistent.Medicamento;
 import convention.rest.api.tos.MedicamentoTo;
 
+import javax.inject.Inject;
 import javax.ws.rs.*;
 import java.lang.reflect.Type;
 import java.util.List;
@@ -22,9 +23,11 @@ import java.util.UUID;
  */
 public class MedicamentoResource {
 
+  @Inject
+  private DependencyInjector appInjector;
+
   private static final Type LIST_OF_MEDICAMENTOS_TO = new ReferenceOf<List<MedicamentoTo>>() {
   }.getReferencedType();
-  private Application application;
 
   @GET
   public List<MedicamentoTo> getAllEntities(@QueryParam("searchText") String searchText) {
@@ -106,14 +109,14 @@ public class MedicamentoResource {
       .apply(DeleteById.create(Medicamento.class, medicamentoId));
   }
 
-  public static MedicamentoResource create(Application application) {
+  public static MedicamentoResource create(DependencyInjector appInjector) {
     MedicamentoResource resource = new MedicamentoResource();
-    resource.application = application;
+    resource.appInjector = appInjector;
     return resource;
   }
 
   private ApplicationOperation createOperation() {
-    return ApplicationOperation.createFor(application.getInjector());
+    return ApplicationOperation.createFor(appInjector);
   }
 
 }

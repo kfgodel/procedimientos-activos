@@ -50,7 +50,7 @@ public class ApiV1Root {
   @Path("/medicamentos")
   public MedicamentoResource medicamentos(){
     if (medicamentos == null) {
-      medicamentos = MedicamentoResource.create(application);
+      medicamentos = application.getInjector().createInjected(MedicamentoResource.class);
     }
     return medicamentos;
   }
