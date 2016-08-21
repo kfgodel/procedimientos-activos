@@ -4,15 +4,15 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 /**
- * This type represents the configuration selector that bases its decition on the presence of heroku environment variables
+ * This type represents the configuration selector that picks a configuration based on the presence of heroku environment variables
  * to determine the best configuration
  * Created by kfgodel on 13/03/16.
  */
-public class HerokuConfigSelector implements ConfigurationSelector {
-  public static Logger LOG = LoggerFactory.getLogger(HerokuConfigSelector.class);
+public class HerokuPriorityConfigSelector implements ConfigurationSelector {
+  public static Logger LOG = LoggerFactory.getLogger(HerokuPriorityConfigSelector.class);
 
-  public static HerokuConfigSelector create() {
-    HerokuConfigSelector selector = new HerokuConfigSelector();
+  public static HerokuPriorityConfigSelector create() {
+    HerokuPriorityConfigSelector selector = new HerokuPriorityConfigSelector();
     return selector;
   }
 
