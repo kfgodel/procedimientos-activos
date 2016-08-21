@@ -1,6 +1,6 @@
 package ar.com.kfgodel.proact;
 
-import ar.com.dgarcia.javaspec.api.TestContext;
+import ar.com.dgarcia.javaspec.api.contexts.TestContext;
 import ar.com.kfgodel.appbyconvention.operation.api.ApplicationOperation;
 import ar.com.kfgodel.appbyconvention.operation.api.chains.ChainedSessionOperation;
 import ar.com.kfgodel.appbyconvention.operation.api.chains.ChainedTransactionOperation;
