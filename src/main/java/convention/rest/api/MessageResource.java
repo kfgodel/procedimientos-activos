@@ -5,10 +5,8 @@ import ar.com.kfgodel.dependencies.api.DependencyInjector;
 import ar.com.kfgodel.diamond.api.types.reference.ReferenceOf;
 import ar.com.kfgodel.nary.api.Nary;
 import ar.com.kfgodel.proact.persistent.filters.procedures.ProceduresByTextPortionOrdByName;
+import com.fasterxml.jackson.databind.JavaType;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.fasterxml.jackson.databind.type.MapType;
-import convention.persistent.Procedure;
-import convention.rest.api.tos.ListTo;
 import convention.rest.api.tos.ProcedureFilterTo;
 import convention.rest.api.tos.ProcedureTo;
 
@@ -17,6 +15,7 @@ import javax.ws.rs.Consumes;
 import javax.ws.rs.POST;
 import javax.ws.rs.Produces;
 import java.lang.reflect.Type;
+import java.util.Collection;
 import java.util.List;
 import java.util.Map;
 
@@ -35,20 +34,26 @@ public class MessageResource {
   }.getReferencedType();
 
   @POST
-  public Map<String, Object> getAllEntities(Map<String, Object> messageContent) {
+  public Object getAllEntities(Map<String, Object> messageContent) {
     ObjectMapper objectMapper = new ObjectMapper();
     ProcedureFilterTo filter = objectMapper.convertValue(messageContent, ProcedureFilterTo.class);
 
     String searchText = filter.getSearchText();
-    List<Procedure> operationResult = createOperation()
+    Object operationResult = createOperation()
       .insideASession()
       .applying(ProceduresByTextPortionOrdByName.create(Nary.ofNullable(searchText)))
       .convertTo(LIST_OF_PROCEDURES_TO);
-    ListTo wrappedResult = ListTo.create(operationResult);
 
-    MapType expectedType = objectMapper.getTypeFactory().constructMapType(Map.class, String.class, Object.class);
-    Object jsonized = objectMapper.convertValue(wrappedResult, expectedType);
-    return (Map<String, Object>) jsonized;
+    JavaType expectedType;
+    if (operationResult instanceof Collection) {
+      // Use array like
+      expectedType = objectMapper.getTypeFactory().constructCollectionType(List.class, Object.class);
+    } else {
+      // Normal object, use a hash
+      expectedType = objectMapper.getTypeFactory().constructMapType(Map.class, String.class, Object.class);
+    }
+    Object jsonized = objectMapper.convertValue(operationResult, expectedType);
+    return jsonized;
   }
 
   private ApplicationOperation createOperation() {
