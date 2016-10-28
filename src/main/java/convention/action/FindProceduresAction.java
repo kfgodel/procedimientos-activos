@@ -9,25 +9,22 @@ import convention.persistent.Procedure;
 import convention.rest.api.tos.ProcedureFilterTo;
 import convention.rest.api.tos.ProcedureTo;
 
+import javax.inject.Inject;
 import java.lang.reflect.Type;
 import java.util.List;
+import java.util.function.Function;
 
 /**
  * This type represents the search procedures action that can be used from the frontend
  * Created by kfgodel on 27/10/16.
  */
-public class FindProceduresAction implements FrontendAction<ProcedureFilterTo, List<Procedure>> {
+public class FindProceduresAction implements Function<ProcedureFilterTo, List<Procedure>> {
 
   private static final Type LIST_OF_PROCEDURES_TO = new ReferenceOf<List<ProcedureTo>>() {
   }.getReferencedType();
 
+  @Inject
   private DependencyInjector injector;
-
-  public static FindProceduresAction create(DependencyInjector injector) {
-    FindProceduresAction action = new FindProceduresAction();
-    action.injector = injector;
-    return action;
-  }
 
   @Override
   public List<Procedure> apply(ProcedureFilterTo filter) {

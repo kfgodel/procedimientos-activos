@@ -79,6 +79,7 @@ public class ProceduresApplication implements Application {
 
   private void initialize() {
     this.injector = DependencyInjectorImpl.create();
+    this.injector.bindTo(DependencyInjector.class, this.injector);
     this.injector.bindTo(Application.class, this);
 
     this.injector.bindTo(HibernateOrm.class, createPersistenceLayer());
