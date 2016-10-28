@@ -11,13 +11,12 @@ import convention.rest.api.tos.ProcedureTo;
 
 import java.lang.reflect.Type;
 import java.util.List;
-import java.util.function.Function;
 
 /**
  * This type represents the search procedures action that can be used from the frontend
  * Created by kfgodel on 27/10/16.
  */
-public class FindProceduresAction implements Function<ProcedureFilterTo, List<Procedure>> {
+public class FindProceduresAction implements FrontendAction<ProcedureFilterTo, List<Procedure>> {
 
   private static final Type LIST_OF_PROCEDURES_TO = new ReferenceOf<List<ProcedureTo>>() {
   }.getReferencedType();
