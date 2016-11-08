@@ -11,10 +11,13 @@ import javax.inject.Inject;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.POST;
 import javax.ws.rs.Produces;
+import javax.ws.rs.WebApplicationException;
 import java.util.Collection;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.function.Function;
+import java.util.function.Predicate;
 
 /**
  * This type represents the resource to access procedures
@@ -27,16 +30,39 @@ public class MessageResource {
   @Inject
   private DependencyInjector appInjector;
   private ObjectMapper objectMapper;
+  private Map<Predicate<Map<String, Object>>, Class<? extends Function>> tipoDeAccionPorCondicion;
+
 
   @POST
   public Object getAllEntities(Map<String, Object> messageContent) {
-    Class<FindProceduresAction> actionType = FindProceduresAction.class;
+    Class<? extends Function> actionType = buscarTipoDeAccionPara(messageContent);
 
     Object actionInput = prepareFromJsonFor(actionType, messageContent);
     Function action = appInjector.createInjected(actionType);
     Object actionResult = action.apply(actionInput);
 
     return prepareForJson(actionResult);
+  }
+
+  private Class<? extends Function> buscarTipoDeAccionPara(Map<String, Object> messageContent) {
+    return getTipoDeAccionPorCondicion().entrySet().stream()
+      .filter((entry) -> entry.getKey().test(messageContent))
+      .map(Map.Entry::getValue)
+      .findFirst()
+      .orElseThrow(() -> new WebApplicationException("Accion no encontrada para el mensaje", 404));
+  }
+
+  public Map<Predicate<Map<String, Object>>, Class<? extends Function>> getTipoDeAccionPorCondicion() {
+    if (tipoDeAccionPorCondicion == null) {
+      tipoDeAccionPorCondicion = inicializarTiposDeAccion();
+    }
+    return tipoDeAccionPorCondicion;
+  }
+
+  private Map<Predicate<Map<String, Object>>, Class<? extends Function>> inicializarTiposDeAccion() {
+    HashMap<Predicate<Map<String, Object>>, Class<? extends Function>> tiposCondicionados = new HashMap<>();
+    tiposCondicionados.put((contenido) -> contenido.containsKey("searchText"), FindProceduresAction.class);
+    return tiposCondicionados;
   }
 
   private <T> T prepareFromJsonFor(Class<? extends Function> actionType, Map<String, Object> messageContent) {
