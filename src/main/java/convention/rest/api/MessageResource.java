@@ -2,22 +2,23 @@ package convention.rest.api;
 
 import ar.com.kfgodel.dependencies.api.DependencyInjector;
 import ar.com.kfgodel.diamond.api.Diamond;
+import ar.com.kfgodel.diamond.api.fields.TypeField;
+import ar.com.kfgodel.diamond.api.members.modifiers.Modifiers;
 import ar.com.kfgodel.diamond.api.types.TypeInstance;
 import com.fasterxml.jackson.databind.JavaType;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import convention.action.FindProceduresAction;
+import convention.rest.api.tos.ProcedureFilterTo;
 
 import javax.inject.Inject;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.POST;
 import javax.ws.rs.Produces;
 import javax.ws.rs.WebApplicationException;
-import java.util.Collection;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 import java.util.function.Function;
 import java.util.function.Predicate;
+import java.util.stream.Collectors;
 
 /**
  * This type represents the resource to access procedures
@@ -61,8 +62,20 @@ public class MessageResource {
 
   private Map<Predicate<Map<String, Object>>, Class<? extends Function>> inicializarTiposDeAccion() {
     HashMap<Predicate<Map<String, Object>>, Class<? extends Function>> tiposCondicionados = new HashMap<>();
-    tiposCondicionados.put((contenido) -> contenido.containsKey("searchText"), FindProceduresAction.class);
+    Class<FindProceduresAction> tipoDeAccion = FindProceduresAction.class;
+    tiposCondicionados.put(generarCondicionPara(tipoDeAccion), tipoDeAccion);
     return tiposCondicionados;
+  }
+
+  private Predicate<Map<String, Object>> generarCondicionPara(Class<FindProceduresAction> findProceduresActionClass) {
+    Class<ProcedureFilterTo> expectedMessageType = ProcedureFilterTo.class;
+    Set<String> expectedAttributes = Diamond.of(expectedMessageType)
+      .fields().all()
+      .filterNary((field) -> !field.is(Modifiers.STATIC))
+      .map(TypeField::name)
+      .collect(Collectors.toSet());
+
+    return (contenido) -> contenido.keySet().equals(expectedAttributes);
   }
 
   private <T> T prepareFromJsonFor(Class<? extends Function> actionType, Map<String, Object> messageContent) {
