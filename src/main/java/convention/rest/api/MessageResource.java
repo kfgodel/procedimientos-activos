@@ -4,11 +4,11 @@ import ar.com.kfgodel.dependencies.api.DependencyInjector;
 import ar.com.kfgodel.diamond.api.Diamond;
 import ar.com.kfgodel.diamond.api.fields.TypeField;
 import ar.com.kfgodel.diamond.api.members.modifiers.Modifiers;
+import ar.com.kfgodel.diamond.api.methods.TypeMethod;
 import ar.com.kfgodel.diamond.api.types.TypeInstance;
 import com.fasterxml.jackson.databind.JavaType;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import convention.action.FindProceduresAction;
-import convention.rest.api.tos.ProcedureFilterTo;
 
 import javax.inject.Inject;
 import javax.ws.rs.Consumes;
@@ -67,15 +67,23 @@ public class MessageResource {
     return tiposCondicionados;
   }
 
-  private Predicate<Map<String, Object>> generarCondicionPara(Class<FindProceduresAction> findProceduresActionClass) {
-    Class<ProcedureFilterTo> expectedMessageType = ProcedureFilterTo.class;
-    Set<String> expectedAttributes = Diamond.of(expectedMessageType)
-      .fields().all()
+  private Predicate<Map<String, Object>> generarCondicionPara(Class<? extends Function> tipoDeAccion) {
+    TypeInstance expectedMessageType = extractMessageTypeFor(tipoDeAccion);
+    Set<String> expectedAttributes = expectedMessageType.fields().all()
       .filterNary((field) -> !field.is(Modifiers.STATIC))
       .map(TypeField::name)
       .collect(Collectors.toSet());
 
     return (contenido) -> contenido.keySet().equals(expectedAttributes);
+  }
+
+  private TypeInstance extractMessageTypeFor(Class<? extends Function> tipoDeAccion) {
+    TypeMethod metodoInvocado = Diamond.of(tipoDeAccion).methods().all()
+      .filterNary((method) -> !method.nativeType().get().isSynthetic())
+      .filterNary((method) -> method.name().equals("apply"))
+      .get();
+    TypeInstance expectedArgumentType = metodoInvocado.parameterTypes().get();
+    return expectedArgumentType;
   }
 
   private <T> T prepareFromJsonFor(Class<? extends Function> actionType, Map<String, Object> messageContent) {
