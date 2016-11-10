@@ -8,7 +8,7 @@ import ar.com.kfgodel.diamond.api.methods.TypeMethod;
 import ar.com.kfgodel.diamond.api.types.TypeInstance;
 import com.fasterxml.jackson.databind.JavaType;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import convention.action.FindProceduresAction;
+import org.reflections.Reflections;
 
 import javax.inject.Inject;
 import javax.ws.rs.Consumes;
@@ -61,10 +61,18 @@ public class MessageResource {
   }
 
   private Map<Predicate<Map<String, Object>>, Class<? extends Function>> inicializarTiposDeAccion() {
-    HashMap<Predicate<Map<String, Object>>, Class<? extends Function>> tiposCondicionados = new HashMap<>();
-    Class<FindProceduresAction> tipoDeAccion = FindProceduresAction.class;
-    tiposCondicionados.put(generarCondicionPara(tipoDeAccion), tipoDeAccion);
+    Map<Predicate<Map<String, Object>>, Class<? extends Function>> tiposCondicionados = new HashMap<>();
+    Set<Class<? extends Function>> tiposDeAccion = buscarTiposDeAccionDisponibles();
+    tiposDeAccion.forEach((tipoDeAccion) -> {
+      tiposCondicionados.put(generarCondicionPara(tipoDeAccion), tipoDeAccion);
+    });
     return tiposCondicionados;
+  }
+
+  private Set<Class<? extends Function>> buscarTiposDeAccionDisponibles() {
+    Reflections reflections = new Reflections("convention.action");
+    Set<Class<? extends Function>> tiposDeAccion = reflections.getSubTypesOf(Function.class);
+    return tiposDeAccion;
   }
 
   private Predicate<Map<String, Object>> generarCondicionPara(Class<? extends Function> tipoDeAccion) {
