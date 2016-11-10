@@ -9,6 +9,7 @@ import convention.persistent.Procedure;
 import convention.rest.api.tos.ProcedureFilterTo;
 import convention.rest.api.tos.ProcedureTo;
 
+import javax.annotation.Resource;
 import javax.inject.Inject;
 import java.lang.reflect.Type;
 import java.util.List;
@@ -18,6 +19,7 @@ import java.util.function.Function;
  * This type represents the search procedures action that can be used from the frontend
  * Created by kfgodel on 27/10/16.
  */
+@Resource(name = "GET/procedures")
 public class FindProceduresAction implements Function<ProcedureFilterTo, List<Procedure>> {
 
   private static final Type LIST_OF_PROCEDURES_TO = new ReferenceOf<List<ProcedureTo>>() {

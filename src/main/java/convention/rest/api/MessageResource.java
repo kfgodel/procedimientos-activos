@@ -2,14 +2,14 @@ package convention.rest.api;
 
 import ar.com.kfgodel.dependencies.api.DependencyInjector;
 import ar.com.kfgodel.diamond.api.Diamond;
-import ar.com.kfgodel.diamond.api.fields.TypeField;
-import ar.com.kfgodel.diamond.api.members.modifiers.Modifiers;
-import ar.com.kfgodel.diamond.api.methods.TypeMethod;
 import ar.com.kfgodel.diamond.api.types.TypeInstance;
+import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.JavaType;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.google.common.collect.Sets;
 import org.reflections.Reflections;
 
+import javax.annotation.Resource;
 import javax.inject.Inject;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.POST;
@@ -18,7 +18,6 @@ import javax.ws.rs.WebApplicationException;
 import java.util.*;
 import java.util.function.Function;
 import java.util.function.Predicate;
-import java.util.stream.Collectors;
 
 /**
  * This type represents the resource to access procedures
@@ -35,7 +34,7 @@ public class MessageResource {
 
 
   @POST
-  public Object getAllEntities(Map<String, Object> messageContent) {
+  public Object processMessage(Map<String, Object> messageContent) {
     Class<? extends Function> actionType = buscarTipoDeAccionPara(messageContent);
 
     Object actionInput = prepareFromJsonFor(actionType, messageContent);
@@ -71,27 +70,20 @@ public class MessageResource {
 
   private Set<Class<? extends Function>> buscarTiposDeAccionDisponibles() {
     Reflections reflections = new Reflections("convention.action");
-    Set<Class<? extends Function>> tiposDeAccion = reflections.getSubTypesOf(Function.class);
+    Set<Class<? extends Function>> tiposDeFuncion = reflections.getSubTypesOf(Function.class);
+    Set<Class<?>> tiposAnnotados = reflections.getTypesAnnotatedWith(Resource.class);
+    Sets.SetView<Class<? extends Function>> tiposDeAccion = Sets.intersection(tiposDeFuncion, tiposAnnotados);
     return tiposDeAccion;
   }
 
   private Predicate<Map<String, Object>> generarCondicionPara(Class<? extends Function> tipoDeAccion) {
-    TypeInstance expectedMessageType = extractMessageTypeFor(tipoDeAccion);
-    Set<String> expectedAttributes = expectedMessageType.fields().all()
-      .filterNary((field) -> !field.is(Modifiers.STATIC))
-      .map(TypeField::name)
-      .collect(Collectors.toSet());
-
-    return (contenido) -> contenido.keySet().equals(expectedAttributes);
+    String expectedResourceName = extractResourceNameFrom(tipoDeAccion);
+    return (contenido) -> expectedResourceName.equals(contenido.get("recurso"));
   }
 
-  private TypeInstance extractMessageTypeFor(Class<? extends Function> tipoDeAccion) {
-    TypeMethod metodoInvocado = Diamond.of(tipoDeAccion).methods().all()
-      .filterNary((method) -> !method.nativeType().get().isSynthetic())
-      .filterNary((method) -> method.name().equals("apply"))
-      .get();
-    TypeInstance expectedArgumentType = metodoInvocado.parameterTypes().get();
-    return expectedArgumentType;
+  private String extractResourceNameFrom(Class<? extends Function> tipoDeAccion) {
+    Resource annotation = tipoDeAccion.getAnnotation(Resource.class);
+    return annotation.name();
   }
 
   private <T> T prepareFromJsonFor(Class<? extends Function> actionType, Map<String, Object> messageContent) {
@@ -124,6 +116,7 @@ public class MessageResource {
   private ObjectMapper getObjectMapper() {
     if (objectMapper == null) {
       objectMapper = new ObjectMapper();
+      objectMapper.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
     }
     return objectMapper;
   }
