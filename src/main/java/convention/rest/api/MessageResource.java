@@ -45,8 +45,11 @@ public class MessageResource {
 
   private Class<? extends Function> buscarTipoDeAccionPara(Map<String, Object> messageContent) {
     Object idDeAccionEnMensaje = messageContent.get("recurso");
-    Optional<Class<? extends Function>> tipoDeAccion = Optional.of(getTipoDeAccionPorId().get(idDeAccionEnMensaje));
-    return tipoDeAccion.orElseThrow(() -> new WebApplicationException("Accion no encontrada para el mensaje", 404));
+    Class<? extends Function> tipoEncontrado = getTipoDeAccionPorId().get(idDeAccionEnMensaje);
+    if (tipoEncontrado == null) {
+      throw new WebApplicationException("Accion no encontrada para el mensaje", 404);
+    }
+    return tipoEncontrado;
   }
 
   public Map<String, Class<? extends Function>> getTipoDeAccionPorId() {
