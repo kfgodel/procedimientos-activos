@@ -5,7 +5,6 @@ import ar.com.kfgodel.dependencies.api.DependencyInjector;
 import ar.com.kfgodel.diamond.api.types.reference.ReferenceOf;
 import ar.com.kfgodel.nary.api.Nary;
 import ar.com.kfgodel.proact.persistent.filters.procedures.ProceduresByTextPortionOrdByName;
-import convention.persistent.Procedure;
 import convention.rest.api.tos.ProcedureFilterTo;
 import convention.rest.api.tos.ProcedureTo;
 
@@ -20,7 +19,7 @@ import java.util.function.Function;
  * Created by kfgodel on 27/10/16.
  */
 @Resource(name = "GET/procedures")
-public class FindProceduresAction implements Function<ProcedureFilterTo, List<Procedure>> {
+public class FindAllProceduresAction implements Function<ProcedureFilterTo, List<ProcedureTo>> {
 
   private static final Type LIST_OF_PROCEDURES_TO = new ReferenceOf<List<ProcedureTo>>() {
   }.getReferencedType();
@@ -29,9 +28,9 @@ public class FindProceduresAction implements Function<ProcedureFilterTo, List<Pr
   private DependencyInjector injector;
 
   @Override
-  public List<Procedure> apply(ProcedureFilterTo filter) {
+  public List<ProcedureTo> apply(ProcedureFilterTo filter) {
     String searchText = filter.getSearchText();
-    List<Procedure> operationResult = createOperation()
+    List<ProcedureTo> operationResult = createOperation()
       .insideASession()
       .applying(ProceduresByTextPortionOrdByName.create(Nary.ofNullable(searchText)))
       .convertTo(LIST_OF_PROCEDURES_TO);
