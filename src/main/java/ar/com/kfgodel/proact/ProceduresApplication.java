@@ -1,5 +1,6 @@
 package ar.com.kfgodel.proact;
 
+import ar.com.kfgodel.actions.BuscadorDeTipoDeAccion;
 import ar.com.kfgodel.dependencies.api.DependencyInjector;
 import ar.com.kfgodel.dependencies.impl.DependencyInjectorImpl;
 import ar.com.kfgodel.orm.api.HibernateOrm;
@@ -86,6 +87,7 @@ public class ProceduresApplication implements Application {
     // Web server depends on hibernate, so it needs to be created after hibernate
     this.injector.bindTo(WebServer.class, createWebServer());
     this.injector.bindTo(TypeTransformer.class, createTransformer());
+    this.injector.bindTo(BuscadorDeTipoDeAccion.class, BuscadorDeTipoDeAccion.create());
 
     registerCleanupHook();
   }
