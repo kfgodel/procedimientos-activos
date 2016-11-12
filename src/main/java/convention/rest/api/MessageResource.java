@@ -17,7 +17,6 @@ import javax.ws.rs.Produces;
 import javax.ws.rs.WebApplicationException;
 import java.util.*;
 import java.util.function.Function;
-import java.util.function.Predicate;
 
 /**
  * This type represents the resource to access procedures
@@ -30,7 +29,7 @@ public class MessageResource {
   @Inject
   private DependencyInjector appInjector;
   private ObjectMapper objectMapper;
-  private Map<Predicate<Map<String, Object>>, Class<? extends Function>> tipoDeAccionPorCondicion;
+  private Map<String, Class<? extends Function>> tipoDeAccionPorId;
 
 
   @POST
@@ -45,25 +44,23 @@ public class MessageResource {
   }
 
   private Class<? extends Function> buscarTipoDeAccionPara(Map<String, Object> messageContent) {
-    return getTipoDeAccionPorCondicion().entrySet().stream()
-      .filter((entry) -> entry.getKey().test(messageContent))
-      .map(Map.Entry::getValue)
-      .findFirst()
-      .orElseThrow(() -> new WebApplicationException("Accion no encontrada para el mensaje", 404));
+    Object idDeAccionEnMensaje = messageContent.get("recurso");
+    Optional<Class<? extends Function>> tipoDeAccion = Optional.of(getTipoDeAccionPorId().get(idDeAccionEnMensaje));
+    return tipoDeAccion.orElseThrow(() -> new WebApplicationException("Accion no encontrada para el mensaje", 404));
   }
 
-  public Map<Predicate<Map<String, Object>>, Class<? extends Function>> getTipoDeAccionPorCondicion() {
-    if (tipoDeAccionPorCondicion == null) {
-      tipoDeAccionPorCondicion = inicializarTiposDeAccion();
+  public Map<String, Class<? extends Function>> getTipoDeAccionPorId() {
+    if (tipoDeAccionPorId == null) {
+      tipoDeAccionPorId = inicializarTiposDeAccion();
     }
-    return tipoDeAccionPorCondicion;
+    return tipoDeAccionPorId;
   }
 
-  private Map<Predicate<Map<String, Object>>, Class<? extends Function>> inicializarTiposDeAccion() {
-    Map<Predicate<Map<String, Object>>, Class<? extends Function>> tiposCondicionados = new HashMap<>();
+  private Map<String, Class<? extends Function>> inicializarTiposDeAccion() {
+    Map<String, Class<? extends Function>> tiposCondicionados = new HashMap<>();
     Set<Class<? extends Function>> tiposDeAccion = buscarTiposDeAccionDisponibles();
     tiposDeAccion.forEach((tipoDeAccion) -> {
-      tiposCondicionados.put(generarCondicionPara(tipoDeAccion), tipoDeAccion);
+      tiposCondicionados.put(obtenerIdPara(tipoDeAccion), tipoDeAccion);
     });
     return tiposCondicionados;
   }
@@ -76,9 +73,9 @@ public class MessageResource {
     return tiposDeAccion;
   }
 
-  private Predicate<Map<String, Object>> generarCondicionPara(Class<? extends Function> tipoDeAccion) {
+  private String obtenerIdPara(Class<? extends Function> tipoDeAccion) {
     String expectedResourceName = extractResourceNameFrom(tipoDeAccion);
-    return (contenido) -> expectedResourceName.equals(contenido.get("recurso"));
+    return expectedResourceName;
   }
 
   private String extractResourceNameFrom(Class<? extends Function> tipoDeAccion) {
