@@ -1,4 +1,4 @@
-package ar.com.kfgodel.actions;
+package ar.com.kfgodel.actions.descriptor;
 
 import ar.com.kfgodel.nary.api.optionals.Optional;
 import com.google.common.collect.Sets;
@@ -12,17 +12,17 @@ import java.util.function.Function;
  * This type represents the object that know how to find the best action type for a given message
  * Created by kfgodel on 12/11/16.
  */
-public class BuscadorDeTipoDeAccion {
+public class BuscadorDeFuncionesTipoAccion {
 
   public static final String RECURSO_KEY = "recurso";
   public static final String ACTION_PACKAGE = "convention.action";
 
   private Map<String, Class<? extends Function>> tipoDeAccionPorRecurso;
 
-  public static BuscadorDeTipoDeAccion create() {
-    BuscadorDeTipoDeAccion buscadorDeTipoDeAccion = new BuscadorDeTipoDeAccion();
-    buscadorDeTipoDeAccion.inicializar();
-    return buscadorDeTipoDeAccion;
+  public static BuscadorDeFuncionesTipoAccion create() {
+    BuscadorDeFuncionesTipoAccion buscadorDeFuncionesTipoAccion = new BuscadorDeFuncionesTipoAccion();
+    buscadorDeFuncionesTipoAccion.inicializar();
+    return buscadorDeFuncionesTipoAccion;
   }
 
   private void inicializar() {

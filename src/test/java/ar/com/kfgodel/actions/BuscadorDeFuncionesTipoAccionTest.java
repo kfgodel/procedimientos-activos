@@ -2,6 +2,7 @@ package ar.com.kfgodel.actions;
 
 import ar.com.dgarcia.javaspec.api.JavaSpec;
 import ar.com.dgarcia.javaspec.api.JavaSpecRunner;
+import ar.com.kfgodel.actions.descriptor.BuscadorDeFuncionesTipoAccion;
 import convention.action.AccionDeTest;
 import org.junit.runner.RunWith;
 
@@ -17,11 +18,11 @@ import static org.assertj.core.api.Assertions.assertThat;
  * Created by kfgodel on 12/11/16.
  */
 @RunWith(JavaSpecRunner.class)
-public class BuscadorDeTipoDeAccionTest extends JavaSpec<ActionTestContext> {
+public class BuscadorDeFuncionesTipoAccionTest extends JavaSpec<ActionTestContext> {
   @Override
   public void define() {
     describe("un buscador de tipo de accion por mensaje", () -> {
-      context().buscadorAccion(BuscadorDeTipoDeAccion::create);
+      context().buscadorAccion(BuscadorDeFuncionesTipoAccion::create);
 
       it("permite conocer todos los tipos de accion", () -> {
         List<Class<? extends Function>> tiposDeAccion = context().buscadorAccion().allTiposDeAccion();

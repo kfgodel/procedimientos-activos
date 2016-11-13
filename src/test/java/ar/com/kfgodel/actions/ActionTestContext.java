@@ -1,6 +1,7 @@
 package ar.com.kfgodel.actions;
 
 import ar.com.dgarcia.javaspec.api.contexts.TestContext;
+import ar.com.kfgodel.actions.descriptor.BuscadorDeFuncionesTipoAccion;
 import ar.com.kfgodel.nary.api.optionals.Optional;
 
 import java.util.function.Function;
@@ -12,9 +13,9 @@ import java.util.function.Supplier;
  */
 public interface ActionTestContext extends TestContext {
 
-  BuscadorDeTipoDeAccion buscadorAccion();
+  BuscadorDeFuncionesTipoAccion buscadorAccion();
 
-  void buscadorAccion(Supplier<BuscadorDeTipoDeAccion> definition);
+  void buscadorAccion(Supplier<BuscadorDeFuncionesTipoAccion> definition);
 
   String nombreDeRecurso();
 
