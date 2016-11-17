@@ -1,31 +1,31 @@
-package convention.action;
+package convention.action.users;
 
 import ar.com.kfgodel.appbyconvention.operation.api.ApplicationOperation;
 import ar.com.kfgodel.dependencies.api.DependencyInjector;
 import ar.com.kfgodel.orm.api.operations.basic.Save;
-import convention.persistent.Procedure;
-import convention.rest.api.tos.ProcedureTo;
+import convention.persistent.Usuario;
+import convention.rest.api.tos.UserTo;
 
 import javax.annotation.Resource;
 import javax.inject.Inject;
 import java.util.Map;
-import java.util.UUID;
 import java.util.function.Function;
 
 /**
- * This type knows how to create a procedure from scratch for the frontend
- * Created by kfgodel on 14/11/16.
+ * This type represents the frontend action for creating a new user
+ * <p>
+ * Created by kfgodel on 17/11/16.
  */
-@Resource(name = "POST/procedure")
-public class CreateProcedure implements Function<Map<String, Object>, ProcedureTo> {
+@Resource(name = "POST/user")
+public class CreateUserAction implements Function<Map<String, Object>, UserTo> {
 
   @Override
-  public ProcedureTo apply(Map<String, Object> stringObjectMap) {
+  public UserTo apply(Map<String, Object> stringObjectMap) {
     return createOperation()
       .insideASession()
-      .taking(Procedure.create("Procedimiento " + UUID.randomUUID(), "Sin descripción"))
+      .taking(Usuario.create("Sin nombre", "", ""))
       .applyingResultOf(Save::create)
-      .convertTo(ProcedureTo.class);
+      .convertTo(UserTo.class);
   }
 
   @Inject
@@ -36,3 +36,4 @@ public class CreateProcedure implements Function<Map<String, Object>, ProcedureT
   }
 
 }
+

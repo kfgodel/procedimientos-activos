@@ -1,4 +1,4 @@
-package convention.action;
+package convention.action.procedures;
 
 import ar.com.kfgodel.appbyconvention.operation.api.ApplicationOperation;
 import ar.com.kfgodel.dependencies.api.DependencyInjector;

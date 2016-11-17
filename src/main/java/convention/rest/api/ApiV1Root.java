@@ -18,7 +18,6 @@ public class ApiV1Root {
   @Inject
   private Application application;
 
-  private UserResource users;
   private SessionResource session;
   private MessageResource messages;
 
@@ -28,14 +27,6 @@ public class ApiV1Root {
       session = SessionResource.create();
     }
     return session;
-  }
-
-  @Path("/users")
-  public UserResource users() {
-    if (users == null) {
-      users = application.getInjector().createInjected(UserResource.class);
-    }
-    return users;
   }
 
   @Path("/messages")
