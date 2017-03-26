@@ -32,7 +32,7 @@ public class AdaptadorDeFuncionEnAccion {
     JsonOutputAdapter outputAdapter = getOutputAdapter();
 
     String nombreDeRecurso = descriptor.getNombreDeRecurso();
-    return FunctionToActionAdapter.create(nombreDeRecurso, inputAdapter, typedFunction, outputAdapter);
+    return FunctionAsActionAdapter.create(nombreDeRecurso, inputAdapter, typedFunction, outputAdapter);
   }
 
   private JsonOutputAdapter getOutputAdapter() {

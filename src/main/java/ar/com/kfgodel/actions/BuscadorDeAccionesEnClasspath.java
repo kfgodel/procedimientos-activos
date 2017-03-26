@@ -16,7 +16,7 @@ import java.util.stream.Collectors;
  * Created by kfgodel on 12/11/16.
  */
 public class BuscadorDeAccionesEnClasspath {
-  public static final String ACTION_PACKAGE = "convention.action";
+  public static final String PACKAGE_CON_ACCIONES = "convention.action";
 
   private AdaptadorDeFuncionEnAccion adaptador;
 
@@ -34,10 +34,10 @@ public class BuscadorDeAccionesEnClasspath {
   }
 
   private Set<Class<? extends Function>> buscarFuncionesAnotadasEnClasspath() {
-    Reflections reflections = new Reflections(ACTION_PACKAGE);
+    Reflections reflections = new Reflections(PACKAGE_CON_ACCIONES);
     Set<Class<? extends Function>> tiposDeFuncion = reflections.getSubTypesOf(Function.class);
-    Set<Class<?>> tiposAnnotados = reflections.getTypesAnnotatedWith(Resource.class);
-    Set<Class<? extends Function>> tiposDeAccion = Sets.intersection(tiposDeFuncion, tiposAnnotados);
+    Set<Class<?>> anotadosConResource = reflections.getTypesAnnotatedWith(Resource.class);
+    Set<Class<? extends Function>> tiposDeAccion = Sets.intersection(tiposDeFuncion, anotadosConResource);
     return tiposDeAccion;
   }
 

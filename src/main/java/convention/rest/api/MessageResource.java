@@ -49,7 +49,7 @@ public class MessageResource {
     return Optional.ofNullable(frontendAction);
   }
 
-  public Map<String, FrontendAction> getAccionesPorRecurso() {
+  private Map<String, FrontendAction> getAccionesPorRecurso() {
     if (accionesPorRecurso == null) {
       accionesPorRecurso = inicializarAccionesPorRecurso();
     }
@@ -58,12 +58,16 @@ public class MessageResource {
 
   private Map<String, FrontendAction> inicializarAccionesPorRecurso() {
     Map<String, FrontendAction> accionesPorRecurso = new HashMap<>();
-    BuscadorDeAccionesEnClasspath buscador = BuscadorDeAccionesEnClasspath.create(AdaptadorDeFuncionEnAccion.create(appInjector, objectMapper));
-    List<FrontendAction> acciones = buscador.buscarAccionesDisponibles();
+    List<FrontendAction> acciones = buscarAccionesEnElClasspath();
     acciones.forEach((accion) -> {
       accionesPorRecurso.put(accion.getNombreDeRecurso(), accion);
     });
     return accionesPorRecurso;
+  }
+
+  private List<FrontendAction> buscarAccionesEnElClasspath() {
+    BuscadorDeAccionesEnClasspath buscador = BuscadorDeAccionesEnClasspath.create(AdaptadorDeFuncionEnAccion.create(appInjector, objectMapper));
+    return buscador.buscarAccionesDisponibles();
   }
 
 }
