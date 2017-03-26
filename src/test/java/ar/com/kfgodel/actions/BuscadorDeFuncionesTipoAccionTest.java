@@ -34,7 +34,13 @@ public class BuscadorDeFuncionesTipoAccionTest extends JavaSpec<ActionTestContex
         context().tipoEncontrado(() -> {
           Map<String, Object> mensaje = new HashMap<>();
           mensaje.put("recurso", context().nombreDeRecurso());
-          return context().buscadorAccion().buscarTipoPara(mensaje);
+          return context().buscadorAccion().buscarMejorTipoDeAccionPara(mensaje);
+        });
+
+        itThrows(IllegalArgumentException.class, "si el mensaje no contiene la key para discriminar el tipo", ()->{
+          context().buscadorAccion().buscarMejorTipoDeAccionPara(new HashMap<>());
+        }, e -> {
+          assertThat(e).hasMessage("El mensaje no contiene la key[recurso] esperada: {}");
         });
 
         it("permite obtener el tipo de accion que corresponde al recurso del mensaje", () -> {
@@ -47,11 +53,8 @@ public class BuscadorDeFuncionesTipoAccionTest extends JavaSpec<ActionTestContex
           assertThat(context().tipoEncontrado().isAbsent()).isTrue();
         });
 
-
       });
 
-
     });
-
   }
 }

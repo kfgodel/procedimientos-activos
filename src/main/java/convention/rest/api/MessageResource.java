@@ -38,7 +38,7 @@ public class MessageResource {
   @POST
   public Object processMessage(Map<String, Object> messageContent) {
     FrontendAction accion = buscarAccionPara(messageContent)
-      .orElseThrow(() -> new WebApplicationException("Accion no encontrada para el mensaje", 404));
+      .orElseThrow(() -> new WebApplicationException("Accion no encontrada para el mensaje: " + messageContent, 404));
     Object response = accion.apply(messageContent);
     return response;
   }

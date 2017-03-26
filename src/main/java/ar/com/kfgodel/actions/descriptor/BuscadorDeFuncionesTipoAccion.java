@@ -9,13 +9,13 @@ import java.util.*;
 import java.util.function.Function;
 
 /**
- * This type represents the object that know how to find the best action type for a given message
+ * This type represents the object that knows how to find the best action type for a given message
  * Created by kfgodel on 12/11/16.
  */
 public class BuscadorDeFuncionesTipoAccion {
 
-  public static final String RECURSO_KEY = "recurso";
-  public static final String ACTION_PACKAGE = "convention.action";
+  public static final String KEY_QUE_INDICA_ACCION = "recurso";
+  public static final String PAQUETE_DE_ACCIONES = "convention.action";
 
   private Map<String, Class<? extends Function>> tipoDeAccionPorRecurso;
 
@@ -26,23 +26,24 @@ public class BuscadorDeFuncionesTipoAccion {
   }
 
   private void inicializar() {
-    this.tipoDeAccionPorRecurso = this.descrubirAccionesEnClasspath();
+    this.tipoDeAccionPorRecurso = this.descubrirAccionesPorRecursoEnClasspath();
   }
 
-  private Map<String, Class<? extends Function>> descrubirAccionesEnClasspath() {
-    Map<String, Class<? extends Function>> tiposCondicionados = new HashMap<>();
+  private Map<String, Class<? extends Function>> descubrirAccionesPorRecursoEnClasspath() {
+    Map<String, Class<? extends Function>> accionPorRecurso = new HashMap<>();
     Set<Class<? extends Function>> tiposDeAccion = buscarTiposDeAccionDisponibles();
     tiposDeAccion.forEach((tipoDeAccion) -> {
-      tiposCondicionados.put(obtenerRecursoDe(tipoDeAccion), tipoDeAccion);
+      String recursoAsociado = obtenerRecursoDe(tipoDeAccion);
+      accionPorRecurso.put(recursoAsociado, tipoDeAccion);
     });
-    return tiposCondicionados;
+    return accionPorRecurso;
   }
 
   private Set<Class<? extends Function>> buscarTiposDeAccionDisponibles() {
-    Reflections reflections = new Reflections(ACTION_PACKAGE);
+    Reflections reflections = new Reflections(PAQUETE_DE_ACCIONES);
     Set<Class<? extends Function>> tiposDeFuncion = reflections.getSubTypesOf(Function.class);
-    Set<Class<?>> tiposAnnotados = reflections.getTypesAnnotatedWith(Resource.class);
-    Sets.SetView<Class<? extends Function>> tiposDeAccion = Sets.intersection(tiposDeFuncion, tiposAnnotados);
+    Set<Class<?>> anotadosConResource = reflections.getTypesAnnotatedWith(Resource.class);
+    Sets.SetView<Class<? extends Function>> tiposDeAccion = Sets.intersection(tiposDeFuncion, anotadosConResource);
     return tiposDeAccion;
   }
 
@@ -57,8 +58,11 @@ public class BuscadorDeFuncionesTipoAccion {
     return new ArrayList<>(tipoDeAccionPorRecurso.values());
   }
 
-  public Optional<Class<? extends Function>> buscarTipoPara(Map<String, Object> mensaje) {
-    Object idDeAccionEnMensaje = mensaje.get(RECURSO_KEY);
+  public Optional<Class<? extends Function>> buscarMejorTipoDeAccionPara(Map<String, Object> mensaje) {
+    Object idDeAccionEnMensaje = mensaje.get(KEY_QUE_INDICA_ACCION);
+    if(idDeAccionEnMensaje == null){
+      throw new IllegalArgumentException("El mensaje no contiene la key["+KEY_QUE_INDICA_ACCION+"] esperada: " + mensaje);
+    }
     Class<? extends Function> tipoEncontrado = tipoDeAccionPorRecurso.get(idDeAccionEnMensaje);
     return Optional.ofNullable(tipoEncontrado);
   }
