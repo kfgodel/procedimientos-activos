@@ -1,5 +1,6 @@
 package ar.com.kfgodel.proact;
 
+import ar.com.kfgodel.actions.descriptor.BuscadorDeFuncionesTipoAccion;
 import ar.com.kfgodel.dependencies.api.DependencyInjector;
 import ar.com.kfgodel.dependencies.impl.DependencyInjectorImpl;
 import ar.com.kfgodel.orm.api.HibernateOrm;
@@ -14,6 +15,8 @@ import ar.com.kfgodel.webbyconvention.api.WebServer;
 import ar.com.kfgodel.webbyconvention.api.config.WebServerConfiguration;
 import ar.com.kfgodel.webbyconvention.impl.JettyWebServer;
 import ar.com.kfgodel.webbyconvention.impl.config.ConfigurationByConvention;
+import com.fasterxml.jackson.databind.DeserializationFeature;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -79,14 +82,23 @@ public class ProceduresApplication implements Application {
 
   private void initialize() {
     this.injector = DependencyInjectorImpl.create();
+    this.injector.bindTo(DependencyInjector.class, this.injector);
     this.injector.bindTo(Application.class, this);
 
     this.injector.bindTo(HibernateOrm.class, createPersistenceLayer());
     // Web server depends on hibernate, so it needs to be created after hibernate
     this.injector.bindTo(WebServer.class, createWebServer());
     this.injector.bindTo(TypeTransformer.class, createTransformer());
+    this.injector.bindTo(BuscadorDeFuncionesTipoAccion.class, BuscadorDeFuncionesTipoAccion.create());
+    this.injector.bindTo(ObjectMapper.class, crearObjectMapper());
 
     registerCleanupHook();
+  }
+
+  private ObjectMapper crearObjectMapper() {
+    ObjectMapper objectMapper = new ObjectMapper();
+    objectMapper.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
+    return objectMapper;
   }
 
   private TypeTransformer createTransformer() {

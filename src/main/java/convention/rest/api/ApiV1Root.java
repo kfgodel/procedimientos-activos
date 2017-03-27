@@ -18,31 +18,14 @@ public class ApiV1Root {
   @Inject
   private Application application;
 
-  private UserResource users;
-  private ProcedureResource procedures;
-  private SessionResource session;
+  private MessageResource messages;
 
-  @Path("/session")
-  public SessionResource session() {
-    if (session == null) {
-      session = SessionResource.create();
+  @Path("/messages")
+  public MessageResource messages() {
+    if (messages == null) {
+      messages = application.getInjector().createInjected(MessageResource.class);
     }
-    return session;
+    return messages;
   }
 
-  @Path("/users")
-  public UserResource users() {
-    if (users == null) {
-      users = application.getInjector().createInjected(UserResource.class);
-    }
-    return users;
-  }
-
-  @Path("/procedures")
-  public ProcedureResource procedures() {
-    if (procedures == null) {
-      procedures = application.getInjector().createInjected(ProcedureResource.class);
-    }
-    return procedures;
-  }
 }
