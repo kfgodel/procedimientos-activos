@@ -18,16 +18,7 @@ public class ApiV1Root {
   @Inject
   private Application application;
 
-  private SessionResource session;
   private MessageResource messages;
-
-  @Path("/session")
-  public SessionResource session() {
-    if (session == null) {
-      session = SessionResource.create();
-    }
-    return session;
-  }
 
   @Path("/messages")
   public MessageResource messages() {

@@ -32,6 +32,8 @@ public class JsonOutputAdapter implements Function<Object, Object> {
   private JavaType calculateExpectedTypeFor(Object originalOutput) {
     if (originalOutput instanceof Collection) {
       return getJsonArrayType();
+    }else if(originalOutput instanceof String){
+      return getTypeFactory().constructType(String.class);
     }
     return getJsonHashType();
   }
